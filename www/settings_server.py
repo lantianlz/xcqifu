@@ -114,8 +114,9 @@ TEMPLATE_DIRS = (
 INSTALLED_APPS = (
     'www.custom_tags',
     'www.admin',
-    'www.account',
     'www.city',
+    'www.account',
+    'www.service',
 )
 
 AUTHENTICATION_BACKENDS = ('www.middleware.user_backend.AuthBackend',)
