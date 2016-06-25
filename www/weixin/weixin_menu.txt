@@ -1,0 +1,42 @@
+一、正式菜单
+
+{
+    "button": [
+        {
+            "type": "view", 
+            "name": "产品介绍", 
+            "url": ""
+        }, 
+        {
+            "type": "view", 
+            "name": "立即预约", 
+            "url": ""
+        }, 
+        {
+            "name": "联系我们", 
+            "sub_button": [
+                {
+                    "type": "view", 
+                    "name": "联系我们", 
+                    "url": ""
+                },
+                {
+                    "type": "click", 
+                    "name": "意见反馈", 
+                    "key": "feedback"
+                },
+                {
+                    "type": "view", 
+                    "name": "推荐有礼", 
+                    "url": ""
+                },
+                {
+                    "type": "view", 
+                    "name": "管理平台", 
+                    "url": ""
+                },
+            ]
+        }
+    ]
+}
+

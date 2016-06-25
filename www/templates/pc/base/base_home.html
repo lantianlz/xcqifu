@@ -1,0 +1,71 @@
+{% extends "pc/base/base.html" %}
+
+{% block base_css %}
+<link rel="stylesheet" type="text/css" href="{{MEDIA_URL}}css/site/head.css?v={{MEDIA_VERSION}}">
+{% block css %}{% endblock %}
+{% endblock %}
+
+{% block base_js %}
+{% block js %}{% endblock %}
+{% include "_meiqia.html" %}
+{% endblock %}
+
+{% block header %}
+<header class="navbar navbar-fixed-top bdc-eeeeee border-bottom-1" role="banner">
+    <div class="pa" style="opacity: 0.90; filter: alpha(opacity=90); background-color: white; width: 100%; height: 100%;"></div>
+    <div class="container">
+        <div class="navbar-header pr">
+            <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a href="/" style="display: inline-block; width: 140px; height: 80px;">
+                <img class="pa" style="left: 0; top: 20px; width: 47px;" alt="logo" src="{{MEDIA_URL}}img/logo.png">
+                <img class="pa" style="left: 48px; top: 26px; width: 72px;" alt="小橙企服" src="{{MEDIA_URL}}img/logo-text.png">
+                <img class="pa" style="left: 48px; top: 50px; width: 110px;" alt="下午茶点服务专家" src="{{MEDIA_URL}}img/slogan.png">
+            </a>
+        </div>
+        <nav class="collapse navbar-collapse" role="navigation">
+            <ul class="nav navbar-nav navbar-right">
+                <li {% if request.path == '/' %}class="active"{% endif %}>
+                    <a class="f16 pr" href="/">
+                        首页
+                        <span class="line-hover"></span>
+                    </a>
+                </li>
+                <li {% if '/s/introduction' in request.path %}class="active"{% endif %}>
+                    <a class="f16" href="/s/introduction">
+                        产品介绍
+                        <span class="line-hover"></span>
+                    </a>
+                </li>
+                <li {% if '/customers' in request.path %}class="active"{% endif %}>
+                    <a class="f16" href="/customers">
+                        典型客户
+                        <span class="line-hover"></span>
+                    </a>
+                </li>
+                <li {% if '/s/about' in request.path %}class="active"{% endif %}>
+                    <a class="f16" href="/s/about">
+                        关于我们
+                        <span class="line-hover"></span>
+                    </a>
+                </li>
+                <li>
+                    <a class="f12 nav-login" href="/company" target="_blank">
+                        {% if request.user.is_authenticated %}
+                        <span class="">管理
+                        {% else %}
+                        <span class="">登录
+                        {% endif %}
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</header>
+{% endblock header %}
+
+

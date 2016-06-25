@@ -1,0 +1,5 @@
+00 03 * * * root /var/www/xcqifu/r_app.sh www
+00 10 * * 1,3,5 root /opt/python2.7.2/bin/python /var/www/xcqifu/scripts/crontab/invoice_statement.py
+00 18 * * 1,2,3,4,5 root /opt/python2.7.2/bin/python /var/www/xcqifu/scripts/crontab/undone_orders_notice.py
+05 * * * * root /opt/python2.7.2/bin/python /var/www/xcqifu/scripts/crontab/analyze_nginx_log.py 4000
+05 * * * * root /opt/python2.7.2/bin/python /var/www/xcqifu/scripts/crontab/worker_delay_monitor.py

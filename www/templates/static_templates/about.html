@@ -1,0 +1,287 @@
+{% extends "pc/base/base_home.html" %}
+
+{% block title_all %}关于我们 - 小橙企服{% endblock %}
+{% block css %}
+<link rel="stylesheet" type="text/css" href="{{MEDIA_URL}}css/site/contact-us.css?v={{MEDIA_VERSION}}">
+<style type="text/css">
+.fade-move{
+    min-height: 500px;
+    padding-top: 240px;
+    font-size: 22px;
+    color: #ffffff;
+}
+.fade-text{
+    overflow: hidden;
+    vertical-align: top;
+    height: 40px;
+    font-weight: bold;
+    display: inline-block;
+}
+
+.employee{
+    height: 210px;
+    background-size: 100%;
+    background-repeat: no-repeat;
+}
+.col-md-2{
+    width: 20%;
+    padding-bottom: 30px;
+}
+
+.employee-info{
+    cursor: pointer;
+}
+.employee-info .employee-special{
+    display: none;
+}
+.employee-info .employee-normal{
+    display: block;
+}
+.employee-info:hover .employee-special{
+    display: block;
+}
+.employee-info:hover .employee-normal{
+    display: none;
+}
+
+.employee-des{
+    position: absolute;
+    font-size: 13px;
+    left: 200px;
+    top: 12px;
+    padding: 20px 15px;
+    line-height: 24px;
+    width: 375px;
+    letter-spacing: 1px;
+    background-color: #F6F5F1;
+    z-index: 1;
+    border: 1px solid #ddd;
+    visibility: hidden;
+    opacity: 0;
+    border-radius: 1px;
+    -webkit-transition: all 0.5s;
+            transition: all 0.5s;
+    -webkit-transform: scale(0) rotateX(-180deg);
+            transform: scale(0) rotateX(-180deg);
+    -webkit-perspective: 500px;
+            perspective: 500px;
+}
+.employee:hover~.employee-des{
+    visibility: visible;
+    opacity: 1;
+    -webkit-transform: scale(1) rotateX(0deg);
+            transform: scale(1) rotateX(0deg);
+}
+</style>
+{% endblock %}
+
+{% block js %}
+<script type="text/javascript" src="{{MEDIA_URL}}js/jquery/jquery.easing.1.3.min.js"></script>
+<script type="text/javascript" src="{{MEDIA_URL}}js/site/contact-us.js?v={{MEDIA_VERSION}}"></script>
+<script type="text/javascript" src="{{MEDIA_URL}}js/site/about.js?v={{MEDIA_VERSION}}"></script>
+{% endblock %}
+
+{% block base_container %}
+<div class="container-fluid pl-0 pr-0 text-center fade-move bgc-84CCC7">
+    <span class="">我们</span>
+    <span class="fade-text"></span>
+    <span class="">下午茶点</span>
+    <span class="fade-text"></span>
+    <br>
+    <span class="">致力于</span>
+    <span class="fade-text"></span>
+    <span class="">的</span>
+    <span class="fade-text"></span>
+    <br>
+    <span class="">最</span>
+    <span class="fade-text"></span>
+    <span class="">尽在小橙企服</span>
+</div>
+<div class="container-fluid pl-0 pr-0">
+    <div class="row">
+        <div class="col-md-12 text-center f30 pt-80">
+            我们是谁
+        </div>
+        <div class="col-md-12 text-center f20 pt-3 co-ADADAD">
+            WHO WE ARE
+        </div>
+    </div>
+    <div class="container pt-80 pl-25">
+        <div class="row pb-30">
+            <div class="col-md-12">
+                <div class="col-md-5 pr-0">
+                    <div class="co-84CCC7 f20 pb-3">专注于企业下午茶点服务，</div>
+                    <div class="co-84CCC7 f20 pb-15">新鲜的水果和点心，尽在小橙企服</div>
+                    <div class="f13 letter-spacing-1 line-height-20">每一份鲜切水果都是精选当季最富活力的时令鲜果和进口鲜果，我们的水果主要来自原产地、批发市场、大型超市，我们的点心由一流的加工工厂每天定制生产并按时送达。正是因为这些优质货源，我们才能保证送到您手里的水果和点心是可口的、健康的、新鲜的、安全的。</div>
+                </div>
+                <div class="col-md-4 col-md-offset-2 pr-30">
+                    <img class="w" style="margin-top: -35px;" src="{{MEDIA_URL}}img/about/cube.png" alt="cube">
+                </div>
+            </div>
+            <div class="col-md-12 pt-55">
+                <div class="col-md-4">
+                    <img class="w" style="margin-top: -55px;" src="{{MEDIA_URL}}img/about/cake.png" alt="cake">
+                </div>
+                <div class="col-md-5 col-md-offset-2">
+                    <div class="co-84CCC7 f20 pb-3">我们的自信，</div>
+                    <div class="co-84CCC7 f20 pb-15">我们的优势</div>
+                    <div class="f13 letter-spacing-1 line-height-20">我们是从事下午茶点服务的先行者，我们反复研究不断打磨产品，不断提升大家的下午茶体验，为此我们组建了专门的采购团队、服务团队、物流团队来保证更好的体验并不断迭代完善。时令水果精心组合，合理搭配各类点心，由专业的营养师为你精心配制，为企业白领们提供强劲能量，提升员工幸福感，让你在补充营养的同时，高效完成工作。</div>
+                </div>
+            </div>
+            <div class="col-md-12 pt-30">
+                <div class="col-md-5 pr-0">
+                    <div class="co-84CCC7 f20 pb-3">我们的路线，</div>
+                    <div class="co-84CCC7 f20 pb-15">我们的成长</div>
+                    <div class="f13 letter-spacing-1 line-height-20">走得再远，勿忘初衷。我们致力于给广大白领们提供最健康的工作时间下午茶点服务，自2015年08月01日送出第一份下午茶点，我们一直奋斗在下午茶O2O这一细分领域，服务体验迭代之路，永无止境，未来我们还会提供更多可能，让小橙企服走向每一位白领。</div>
+                </div>
+                <div class="col-md-4 col-md-offset-2">
+                    <img class="w" style="margin-top: -50px;" src="{{MEDIA_URL}}img/about/banana.png" alt="banana">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container-fluid pl-0 pr-0 bgc-F6F5F1">
+    <div class="row">
+        <div class="col-md-12 text-center f30 pt-80">
+            我们的团队
+        </div>
+        <div class="col-md-12 text-center f20 pt-3 co-ADADAD">
+            OUR TEAM
+        </div>
+    </div>
+    <div class="container pb-30">
+        <div class="row pt-40 pb-0">
+            <div class="col-md-2 text-center pl-25 pr-25">
+                <div class="employee" style="background-image: url({{MEDIA_URL}}img/about/employee-11.png)"></div>
+                <div class="employee-info">
+                    <div class="f20 pt-5">李政</div>
+                    <div class="co-ADADAD f13 pt-5 employee-normal">CEO</div>
+                    <div class="co-ADADAD f13 pt-5 employee-special">扫地僧</div>
+                </div>
+            </div>
+            <div class="col-md-2 text-center pl-25 pr-25 pr">
+                <div class="employee" style="background-image: url({{MEDIA_URL}}img/about/employee-12.png)"></div>
+                <div class="employee-info">
+                    <div class="f20 pt-5">雷成铭</div>
+                    <div class="co-ADADAD f13 pt-5 employee-normal">技术总监</div>
+                    <div class="co-ADADAD f13 pt-5 employee-special">写得了代码，切得了西瓜</div>
+                </div>
+                <div class="employee-des">
+                    本人学识渊博、经验丰富，代码风骚、效率恐怖，python、javascript 无不精通，熟练掌握各种框架。
+                    深山苦练20余年，一天只睡4小时，千里之外定位问题，瞬息之间修复上线。
+                    身体强壮、健步如飞，可连续编程100小时不休息，讨论技术方案5小时不喝水，上至带项目、出方案，下至盗账号、威胁pm，啥都能干。
+                    
+                </div>
+            </div>
+            <div class="col-md-2 text-center pl-25 pr-25">
+                <div class="employee" style="background-image: url({{MEDIA_URL}}img/about/employee-15.png)"></div>
+                <div class="employee-info">
+                    <div class="f20 pt-5">李瑶</div>
+                    <div class="co-ADADAD f13 pt-5 employee-normal">设计顾问</div>
+                    <div class="co-ADADAD f13 pt-5 employee-special">暴力罗莉</div>
+                </div>
+            </div>
+            <div class="col-md-2 text-center pl-25 pr-25">
+                <div class="employee" style="background-image: url({{MEDIA_URL}}img/about/employee-13.png)"></div>
+                <div class="employee-info">
+                    <div class="f20 pt-5">李聪</div>
+                    <div class="co-ADADAD f13 pt-5 employee-normal">物流总监</div>
+                    <div class="co-ADADAD f13 pt-5 employee-special">人肉GPS</div>
+                </div>
+            </div>
+            <div class="col-md-2 text-center pl-25 pr-25">
+                <div class="employee" style="background-image: url({{MEDIA_URL}}img/about/employee-14.png)"></div>
+                <div class="employee-info">
+                    <div class="f20 pt-5">马瑶</div>
+                    <div class="co-ADADAD f13 pt-5 employee-normal">服务专员</div>
+                    <div class="co-ADADAD f13 pt-5 employee-special">豪爽女汉子</div>
+                </div>
+            </div>
+
+            <div class="col-md-2 text-center pl-25 pr-25">
+                <div class="employee" style="background-image: url({{MEDIA_URL}}img/about/employee-18.png)"></div>
+                <div class="employee-info">
+                    <div class="f20 pt-5">曹艳珺</div>
+                    <div class="co-ADADAD f13 pt-5 employee-normal">市场经理</div>
+                    <div class="co-ADADAD f13 pt-5 employee-special">女流氓</div>
+                </div>
+            </div>
+            <div class="col-md-2 text-center pl-25 pr-25">
+                <div class="employee" style="background-image: url({{MEDIA_URL}}img/about/employee-19.png)"></div>
+                <div class="employee-info">
+                    <div class="f20 pt-5">白雨雪</div>
+                    <div class="co-ADADAD f13 pt-5 employee-normal">服务专员</div>
+                    <div class="co-ADADAD f13 pt-5 employee-special">邻家小妹</div>
+                </div>
+            </div>
+            <div class="col-md-2 text-center pl-25 pr-25">
+                <div class="employee" style="background-image: url({{MEDIA_URL}}img/about/employee-20.png)"></div>
+                <div class="employee-info">
+                    <div class="f20 pt-5">周国年</div>
+                    <div class="co-ADADAD f13 pt-5 employee-normal">配送负责人</div>
+                    <div class="co-ADADAD f13 pt-5 employee-special">爱运动，爱健身</div>
+                </div>
+            </div>
+            <div class="col-md-2 text-center pl-25 pr-25">
+                <div class="employee" style="background-image: url({{MEDIA_URL}}img/about/employee-21.png)"></div>
+                <div class="employee-info">
+                    <div class="f20 pt-5">肖人凡</div>
+                    <div class="co-ADADAD f13 pt-5 employee-normal">区域经理</div>
+                    <div class="co-ADADAD f13 pt-5 employee-special">国民小二</div>
+                </div>
+            </div>
+            <div class="col-md-2 text-center pl-25 pr-25">
+                <div class="employee" style="background-image: url({{MEDIA_URL}}img/about/employee-22.png)"></div>
+                <div class="employee-info">
+                    <div class="f20 pt-5">罗杰</div>
+                    <div class="co-ADADAD f13 pt-5 employee-normal">商务经理</div>
+                    <div class="co-ADADAD f13 pt-5 employee-special">我不是小鲜肉</div>
+                </div>
+            </div>
+            <div class="col-md-2 text-center pl-25 pr-25">
+                <div class="employee" style="background-image: url({{MEDIA_URL}}img/about/employee-16.png)"></div>
+                <div class="employee-info">
+                    <div class="f20 pt-5">袁娇</div>
+                    <div class="co-ADADAD f13 pt-5 employee-normal">营养顾问</div>
+                    <div class="co-ADADAD f13 pt-5 employee-special">资深吃货</div>
+                </div>
+            </div>
+            <div class="col-md-2 text-center pl-25 pr-25">
+                <div class="employee" style="background-image: url({{MEDIA_URL}}img/about/employee-16.png)"></div>
+                <div class="employee-info">
+                    <div class="f20 pt-5">亭亭玉立</div>
+                    <div class="co-ADADAD f13 pt-5 employee-normal">市场顾问</div>
+                    <div class="co-ADADAD f13 pt-5 employee-special">文艺女青年</div>
+                </div>
+            </div>
+            <div class="col-md-2 text-center pl-25 pr-25">
+                <div class="employee" style="background-image: url({{MEDIA_URL}}img/about/employee-17.png)"></div>
+                <div class="employee-info">
+                    <div class="f20 pt-5">神秘大佬</div>
+                    <div class="co-ADADAD f13 pt-5 employee-normal">种子投资人</div>
+                    <div class="co-ADADAD f13 pt-5 employee-special">高富帅</div>
+                </div>
+            </div>
+            <div class="col-md-2 text-center pl-25 pr-25">
+                <div class="employee" style="background-image: url({{MEDIA_URL}}img/about/employee-4.png)"></div>
+                <div class="employee-info">
+                    <div class="f20 pt-5">Dog</div>
+                    <div class="co-ADADAD f13 pt-5 employee-normal">员工鼓励师</div>
+                    <div class="co-ADADAD f13 pt-5 employee-special">萌宠</div>
+                </div>
+            </div>
+            <div class="col-md-2 text-center pl-25 pr-25">
+                <a href="http://www.lagou.com/gongsi/j81032.html" class="no-underline" target="_blank">
+                    <div class="pt-20 pr-10">
+                        <img class="w" src="{{MEDIA_URL}}img/about/i-want-you.png">
+                    </div>
+                    <div class="f20 pt-20 co-EF7B32">加入我们</div>
+                    <div class="co-ADADAD f13 pt-5 co-EF7B32">We want you</div>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% include "pc/include/_contact_us.html" %}
+{% endblock %}
