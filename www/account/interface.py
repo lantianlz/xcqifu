@@ -11,7 +11,7 @@ from common import utils, debug, validators, cache, raw_sql
 from www.misc.decorators import cache_required
 from www.misc import consts
 from www.tasks import async_send_email
-from www.account.models import User, Profile, UserCount, LastActive, ActiveDay, ExternalToken
+from www.account.models import User, Profile, LastActive, ActiveDay, ExternalToken
 
 dict_err = {
     10100: u'邮箱重复',
