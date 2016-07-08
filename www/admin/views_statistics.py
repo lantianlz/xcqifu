@@ -15,21 +15,23 @@ from common import utils, page, cache
 from www.custom_tags.templatetags.custom_filters import str_display
 
 from www.account.interface import UserBase, ExternalTokenBase
-from www.company.interface import StatisticsBase, SaleManBase
+
 
 @verify_permission('')
 def statistics_order_cost(request, template_name='pc/admin/statistics_order_cost.html'):
-    
+
     today = datetime.datetime.now()
     start_date = today.replace(day=1).strftime('%Y-%m-%d')
     end_date = today.strftime('%Y-%m-%d')
 
     return render_to_response(template_name, locals(), context_instance=RequestContext(request))
 
+
 @verify_permission('')
 def statistics_chart(request, template_name='pc/admin/statistics_chart.html'):
-    
+
     return render_to_response(template_name, locals(), context_instance=RequestContext(request))
+
 
 @verify_permission('')
 def statistics_sale_top(request, template_name='pc/admin/statistics_sale_top.html'):
@@ -38,10 +40,12 @@ def statistics_sale_top(request, template_name='pc/admin/statistics_sale_top.htm
     end_date = today.strftime('%Y-%m-%d')
     return render_to_response(template_name, locals(), context_instance=RequestContext(request))
 
+
 @verify_permission('')
 def statistics_summary(request, template_name='pc/admin/statistics_summary.html'):
-    
+
     return render_to_response(template_name, locals(), context_instance=RequestContext(request))
+
 
 @verify_permission('')
 def statistics_orders(request, template_name='pc/admin/statistics_orders.html'):
@@ -49,6 +53,7 @@ def statistics_orders(request, template_name='pc/admin/statistics_orders.html'):
     start_date = today.replace(day=1).strftime('%Y-%m-%d')
     end_date = today.strftime('%Y-%m-%d')
     return render_to_response(template_name, locals(), context_instance=RequestContext(request))
+
 
 @verify_permission('')
 def statistics_commission(request, template_name='pc/admin/statistics_commission.html'):
@@ -61,7 +66,7 @@ def statistics_commission(request, template_name='pc/admin/statistics_commission
 @verify_permission('')
 def get_chart_data(request):
     days = 100
-    x_data = [(datetime.datetime.now() - datetime.timedelta(days=(days-x))).strftime('%Y-%m-%d') for x in range(days)]
+    x_data = [(datetime.datetime.now() - datetime.timedelta(days=(days - x))).strftime('%Y-%m-%d') for x in range(days)]
 
     data = {
         'order_count': 2765,
@@ -90,9 +95,10 @@ def get_chart_data(request):
         mimetype='application/json'
     )
 
+
 @verify_permission('statistics_sale_top')
 def get_statistics_sale_top_data(request):
-    
+
     start_date = request.POST.get('start_date')
     end_date = request.POST.get('end_date')
     start_date, end_date = utils.get_date_range(start_date, end_date)
@@ -116,7 +122,7 @@ def get_statistics_sale_top_data(request):
     for x in objs:
         key = x.company.sale_by
         if not data.has_key(key):
-            
+
             user = UserBase().get_user_by_id(key)
             data[key] = {
                 'sale_by_id': key,
@@ -159,7 +165,7 @@ def get_statistics_sale_top_data(request):
         x['companys'] = len(set(x['companys']))
         all_company += x['companys']
 
-    average_company = round(all_total / (all_company or 1 ), 1)
+    average_company = round(all_total / (all_company or 1), 1)
     average_company = str(average_company)
     all_total = str(all_total)
 
@@ -183,7 +189,7 @@ def get_statistics_summary_data(request):
 @verify_permission('statistics_orders')
 def get_statistics_orders_data(request):
     days = 100
-    x_data = [(datetime.datetime.now() - datetime.timedelta(days=(days-x))).strftime('%Y-%m-%d') for x in range(days)]
+    x_data = [(datetime.datetime.now() - datetime.timedelta(days=(days - x))).strftime('%Y-%m-%d') for x in range(days)]
 
     data = {
         'order_count_x_data': x_data,
@@ -236,7 +242,7 @@ def get_statistics_orders_data(request):
         order_price += x[1]
     days = len(order_price_x_data) if order_price_x_data else 1
     order_per_day_price = '%.2f' % (order_price / days)
-    order_per_price = '%.2f' % (order_price / (order_count if order_count != 0 else 1) )
+    order_per_price = '%.2f' % (order_price / (order_count if order_count != 0 else 1))
 
     # =================== 获取月订单总金额
     order_price_of_month_x_data = []
@@ -245,16 +251,16 @@ def get_statistics_orders_data(request):
     order_price_of_month = 0
     order_per_price_of_month = 0
     for x in StatisticsBase().get_order_price_group_by_confirm_time_of_month(start_date, end_date):
-        v = '%.2f' % (x[1]/decimal.Decimal(1000.0))
+        v = '%.2f' % (x[1] / decimal.Decimal(1000.0))
         order_price_of_month_x_data.append(x[0])
         order_price_of_month_y_data.append(v)
         order_price_of_month += x[1]
         order_price_of_month_mark_point_data.append({
-            'coord': [x[0], v], 
-            'name': '订单总金额', 
+            'coord': [x[0], v],
+            'name': '订单总金额',
             'value': str(x[1])
         })
-        
+
     months = len(order_price_of_month_x_data) if order_price_of_month_x_data else 1
     order_per_price_of_month = '%.2f' % (order_price_of_month / months)
 
@@ -335,7 +341,7 @@ def get_statistics_order_cost_data(request):
     start_date = request.POST.get('start_date')
     end_date = request.POST.get('end_date')
     start_date, end_date = utils.get_date_range(start_date, end_date)
-    
+
     statistics_order_cost_data = StatisticsBase().statistics_order_cost(start_date, end_date)
 
     return HttpResponse(
