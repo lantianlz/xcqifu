@@ -1,0 +1,104 @@
+{% extends "mobile/base_home.html" %}
+{% block title %}供货商列表{% endblock title %}
+{% block css %}
+<style type="text/css">
+    body,html{
+        height: 100%;
+        background: linear-gradient(to right, #f68e57, #f9b757);
+    }
+    .list-group-item{
+        box-shadow: #dd955b 1px 5px 0px;
+        border: 0;
+    }
+    .list-group-item:last-child {
+        border-bottom-right-radius: 2px;
+        border-bottom-left-radius: 2px;
+    }
+    .list-group-item:first-child {
+        border-top-left-radius: 2px;
+        border-top-right-radius: 2px;
+    }
+    .avatar{
+        width: 62px;
+        height: 62px;
+        border-radius: 50%;
+        position: absolute;
+        left: 10px;
+        top: 3px;
+    }
+    .bg-curtain{
+        background-color: #fdd464;
+        height: 110px;
+        width: 110px;
+        border-radius: 50%;
+        position: absolute;
+        left: -57px;
+        top: -21px;
+    }
+    .fa-quote-left{
+        position: absolute;
+        left: 20px;
+        top: 15px;
+        font-size: 15px;
+    }
+    .fa-plug{
+        position: absolute;
+        left: 45%;
+        bottom: -6px;
+        font-size: 35px;
+        transform: rotateZ(-45deg);
+        color: #c3d4da;
+    }
+</style>
+{% endblock %}
+
+{% block container %}
+<div class="row ml-0 mr-0">
+    <div class="col-xs-12 co-ffffff pt-35 pb-20 pr">
+        <i class="fa fa-quote-left"></i>
+        <div class="col-xs-12 pl-20 f13 letter-spacing-1">定制化下午茶服务，时令水果和精美点心的搭配，让茶水间包别不健康食品，提升员工幸福感。</div>
+        <div class="col-xs-12 text-right f13 pt-8">——小橙企服</div>
+    </div>
+
+    <ul class="list-group col-xs-12 pl-20 pr-20">
+        <a href="supplier_detail" class="list-group-item col-xs-12 pr-0 pl-0 over-flow-hide mb-15">
+            <div class="col-xs-12 pl-70 pr-10 pt-3 pb-3 pr h67">
+                <span class="bg-curtain"></span>
+                <img class="avatar" src="{{MEDIA_URL}}img/supplier/avatar-1.jpg">
+                <div class="col-xs-12 f17 pr-5">三点十分</div>
+                <div class="col-xs-12 f12 co-b6b6b6 pt-3 pr-5">下午茶服务专家，最新鲜的水果、美味的点心，尽在三点十分</div>
+            </div>
+        </a>
+        <a href="supplier_detail" class="list-group-item col-xs-12 pr-0 pl-0 over-flow-hide mb-15">
+            <div class="col-xs-12 pl-70 pr-10 pt-3 pb-3 pr h67">
+                <span class="bg-curtain"></span>
+                <img class="avatar" src="{{MEDIA_URL}}img/supplier/avatar-2.jpg">
+                <div class="col-xs-12 f17 pr-5">三点十分</div>
+                <div class="col-xs-12 f12 co-b6b6b6 pt-3 pr-5">下午茶服务专家，最新鲜的水果、美味的点心，尽在三点十分</div>
+            </div>
+        </a>
+        <a href="supplier_detail" class="list-group-item col-xs-12 pr-0 pl-0 over-flow-hide mb-15">
+            <div class="col-xs-12 pl-70 pr-10  pt-3 pb-3 pr h67">
+                <span class="bg-curtain"></span>
+                <img class="avatar" src="{{MEDIA_URL}}img/supplier/avatar-1.jpg">
+                <div class="col-xs-12 f17 pr-5">
+                    <span>光谷创业咖啡</span>
+                    <span class="pull-right co-ea232a f14 pt-3">300元<span class="f12">/工位</span></span>
+                </div>
+                <div class="col-xs-12 f12 co-b6b6b6 pt-3 pr-5">
+                    <i class="fa fa-map-marker pr-3"></i>成都市高新区天府五街菁蓉国际广场4B-9楼
+                </div>
+            </div>
+        </a>
+        <li class="list-group-item col-xs-12 pr-0 pl-0 over-flow-hide mb-15">
+            <div class="col-xs-12 text-center co-95989d h67 pt-5 pr">
+                <span>Coming Soon</span>
+                <i class="fa fa-plug"></i>
+            </div>
+        </li>
+    </ul>
+
+</div>
+{% endblock %}
+
+{% block nav %}{% endblock %}

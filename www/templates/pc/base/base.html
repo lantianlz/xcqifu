@@ -31,7 +31,7 @@
     <body>
         {% block header %}{% endblock %}
         {% block base_container %}
-        <div class="container pt-0 pb-20 pr" style="min-height:500px;">
+        <div class="container" style="min-height:500px;">
             {% block container %}{% endblock container %}
         </div>
         {% endblock base_container%}
@@ -54,14 +54,6 @@
         {% block base_js %}{% endblock %}
 
         {% include "_tongji.html" %}
-
-        <!--[if lt IE 8]>
-        <div class="zx-alert" >
-            <div class="alert alert-success popmsg container zx-container box-shadow-224 border-radius-0">
-                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                你现在使用的是旧版本的IE浏览器，为了能更好地体验所有功能，请尽快升级你的浏览器至<a href="http://pan.baidu.com/s/1eYgrG" target="_blank">高版本IE</a>，或者使用 <a href="https://www.google.com/intl/zh-CN/chrome/browser/" target="_blank">Chrome</a>，<a href="http://www.firefox.com.cn" target="_blank">Firefox</a>， <a href="http://www.apple.com/safari" target="_blank">Safari</a> 等更加符合标准的浏览器！
-            </div>
-        </div>
-        <![endif]-->
+        
     </body>
 </html>

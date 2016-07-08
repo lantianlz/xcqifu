@@ -1,0 +1,299 @@
+{% extends "mobile/base_home.html" %}
+{% block title %}即刻服务{% endblock title %}
+{% block css %}
+<link rel="stylesheet" type="text/css" href="{{MEDIA_URL}}css/animate/animate.min.css">
+<style type="text/css">
+    .bg-curtain{
+        background-color: #39383e;
+        width: 220%;
+        height: 825%;
+        position: absolute;
+        top: -729%;
+        left: -60%;
+        border-radius: 50%;
+        box-shadow: #ddd 0px 2px 3px;
+    }
+    .logo{
+        width: 25px;
+        height: 25px;
+    }
+    .slogan{
+        background-color: #ffffff;
+        box-shadow: #f7adad 0px 0px 4px;
+        border-radius: 5px;
+        padding: 8px 2px;
+        text-align: center;
+    }
+    .welfare{
+        background: linear-gradient(to right, #f68e57, #f9b757);
+    }
+    .img-cake{
+        width: 50px;
+    }
+    .development{
+        background: linear-gradient(to right, #f35c9e, #f35dcb);
+    }
+    .img-tree{
+        width: 40px;
+        margin-left: 4px;
+        margin-bottom: -3px;
+    }
+    .environment{
+        background: linear-gradient(to right, #5ed8ac, #5fe99e);
+    }
+    .img-flower{
+        width: 38px;
+        margin-left: 4px;
+        margin-bottom: -4px;
+        margin-top: -4px;
+    }
+    .materiel{
+        background: linear-gradient(to right, #5ea8ff, #5eb9ff);
+    }
+    .img-paper{
+        width: 40px;
+        margin-left: 4px;
+        margin-bottom: 1px;
+    }
+    .company{
+        background: linear-gradient(to right, #3fb5e2, #55d2e8);
+    }
+    .img-bag{
+        width: 46px;
+        margin-left: 0px;
+    }
+    .other{
+        background: linear-gradient(to right, #a386fc, #b792fc);
+    }
+    .img-curtain{
+        width: 50px;
+        margin-left: -3px;
+        margin-bottom: 2px;
+        margin-top: 3px;
+    }
+
+    .location{
+        color: #ffffff;
+        width: 100%;
+        text-align: center;
+        position: absolute;
+        left: 0;
+        top: 0;
+        padding-top: 15px;
+    }
+
+    .child-category{
+        padding-top: 70px;
+        padding-left: 20px;
+        padding-right: 20px;
+        transition: all 1s;
+        opacity: 1;
+    }
+    .child-category-item{
+        background-color: #ffffff;
+        color: #f58f59;
+        box-shadow: #f5c5c5 1px 1px 4px;
+        border-radius: 5px;
+        padding: 15px 5px;
+        text-align: center;
+    }
+    .modal-content{
+        background-color: transparent;
+        box-shadow: none;
+        border: 0;
+    }
+    .modal-backdrop.in{
+        opacity: 0.85;
+    }
+    .modal-backdrop{
+        background-color: #ffffff;
+    }
+    .modal.fade .modal-dialog{
+        -webkit-transition: -webkit-transform .3s ease-out;
+                transition:         transform .3s ease-out;
+        -webkit-transform: translate3d(0,0,0);
+                transform: translate3d(0,0,0);
+    }
+    .new{
+        border-radius: 3px;
+        padding: 0 3px;
+        border: #fff 1px solid;
+        font-size: 12px;
+        position: absolute;
+        left: -46px;
+        top: 1px;
+    }
+    .clone-category{
+        position: absolute;
+        transition: all 1.3s ease-out;
+        transform-origin: 50% 50%;
+        z-index: 1111;
+
+    }
+    .container-fluid{
+        perspective: 500px;
+    }
+</style>
+{% endblock %}
+
+{% block js %}
+<script type="text/javascript">
+    $(document).ready(function(){
+
+        var CHILD_CATEGORY_HTML = [
+            '<div class="modal fade" id="child-category-modal">',
+                '<div class="modal-dialog">',
+                    '<div class="modal-content">',
+                        '<div class="modal-body">',
+                            '<div class="child-category row">',
+                                '<div class="col-xs-12 pt-15 pl-0 pr-0">',
+                                    '<div class="col-xs-12 br-3 welfare">',
+                                        '<div class="col-xs-4 pt-15 pb-15 pl-5">',
+                                            '<img class="img-cake" src="{{MEDIA_URL}}img/home/cake.png">',
+                                        '</div>',
+                                        '<div class="col-xs-8 co-ffffff text-right pr-5 pt-15">',
+                                            '<div class="f16">福利设计</div>',
+                                            '<div class="f12 pt-2">下午茶、生日会、工作餐</div>',
+                                        '</div>',
+                                    '</div>',
+                                '</div>',
+                                '<div class="col-xs-12 pt-20">',
+                                    '<a href="/supplier">',
+                                        '<div class="col-xs-12 f16 child-category-item">运动组织</div>',
+                                    '</a>',
+                                '</div>',
+                                '<div class="col-xs-12 pt-20">',
+                                    '<a href="/supplier">',
+                                        '<div class="col-xs-12 f16 child-category-item">团队活动</div>',
+                                    '</a>',
+                                '</div>',
+                                '<div class="col-xs-12 pt-20">',
+                                    '<a href="/supplier">',
+                                        '<div class="col-xs-12 f16 child-category-item">素质拓展</div>',
+                                    '</a>',
+                                '</div>',
+                                '<div class="col-xs-12 pt-20">',
+                                    '<a href="/supplier">',
+                                        '<div class="col-xs-12 f16 child-category-item">团队旅游</div>',
+                                    '</a>',
+                                '</div>',
+                            '</div>',
+                        '</div>',
+                    '</div>',
+                '</div>',
+            '</div>'
+        ].join('');
+
+        $('.category').on('click', function(){
+            // 添加二级分类
+            $('body').append(CHILD_CATEGORY_HTML);
+            $('#child-category-modal').modal('show');
+            $('#child-category-modal').on('hidden.bs.modal', function (e) {
+                $(this).remove();
+                $('.clone-category').remove();
+            });
+
+            // var cloneObj = $(this).clone(),
+            //     offset = $(this).offset();
+
+            // cloneObj.addClass('clone-category');
+            // cloneObj.css({'left': offset.left, 'top': offset.top-10});
+            // $('.container-fluid').append(cloneObj);
+            // window.setTimeout(function(){
+            //     cloneObj.css({'top': 94, 'transform': 'rotateX(360deg)'});
+            // }, 10);
+            
+        });
+
+        
+    })
+</script>
+{% endblock %}
+
+{% block container %}
+<div class="col-xs-12 pr over-flow-hide pt-50">
+    <div class="bg-curtain"></div>
+    <div class="location">
+        <i class="fa fa-map-marker f16"></i>
+        <span class="f12 pl-3">成都</span>
+        <i class="fa fa-caret-down pl-3"></i>
+    </div>
+    <div class="col-xs-12 pb-3 pl-10 pr-10">
+        <div class="col-xs-12 slogan">
+            <img class="logo" src="{{MEDIA_URL}}img/logo.png">
+            <span class="f13">如何让HR们省心才是我们奋斗的目标!</span>
+        </div>
+    </div>
+</div>
+<div class="col-xs-12 pt-10 pl-20 pr-20 category">
+    <div class="col-xs-12 welfare">
+        <div class="col-xs-4 pt-15 pb-15 pl-5">
+            <img class="img-cake" src="{{MEDIA_URL}}img/home/cake.png">
+        </div>
+        <div class="col-xs-8 co-ffffff text-right pr-5 pt-15">
+            <div class="f16">
+                <span class="pr">
+                    <span class="new">New !</span>福利设计
+                </span>
+            </div>
+            <div class="f12 pt-2">下午茶、生日会、工作餐</div>
+        </div>
+    </div>
+</div>
+<div class="col-xs-12 pt-10 pl-20 pr-20">
+    <div class="col-xs-12 development">
+        <div class="col-xs-4 pt-15 pb-15 pl-5">
+            <img class="img-tree" src="{{MEDIA_URL}}img/home/tree.png">
+        </div>
+        <div class="col-xs-8 co-ffffff text-right pr-5 pt-15">
+            <div class="f16">员工活动</div>
+            <div class="f12 pt-2">旅游、拓展、活动</div>
+        </div>
+    </div>
+</div>
+<div class="col-xs-12 pt-10 pl-20 pr-20">
+    <div class="col-xs-12 environment">
+        <div class="col-xs-4 pt-15 pb-15 pl-5">
+            <img class="img-flower" src="{{MEDIA_URL}}img/home/flower.png">
+        </div>
+        <div class="col-xs-8 co-ffffff text-right pr-5 pt-15">
+            <div class="f16">环境营造</div>
+            <div class="f12 pt-2">植物、保洁、办公用品</div>
+        </div>
+    </div>
+</div>
+<div class="col-xs-12 pt-10 pl-20 pr-20">
+    <div class="col-xs-12 materiel">
+        <div class="col-xs-4 pt-15 pb-15 pl-5">
+            <img class="img-paper" src="{{MEDIA_URL}}img/home/paper.png">
+        </div>
+        <div class="col-xs-8 co-ffffff text-right pr-5 pt-15">
+            <div class="f16">宣传&物料</div>
+            <div class="f12 pt-2">名片、资料印刷</div>
+        </div>
+    </div>
+</div>
+<div class="col-xs-12 pt-10 pl-20 pr-20">
+    <div class="col-xs-12 company">
+        <div class="col-xs-4 pt-15 pb-15 pl-5">
+            <img class="img-bag" src="{{MEDIA_URL}}img/home/bag.png">
+        </div>
+        <div class="col-xs-8 co-ffffff text-right pr-5 pt-15">
+            <div class="f16">公司代办</div>
+            <div class="f12 pt-2">注册、法律、申报、社保</div>
+        </div>
+    </div>
+</div>
+<div class="col-xs-12 pt-10 pl-20 pr-20 category">
+    <div class="col-xs-12 other">
+        <div class="col-xs-4 pt-15 pb-15 pl-5">
+            <img class="img-curtain" src="{{MEDIA_URL}}img/home/curtain.png">
+        </div>
+        <div class="col-xs-8 co-ffffff text-right pr-5 pt-15">
+            <div class="f16">其他</div>
+            <div class="f12 pt-2">场地、快递、财务</div>
+        </div>
+    </div>
+</div>
+<div class="col-xs-12 h80"></div>
+{% endblock %}

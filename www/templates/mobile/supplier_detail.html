@@ -1,0 +1,263 @@
+{% extends "mobile/base_home.html" %}
+{% block title %}供货商列表{% endblock title %}
+{% block css %}
+<style type="text/css">
+    .slide-img{
+        width: 100%;
+    }
+    .tab{
+        display: inline-block;
+        color: #f07925;
+        padding: 3px 18px;
+        border-radius: 18px;
+    }
+    .tab.active{
+        box-shadow: #f7b17f 0 1px 3px;
+    }
+    .tab-content{
+        display: none;
+    }
+    .tab-content.active{
+        display: block;
+    }
+    .list-group-item{
+        border: 0;
+        border-bottom: 1px solid #e1e1e1;
+        margin-bottom: 1px;
+    }
+    .list-group-item:last-child {
+        border-bottom-right-radius: 0;
+        border-bottom-left-radius: 0;
+    }
+    .list-group-item:first-child {
+        border-top-left-radius: 0;
+        border-top-right-radius: 0;
+    }
+    .buy{
+        background-color: #f07925;
+        border-radius: 15px;
+        padding: 5px 15px;
+        color: #fff;
+        display: inline-block;
+    }
+    .heart-bg{
+        position: absolute;
+        right: 25px;
+        top: -3px;
+        height: 35px;
+        width: 35px;
+        border-radius: 50%;
+        box-shadow: #c7a0a0 1px 1px 2px;
+        background: -webkit-gradient(linear, 0 0, 100% 100%, from(#fb59cb), to(#fd7262));
+    }
+    .heart{
+        font-size: 20px;
+        color: #fff;
+        /*padding-left: 8px;*/
+        padding-top: 8px;
+    }
+    .carousel-indicators{
+        bottom: 0;
+    }
+    .carousel-indicators li{
+        width: 5px;
+        height: 5px;
+        background-color: #eee;
+    }
+    .carousel-indicators .active{
+        width: 6px;
+        height: 6px;
+        background-color: #f07925;
+        border-color: #f07925;
+    }
+    .avatar{
+        width: 45px;
+        height: 45px;
+        border-radius: 50%;
+        position: absolute;
+        left: 2px;
+        top: 10px;
+    }
+    .flag{
+        position: absolute;
+        top: 15px;
+        left: 5px;
+        font-size: 20px;
+    }
+    .booking{
+        position: fixed;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        background-color: #ffffff;
+        padding: 10px 5px;
+        text-align: center;
+    }
+    .btn-booking{
+        color: #f07925;
+        padding: 3px 40px;
+        border-radius: 18px;
+        background-color: #fff;
+        box-shadow: #f7b17f 0 1px 3px;
+        border: 0;
+        font-size: 16px;
+    }
+</style>
+{% endblock %}
+
+{% block js %}
+<script type="text/javascript">
+$(document).ready(function(){
+    var getIndex = function(){
+        var index = 0;
+
+        $.map($('.tab'), function(per, i){
+            if($(per).hasClass('active')){
+                index = i;
+                return;
+            }
+        })
+        return index;
+    };
+    // tab 切换
+    $('.tab').on('click', function(){
+        $('.tab').removeClass('active');
+        $(this).addClass('active');
+
+        var index = getIndex();
+        $('.tab-content').removeClass('active');
+        $('.tab-content').eq(index).addClass('active');
+    });
+
+});
+</script>
+{% endblock %}
+
+{% block container %}
+<div class="row ml-0 mr-0">
+    <div class="col-xs-12 pl-0 pr-0 pr">
+        <div class="carousel slide" data-ride="carousel">
+            <ol class="carousel-indicators">
+                <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+                <li data-target="#carousel-example-generic" data-slide-to="1" class=""></li>
+                <li data-target="#carousel-example-generic" data-slide-to="2" class=""></li>
+                <li data-target="#carousel-example-generic" data-slide-to="3" class=""></li>
+            </ol>
+            <div id="carousel-example-generic" class="carousel-inner">
+                <div class="item active">
+                    <img class="slide-img" src="{{MEDIA_URL}}img/supplier/detail-1.jpg">
+                </div>
+                <div class="item">
+                    <img class="slide-img" src="{{MEDIA_URL}}img/supplier/detail-2.jpg">
+                </div>
+                <div class="item">
+                    <img class="slide-img" src="{{MEDIA_URL}}img/supplier/detail-1.jpg">
+                </div>
+                <div class="item">
+                    <img class="slide-img" src="{{MEDIA_URL}}img/supplier/detail-2.jpg">
+                </div>
+            </div>
+            <!-- <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
+                <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                <span class="sr-only">Previous</span>
+            </a>
+            <a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
+                <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                <span class="sr-only">Next</span>
+            </a> -->
+        </div>
+        <!-- <img class="slide-img" src="{{MEDIA_URL}}img/supplier/detail-1.jpg"> -->
+    </div>
+    <div class="col-xs-12 pl-0 pr-0 pt-20">
+        <div class="col-xs-9">
+            <div class="col-xs-12 f17 pl-10 pr-0">三点十分</div>
+            <div class="col-xs-12 pl-10 pr-0 pt-5">
+                <span class="co-ea232a f15">200元<span class="co-ea232a f12"> / 位</span></span>
+                <span class="co-95989d f12 pl-10">已预定：1024次</span>
+            </div>
+        </div>
+        <div class="col-xs-3 pr h50">
+            <span class="heart-bg text-center">
+                <span class="fa fa-heart heart"></span>
+                <span class="pt-5 f12 pt-10 display-inline co-f07925">2394</span>
+            </span>
+        </div>
+    </div>
+    <div class="col-xs-12 f12 pl-20 pr-20 co-dddddd pt-15">
+        <div class="col-xs-12 pl-5 pr-5 border-bottom-1 bdc-eeeeee pb-5">
+            入驻时间：2015-09-20
+        </div>
+    </div>
+    <div class="col-xs-12 pl-20 pr-20 pt-15 pb-10">
+        <div class="col-xs-4 col-xs-offset-2 text-center pr-0 pl-0">
+            <span class="tab active">产品</span>
+        </div>
+        <div class="col-xs-4 text-center pr-0 pl-0">
+            <span class="tab">简介</span>
+        </div>
+        <ul class="list-group col-xs-12 pr-0 pt-15 tab-content active">
+            <li class="list-group-item col-xs-12 pl-0 pr-0">
+                <div class="col-xs-9 pr-0 pl-0">
+                    <div class="col-xs-12 co-95989d f14 pr-0 pl-0">铜版纸覆膜彩色名片200张</div>
+                    <div class="col-xs-12 co-f07925 f12 pr-0 pl-0 pt-5"><i class="fa fa-rmb"></i>30元</div>
+                </div>
+                <div class="col-xs-3 pl-0 pr-0 f12 pt-8 text-right">
+                    <span class="buy">订购</span>
+                </div>
+            </li>
+            <li class="list-group-item col-xs-12 pl-0 pr-0">
+                <div class="col-xs-9 pr-0 pl-0">
+                    <div class="col-xs-12 co-95989d f14 pr-0 pl-0">铜版纸覆膜彩色名片200张</div>
+                    <div class="col-xs-12 co-f07925 f12 pr-0 pl-0 pt-5"><i class="fa fa-rmb"></i>30元</div>
+                </div>
+                <div class="col-xs-3 pl-0 pr-0 f12 pt-8 text-right">
+                    <span class="buy">订购</span>
+                </div>
+            </li>
+            <li class="list-group-item col-xs-12 pl-0 pr-0">
+                <div class="col-xs-9 pr-0 pl-0">
+                    <div class="col-xs-12 co-95989d f14 pr-0 pl-0">铜版纸覆膜彩色名片200张</div>
+                    <div class="col-xs-12 co-f07925 f12 pr-0 pl-0 pt-5"><i class="fa fa-rmb"></i>30元</div>
+                </div>
+                <div class="col-xs-3 pl-0 pr-0 f12 pt-8 text-right">
+                    <span class="buy">订购</span>
+                </div>
+            </li>
+        </ul>
+
+        <div class="col-xs-12 tab-content pl-0 pr-0 f13">
+            <div class="col-xs-12 pl-0 pr-0">特别推荐:</div>
+            <div class="col-xs-12 pl-50 pr-0 pt-10 border-bottom-1 bdc-eeeeee pb-10 pr">
+                <img class="avatar" src="{{MEDIA_URL}}img/supplier/avatar-1.jpg">
+                <div class="col-xs-12 f14 co-f07925 pr-0">邓小玉</div>
+                <div class="col-xs-12 f12 co-95989d pr-0 pt-5">品质保障，服务很棒，下午茶首选三点十分就对了。关键是同事们都认可。</div>
+            </div>
+            <div class="col-xs-12 pl-25 pr-0 pt-10 border-bottom-1 bdc-eeeeee pb-10 pr">
+                <i class="fa fa-map-marker flag" style="left: 8px;"></i>
+                <div class="col-xs-12 f15 co-6f7075 pr-0 pt-5">高新区益州大道1800号移动互联大厦3楼301室</div>
+            </div>
+            <div class="col-xs-12 pl-25 pr-0 pt-10 border-bottom-1 bdc-eeeeee pb-10 pr">
+                <i class="fa fa-phone flag" style="left: 6px;"></i>
+                <div class="col-xs-12 f15 co-6f7075 pr-0 pt-5">4008-920-310</div>
+            </div>
+            <div class="col-xs-12 pl-25 pr-0 pt-10 border-bottom-1 bdc-eeeeee pb-10 pr">
+                <i class="fa fa-truck flag"></i>
+                <div class="col-xs-12 f15 co-6f7075 pr-0 pt-5">仅天府软件园区域</div>
+            </div>
+            <div class="col-xs-12 pt-15 pl-0 pr-0">
+                <div class="col-xs-12 f15 pl-0 pr-0">简介:</div>
+                <div class="col-xs-12 f12 co-95989d pr-0 pl-0 pt-10 pb-50 letter-spacing-1">
+                    我们是从事下午茶点服务的先行者，我们反复研究不断打磨产品，不断提升大家的下午茶体验，为此我们组建了专门的采购团队、服务团队、物流团队来保证更好的体验并不断迭代完善。时令水果精心组合，合理搭配各类点心，由专业的营养师为你精心配制，为企业白领们提供强劲能量，提升员工幸福感，让你在补充营养的同时，高效完成工作。
+                </div>
+            </div>
+
+            <div class="booking">
+                <button class="btn-booking" value="">立即预定</button>
+            </div>
+        </div>
+        
+    </div>
+</div>
+{% endblock %}
+
+{% block nav %}{% endblock %}

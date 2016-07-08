@@ -1,0 +1,69 @@
+{% extends "mobile/base.html" %}
+{% block base_css %}
+<style type="text/css">
+	.nav-bottom{
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        text-align: center;
+        margin: 0;
+        padding-bottom: 10px;
+        padding-top: 10px;
+        font-size: 12px;
+    }
+    .nav{
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+    .nav-img{
+        display: inline-block;
+    }
+    .nav-img-active{
+        display: none;
+    }
+    .nav.active .nav-img{
+        display: none;
+    }
+    .nav.active .nav-img-active{
+        display: inline-block;
+    }
+</style>
+{% block css %}{% endblock %}
+{% endblock %}
+
+{% block base_js %}
+{% block js %}{% endblock %}
+{% endblock %}
+
+{% block base_container %}
+
+{% block container %}{% endblock %}
+
+{% block nav %}
+<div class="nav-bottom row bgc-ffffff">
+    <div class="col-xs-4 nav active">
+        <div>
+            <img class="w22 nav-img" src="{{MEDIA_URL}}img/nav_1.png">
+            <img class="w22 nav-img-active" src="{{MEDIA_URL}}img/nav_1_active.png">
+        </div>
+        <div class="pt-5">即刻服务</div>
+    </div>
+    <div class="col-xs-4 nav">
+        <div class="pt-2">
+            <img class="w27 nav-img" src="{{MEDIA_URL}}img/nav_2.png">
+            <img class="w27 nav-img-active" src="{{MEDIA_URL}}img/nav_2_active.png">
+        </div>
+        <div class="pt-5">关于小橙</div>
+    </div>
+    <div class="col-xs-4 nav">
+        <div>
+            <img class="w22 nav-img" src="{{MEDIA_URL}}img/nav_3.png">
+            <img class="w22 nav-img-active" src="{{MEDIA_URL}}img/nav_3_active.png">
+        </div>
+        <div class="pt-5">个人信息</div>
+    </div>
+</div>
+{% endblock %}
+
+{% endblock %}

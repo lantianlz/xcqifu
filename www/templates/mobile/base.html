@@ -16,18 +16,19 @@
         {% block base_css %}{% endblock %}
         <script type="text/javascript" src="{{MEDIA_URL}}js/jquery/jquery-1.7.min.js"></script>
         <script type="text/javascript" src="{{MEDIA_URL}}js/bootstrap/bootstrap.min.js"></script>
+        <script type="text/javascript" src="{{MEDIA_URL}}js/jquery/fastclick.js"></script>
     </head>
 
     <body>
         {% block body %}
-    	<div class="container">
-    	   {% block base_container %}{% endblock %}
-    	</div>
-	   {% endblock body %}
+        <div class="container-fluid pl-0 pr-0 pr">
+           {% block base_container %}{% endblock %}
+        </div>
+        {% endblock body %}
         <script type="text/javascript" src="{{MEDIA_URL}}js/jquery/jquery.placeholder.js"></script>
-    	<script type="text/javascript" src="{{MEDIA_URL}}js/common.js?v={{MEDIA_VERSION}}"></script>
+        <script type="text/javascript" src="{{MEDIA_URL}}js/common.js?v={{MEDIA_VERSION}}"></script>
         <script type="text/javascript" src="{{MEDIA_URL}}js/site.js?v={{MEDIA_VERSION}}"></script>
-    	<script type="text/javascript">
+        <script type="text/javascript">
             var MEDIA_URL = '{{MEDIA_URL|default:''}}',
                 MAIN_DOMAIN = '{{MAIN_DOMAIN|default:''}}',
                 CURRENT_USER_ID = "{{request.user.id|default:''}}",
