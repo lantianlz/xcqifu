@@ -19,9 +19,9 @@ def index(request, template_name='mobile/index.html'):
     return render_to_response(template_name, locals(), context_instance=RequestContext(request))
 
 
-def service_list(request, template_name='mobile/service_list.html'):
+def service_list(request, template_name='mobile/service/service_list.html'):
     return render_to_response(template_name, locals(), context_instance=RequestContext(request))
 
 
-def service_detail(request, service_id, template_name='mobile/service_detail.html'):
+def service_detail(request, service_id, template_name='mobile/service/service_detail.html'):
     return render_to_response(template_name, locals(), context_instance=RequestContext(request))

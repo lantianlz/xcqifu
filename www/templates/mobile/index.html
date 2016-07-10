@@ -124,14 +124,70 @@
         top: 1px;
     }
     .clone-category{
-        position: absolute;
-        transition: all 1.3s ease-out;
-        transform-origin: 50% 50%;
+        position: fixed;
+        -webkit-transition: all .5s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+                transition: all .5s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+        -webkit-transform-origin: 50% 50%;
+                transform-origin: 50% 50%;
         z-index: 1111;
-
     }
-    .container-fluid{
-        perspective: 500px;
+    .animated{
+        -webkit-animation-duration: 0.6s;
+                animation-duration: 0.6s;
+    }
+    @-webkit-keyframes fadeInLeft {
+        from {
+            opacity: 0;
+            -webkit-transform: translate3d(-30%, 0, 0);
+                    transform: translate3d(-30%, 0, 0);
+        }
+
+        to {
+            opacity: 1;
+            -webkit-transform: none;
+                    transform: none;
+        }
+    }
+
+    @keyframes fadeInLeft {
+        from {
+            opacity: 0;
+            -webkit-transform: translate3d(-30%, 0, 0);
+                    transform: translate3d(-30%, 0, 0);
+        }
+
+        to {
+            opacity: 1;
+            -webkit-transform: none;
+                    transform: none;
+        }
+    }
+    @-webkit-keyframes fadeInRight {
+        from {
+            opacity: 0;
+            -webkit-transform: translate3d(30%, 0, 0);
+                    transform: translate3d(30%, 0, 0);
+        }
+
+        to {
+            opacity: 1;
+            -webkit-transform: none;
+                    transform: none;
+        }
+    }
+
+    @keyframes fadeInRight {
+        from {
+            opacity: 0;
+            -webkit-transform: translate3d(30%, 0, 0);
+                    transform: translate3d(30%, 0, 0);
+        }
+
+        to {
+            opacity: 1;
+            -webkit-transform: none;
+                    transform: none;
+        }
     }
 </style>
 {% endblock %}
@@ -141,12 +197,12 @@
     $(document).ready(function(){
 
         var CHILD_CATEGORY_HTML = [
-            '<div class="modal fade" id="child-category-modal">',
+            '<div class="modal" id="child-category-modal" style="perspective: 500px; -webkit-perspective: 500px;">',
                 '<div class="modal-dialog">',
                     '<div class="modal-content">',
                         '<div class="modal-body">',
                             '<div class="child-category row">',
-                                '<div class="col-xs-12 pt-15 pl-0 pr-0">',
+                                '<div class="col-xs-12 pt-15 pl-0 pr-0 visible-hide">',
                                     '<div class="col-xs-12 br-3 welfare">',
                                         '<div class="col-xs-4 pt-15 pb-15 pl-5">',
                                             '<img class="img-cake" src="{{MEDIA_URL}}img/home/cake.png">',
@@ -159,22 +215,22 @@
                                 '</div>',
                                 '<div class="col-xs-12 pt-20">',
                                     '<a href="/service">',
-                                        '<div class="col-xs-12 f16 child-category-item">运动组织</div>',
+                                        '<div class="col-xs-12 f16 child-category-item animated fadeInDown" style="animation-delay: 0.16s;-webkit-animation-delay: 0.16s;">运动组织</div>',
                                     '</a>',
                                 '</div>',
                                 '<div class="col-xs-12 pt-20">',
                                     '<a href="/service">',
-                                        '<div class="col-xs-12 f16 child-category-item">团队活动</div>',
+                                        '<div class="col-xs-12 f16 child-category-item animated fadeInDown" style="animation-delay: 0.24s;-webkit-animation-delay: 0.24s;">团队活动</div>',
                                     '</a>',
                                 '</div>',
                                 '<div class="col-xs-12 pt-20">',
                                     '<a href="/service">',
-                                        '<div class="col-xs-12 f16 child-category-item">素质拓展</div>',
+                                        '<div class="col-xs-12 f16 child-category-item animated fadeInDown" style="animation-delay: 0.32s;-webkit-animation-delay: 0.32s;">素质拓展</div>',
                                     '</a>',
                                 '</div>',
                                 '<div class="col-xs-12 pt-20">',
                                     '<a href="/service">',
-                                        '<div class="col-xs-12 f16 child-category-item">团队旅游</div>',
+                                        '<div class="col-xs-12 f16 child-category-item animated fadeInDown" style="animation-delay: 0.4s;-webkit-animation-delay: 0.4s;">团队旅游</div>',
                                     '</a>',
                                 '</div>',
                             '</div>',
@@ -188,20 +244,25 @@
             // 添加二级分类
             $('body').append(CHILD_CATEGORY_HTML);
             $('#child-category-modal').modal('show');
-            $('#child-category-modal').on('hidden.bs.modal', function (e) {
+            $('#child-category-modal').on('hide.bs.modal', function (e) {
                 $(this).remove();
                 $('.clone-category').remove();
             });
 
-            // var cloneObj = $(this).clone(),
-            //     offset = $(this).offset();
+            var cloneObj = $(this).clone(),
+                offset = $(this).offset();
 
-            // cloneObj.addClass('clone-category');
-            // cloneObj.css({'left': offset.left, 'top': offset.top-10});
-            // $('.container-fluid').append(cloneObj);
-            // window.setTimeout(function(){
-            //     cloneObj.css({'top': 94, 'transform': 'rotateX(360deg)'});
-            // }, 10);
+            cloneObj.children().removeClass('animated fadeInRight fadeInLeft');
+            cloneObj.addClass('clone-category');
+            cloneObj.css({'left': offset.left, 'top': offset.top-10});
+            $('#child-category-modal').append(cloneObj);
+            window.setTimeout(function(){
+                cloneObj.css({
+                    'top': 94, 
+                    '-webkit-transform': 'rotateX(360deg)',
+                    '        transform': 'rotateX(360deg)'
+                });
+            }, 10);
             
         });
 
@@ -209,91 +270,92 @@
     })
 </script>
 {% endblock %}
-
+{% block back %}{% endblock %}
 {% block container %}
-<div class="col-xs-12 pr over-flow-hide pt-50">
-    <div class="bg-curtain"></div>
-    <div class="location">
-        <i class="fa fa-map-marker f16"></i>
-        <span class="f12 pl-3">成都</span>
-        <i class="fa fa-caret-down pl-3"></i>
-    </div>
-    <div class="col-xs-12 pb-3 pl-10 pr-10">
-        <div class="col-xs-12 slogan">
-            <img class="logo" src="{{MEDIA_URL}}img/logo.png">
-            <span class="f13">如何让HR们省心才是我们奋斗的目标!</span>
+<div class="row ml-0 mr-0">
+    <div class="col-xs-12 pr over-flow-hide pt-50">
+        <div class="bg-curtain"></div>
+        <div class="location">
+            <i class="fa fa-map-marker f16"></i>
+            <span class="f12 pl-3">成都</span>
+            <i class="fa fa-caret-down pl-3"></i>
         </div>
-    </div>
-</div>
-<div class="col-xs-12 pt-10 pl-20 pr-20 category">
-    <div class="col-xs-12 welfare">
-        <div class="col-xs-4 pt-15 pb-15 pl-5">
-            <img class="img-cake" src="{{MEDIA_URL}}img/home/cake.png">
-        </div>
-        <div class="col-xs-8 co-ffffff text-right pr-5 pt-15">
-            <div class="f16">
-                <span class="pr">
-                    <span class="new">New !</span>福利设计
-                </span>
+        <div class="col-xs-12 pb-3 pl-10 pr-10 animated flipInX">
+            <div class="col-xs-12 slogan">
+                <img class="logo" src="{{MEDIA_URL}}img/logo.png">
+                <span class="f13">如何让HR们省心才是我们奋斗的目标!</span>
             </div>
-            <div class="f12 pt-2">下午茶、生日会、工作餐</div>
+        </div>
+    </div>
+    <div class="col-xs-12 pt-10 pl-20 pr-20 category">
+        <div class="col-xs-12 br-3 welfare animated fadeInLeft">
+            <div class="col-xs-4 pt-15 pb-15 pl-5">
+                <img class="img-cake" src="{{MEDIA_URL}}img/home/cake.png">
+            </div>
+            <div class="col-xs-8 co-ffffff text-right pr-5 pt-15">
+                <div class="f16">
+                    <span class="pr">
+                        <span class="new">New !</span>福利设计
+                    </span>
+                </div>
+                <div class="f12 pt-2">下午茶、生日会、工作餐</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xs-12 pt-10 pl-20 pr-20 category">
+        <div class="col-xs-12 br-3 development animated fadeInRight" style="animation-delay: 0.08s;-webkit-animation-delay: 0.08s;">
+            <div class="col-xs-4 pt-15 pb-15 pl-5">
+                <img class="img-tree" src="{{MEDIA_URL}}img/home/tree.png">
+            </div>
+            <div class="col-xs-8 co-ffffff text-right pr-5 pt-15">
+                <div class="f16">员工活动</div>
+                <div class="f12 pt-2">旅游、拓展、活动</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xs-12 pt-10 pl-20 pr-20 category">
+        <div class="col-xs-12 br-3 environment animated fadeInLeft" style="animation-delay: 0.16s;-webkit-animation-delay: 0.16s;">
+            <div class="col-xs-4 pt-15 pb-15 pl-5">
+                <img class="img-flower" src="{{MEDIA_URL}}img/home/flower.png">
+            </div>
+            <div class="col-xs-8 co-ffffff text-right pr-5 pt-15">
+                <div class="f16">环境营造</div>
+                <div class="f12 pt-2">植物、保洁、办公用品</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xs-12 pt-10 pl-20 pr-20 category">
+        <div class="col-xs-12 br-3 materiel animated fadeInRight" style="animation-delay: 0.24s;-webkit-animation-delay: 0.24s;">
+            <div class="col-xs-4 pt-15 pb-15 pl-5">
+                <img class="img-paper" src="{{MEDIA_URL}}img/home/paper.png">
+            </div>
+            <div class="col-xs-8 co-ffffff text-right pr-5 pt-15">
+                <div class="f16">宣传&物料</div>
+                <div class="f12 pt-2">名片、资料印刷</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xs-12 pt-10 pl-20 pr-20 category">
+        <div class="col-xs-12 br-3 company animated fadeInLeft" style="animation-delay: 0.32s;-webkit-animation-delay: 0.32s;">
+            <div class="col-xs-4 pt-15 pb-15 pl-5">
+                <img class="img-bag" src="{{MEDIA_URL}}img/home/bag.png">
+            </div>
+            <div class="col-xs-8 co-ffffff text-right pr-5 pt-15">
+                <div class="f16">公司代办</div>
+                <div class="f12 pt-2">注册、法律、申报、社保</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xs-12 pt-10 pl-20 pr-20 category">
+        <div class="col-xs-12 br-3 other animated fadeInRight" style="animation-delay: 0.4s;-webkit-animation-delay: 0.4s;">
+            <div class="col-xs-4 pt-15 pb-15 pl-5">
+                <img class="img-curtain" src="{{MEDIA_URL}}img/home/curtain.png">
+            </div>
+            <div class="col-xs-8 co-ffffff text-right pr-5 pt-15">
+                <div class="f16">其他</div>
+                <div class="f12 pt-2">场地、快递、财务</div>
+            </div>
         </div>
     </div>
 </div>
-<div class="col-xs-12 pt-10 pl-20 pr-20">
-    <div class="col-xs-12 development">
-        <div class="col-xs-4 pt-15 pb-15 pl-5">
-            <img class="img-tree" src="{{MEDIA_URL}}img/home/tree.png">
-        </div>
-        <div class="col-xs-8 co-ffffff text-right pr-5 pt-15">
-            <div class="f16">员工活动</div>
-            <div class="f12 pt-2">旅游、拓展、活动</div>
-        </div>
-    </div>
-</div>
-<div class="col-xs-12 pt-10 pl-20 pr-20">
-    <div class="col-xs-12 environment">
-        <div class="col-xs-4 pt-15 pb-15 pl-5">
-            <img class="img-flower" src="{{MEDIA_URL}}img/home/flower.png">
-        </div>
-        <div class="col-xs-8 co-ffffff text-right pr-5 pt-15">
-            <div class="f16">环境营造</div>
-            <div class="f12 pt-2">植物、保洁、办公用品</div>
-        </div>
-    </div>
-</div>
-<div class="col-xs-12 pt-10 pl-20 pr-20">
-    <div class="col-xs-12 materiel">
-        <div class="col-xs-4 pt-15 pb-15 pl-5">
-            <img class="img-paper" src="{{MEDIA_URL}}img/home/paper.png">
-        </div>
-        <div class="col-xs-8 co-ffffff text-right pr-5 pt-15">
-            <div class="f16">宣传&物料</div>
-            <div class="f12 pt-2">名片、资料印刷</div>
-        </div>
-    </div>
-</div>
-<div class="col-xs-12 pt-10 pl-20 pr-20">
-    <div class="col-xs-12 company">
-        <div class="col-xs-4 pt-15 pb-15 pl-5">
-            <img class="img-bag" src="{{MEDIA_URL}}img/home/bag.png">
-        </div>
-        <div class="col-xs-8 co-ffffff text-right pr-5 pt-15">
-            <div class="f16">公司代办</div>
-            <div class="f12 pt-2">注册、法律、申报、社保</div>
-        </div>
-    </div>
-</div>
-<div class="col-xs-12 pt-10 pl-20 pr-20 category">
-    <div class="col-xs-12 other">
-        <div class="col-xs-4 pt-15 pb-15 pl-5">
-            <img class="img-curtain" src="{{MEDIA_URL}}img/home/curtain.png">
-        </div>
-        <div class="col-xs-8 co-ffffff text-right pr-5 pt-15">
-            <div class="f16">其他</div>
-            <div class="f12 pt-2">场地、快递、财务</div>
-        </div>
-    </div>
-</div>
-<div class="col-xs-12 h80"></div>
 {% endblock %}

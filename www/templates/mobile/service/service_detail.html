@@ -98,14 +98,21 @@
         padding: 3px 40px;
         border-radius: 18px;
         background-color: #fff;
-        box-shadow: #f7b17f 0 1px 3px;
+        box-shadow: #ffd5b8 0 2px 4px;
         border: 0;
+        font-size: 16px;
+    }
+    .fa-bookmark-o{
+        position: absolute;
+        left: 0;
+        top: 10px;
         font-size: 16px;
     }
 </style>
 {% endblock %}
 
 {% block js %}
+<script type="text/javascript" src="{{MEDIA_URL}}js/jquery/countUp.js"></script>
 <script type="text/javascript">
 $(document).ready(function(){
     var getIndex = function(){
@@ -116,7 +123,7 @@ $(document).ready(function(){
                 index = i;
                 return;
             }
-        })
+        });
         return index;
     };
     // tab 切换
@@ -128,6 +135,8 @@ $(document).ready(function(){
         $('.tab-content').removeClass('active');
         $('.tab-content').eq(index).addClass('active');
     });
+
+    new countUp("heart-count", 0, 2348, 0, 1).start();
 
 });
 </script>
@@ -179,7 +188,7 @@ $(document).ready(function(){
         <div class="col-xs-3 pr h50">
             <span class="heart-bg text-center">
                 <span class="fa fa-heart heart"></span>
-                <span class="pt-5 f12 pt-10 display-inline co-f07925">2394</span>
+                <span class="pt-5 f12 pt-10 display-inline co-f07925" id="heart-count">0</span>
             </span>
         </div>
     </div>
@@ -197,27 +206,30 @@ $(document).ready(function(){
         </div>
         <ul class="list-group col-xs-12 pr-0 pt-15 tab-content active">
             <li class="list-group-item col-xs-12 pl-0 pr-0">
-                <div class="col-xs-9 pr-0 pl-0">
+                <div class="col-xs-9 pr-0 pl-20 pr">
+                    <i class="fa fa-bookmark-o"></i>
                     <div class="col-xs-12 co-95989d f14 pr-0 pl-0">铜版纸覆膜彩色名片200张</div>
-                    <div class="col-xs-12 co-f07925 f12 pr-0 pl-0 pt-5"><i class="fa fa-rmb"></i>30元</div>
+                    <div class="col-xs-12 co-f07925 f12 pr-0 pl-0 pt-5"><i class="fa fa-rmb pr-3"></i>30元</div>
                 </div>
                 <div class="col-xs-3 pl-0 pr-0 f12 pt-8 text-right">
                     <span class="buy">订购</span>
                 </div>
             </li>
             <li class="list-group-item col-xs-12 pl-0 pr-0">
-                <div class="col-xs-9 pr-0 pl-0">
+                <div class="col-xs-9 pr-0 pl-20 pr">
+                    <i class="fa fa-bookmark-o"></i>
                     <div class="col-xs-12 co-95989d f14 pr-0 pl-0">铜版纸覆膜彩色名片200张</div>
-                    <div class="col-xs-12 co-f07925 f12 pr-0 pl-0 pt-5"><i class="fa fa-rmb"></i>30元</div>
+                    <div class="col-xs-12 co-f07925 f12 pr-0 pl-0 pt-5"><i class="fa fa-rmb pr-3"></i>30元</div>
                 </div>
                 <div class="col-xs-3 pl-0 pr-0 f12 pt-8 text-right">
                     <span class="buy">订购</span>
                 </div>
             </li>
             <li class="list-group-item col-xs-12 pl-0 pr-0">
-                <div class="col-xs-9 pr-0 pl-0">
+                <div class="col-xs-9 pr-0 pl-20 pr">
+                    <i class="fa fa-bookmark-o"></i>
                     <div class="col-xs-12 co-95989d f14 pr-0 pl-0">铜版纸覆膜彩色名片200张</div>
-                    <div class="col-xs-12 co-f07925 f12 pr-0 pl-0 pt-5"><i class="fa fa-rmb"></i>30元</div>
+                    <div class="col-xs-12 co-f07925 f12 pr-0 pl-0 pt-5"><i class="fa fa-rmb pr-3"></i>30元</div>
                 </div>
                 <div class="col-xs-3 pl-0 pr-0 f12 pt-8 text-right">
                     <span class="buy">订购</span>

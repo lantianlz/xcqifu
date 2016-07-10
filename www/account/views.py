@@ -209,49 +209,14 @@ def logout(request):
     auth.logout(request)
     return HttpResponseRedirect('/')
 
-
-@member_required
-def user_journey(request, user_id, template_name="account/user_journey.html"):
-    from www.journey.interface import JourneyBase
-
-    user = ub.get_user_by_id(user_id)
-    if not user:
-        raise Http404
-    is_me = request.user == user
-
-    jb = JourneyBase()
-    journeys = jb.get_journeys_by_user_id(user_id)
-
-    # 分页
-    page_num = int(request.REQUEST.get('page', 1))
-    page_objs = page.Cpt(journeys, count=10, page=page_num).info
-    journeys = page_objs[0]
-    page_params = (page_objs[1], page_objs[4])
-
-    journeys = jb.format_journeys(journeys)
+def profile(request, template_name='mobile/account/profile.html'):
     return render_to_response(template_name, locals(), context_instance=RequestContext(request))
 
-
-def user_answer(request, user_id, template_name="account/user_answer.html"):
-    from www.answer.interface import AnswerBase
-
-    user = ub.get_user_by_id(user_id)
-    if not user:
-        raise Http404
-    is_me = request.user == user
-
-    ab = AnswerBase()
-    answers = ab.get_user_sended_answer(user_id)
-
-    # 分页
-    page_num = int(request.REQUEST.get('page', 1))
-    page_objs = page.Cpt(answers, count=10, page=page_num).info
-    answers = page_objs[0]
-    page_params = (page_objs[1], page_objs[4])
-
-    answers = ab.format_answers(answers, need_obj=True)
+def verify(request, template_name='mobile/account/verify.html'):
     return render_to_response(template_name, locals(), context_instance=RequestContext(request))
 
+def booking(request, template_name='mobile/account/booking.html'):
+    return render_to_response(template_name, locals(), context_instance=RequestContext(request))
 # ===================================================ajax部分=================================================================#
 
 
