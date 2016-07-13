@@ -217,6 +217,12 @@ def verify(request, template_name='mobile/account/verify.html'):
 
 def booking(request, template_name='mobile/account/booking.html'):
     return render_to_response(template_name, locals(), context_instance=RequestContext(request))
+
+def recommendation(request, template_name='mobile/account/recommendation.html'):
+    return render_to_response(template_name, locals(), context_instance=RequestContext(request))
+
+def recommend(request, template_name='mobile/account/recommend.html'):
+    return render_to_response(template_name, locals(), context_instance=RequestContext(request))
 # ===================================================ajax部分=================================================================#
 
 

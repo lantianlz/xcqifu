@@ -41,7 +41,7 @@
         /*opacity: 0.7;*/
         width: 40px;
         height: 40px;
-        position: absolute;
+        position: fixed;
         left: 15px;
         top: 15px;
         text-align: center;
@@ -58,6 +58,8 @@
 {% block base_js %}
 <script type="text/javascript">
     $(document).ready(function(){
+        FastClick.attach(document.body);
+
         $('.back').on('click', function(){
             window.history.go(-1);
         });

@@ -51,9 +51,9 @@
         background: linear-gradient(to right, #5ea8ff, #5eb9ff);
     }
     .img-paper{
-        width: 40px;
-        margin-left: 4px;
-        margin-bottom: 1px;
+        width: 30px;
+        margin-left: 7px;
+        margin-bottom: -4px;
     }
     .company{
         background: linear-gradient(to right, #3fb5e2, #55d2e8);
@@ -115,13 +115,19 @@
                 transform: translate3d(0,0,0);
     }
     .new{
-        border-radius: 3px;
-        padding: 0 3px;
-        border: #fff 1px solid;
+        /*position: absolute;
+        left: -22px;
+        top: 7px;
         font-size: 12px;
+        padding: 0px 20px;
+        border: 1px solid #ffffff;
+        color: #ffffff;
+        transform: rotateZ(-45deg);*/
+
         position: absolute;
-        left: -46px;
-        top: 1px;
+        width: 50px;
+        left: -12px;
+        top: -12px;
     }
     .clone-category{
         position: fixed;
@@ -188,6 +194,36 @@
             -webkit-transform: none;
                     transform: none;
         }
+    }
+
+    .cities{
+        width: 100%;
+        position: absolute;
+        z-index: 1;
+        left: 0;
+        padding: 15px 1% 20px 1%;
+        bottom: -60px;
+        background-color: #39383e;
+        display: none;
+    }
+    .cities.active{
+        display: block;
+    }
+    .city{
+        width: 18%;
+        text-align: center;
+        display: inline-block;
+    }
+    .city>span{
+        font-size: 12px;
+        padding: 3px 8px;
+        border-radius: 3px;
+        border: 1px solid #6b6b6b;
+    }
+    .city>span.active{
+        border: 1px solid #f07925;
+        background-color: #f07925;
+        color: #ffffff;
     }
 </style>
 {% endblock %}
@@ -263,9 +299,11 @@
                     '        transform': 'rotateX(360deg)'
                 });
             }, 10);
-            
         });
 
+        $('.change-location').on('click', function(){
+            $('.cities').toggleClass('active');
+        });
         
     })
 </script>
@@ -276,9 +314,28 @@
     <div class="col-xs-12 pr over-flow-hide pt-50">
         <div class="bg-curtain"></div>
         <div class="location">
-            <i class="fa fa-map-marker f16"></i>
-            <span class="f12 pl-3">成都</span>
-            <i class="fa fa-caret-down pl-3"></i>
+            <span class="change-location">
+                <i class="fa fa-map-marker f16"></i>
+                <span class="f12 pl-3">成都</span>
+                <i class="fa fa-caret-down pl-3"></i>
+            </span>
+            <div class="cities">
+                <span class="city">
+                    <span>北京</span>
+                </span>
+                <span class="city">
+                    <span>上海</span>
+                </span>
+                <span class="city">
+                    <span>广州</span>
+                </span>
+                <span class="city">
+                    <span>深圳</span>
+                </span>
+                <span class="city">
+                    <span class="active">成都</span>
+                </span>
+            </div>
         </div>
         <div class="col-xs-12 pb-3 pl-10 pr-10 animated flipInX">
             <div class="col-xs-12 slogan">
@@ -289,15 +346,13 @@
     </div>
     <div class="col-xs-12 pt-10 pl-20 pr-20 category">
         <div class="col-xs-12 br-3 welfare animated fadeInLeft">
+            <!-- <span class="new">New !</span> -->
+            <img class="new" src="{{MEDIA_URL}}img/home/new.png">
             <div class="col-xs-4 pt-15 pb-15 pl-5">
                 <img class="img-cake" src="{{MEDIA_URL}}img/home/cake.png">
             </div>
             <div class="col-xs-8 co-ffffff text-right pr-5 pt-15">
-                <div class="f16">
-                    <span class="pr">
-                        <span class="new">New !</span>福利设计
-                    </span>
-                </div>
+                <div class="f16">福利设计</div>
                 <div class="f12 pt-2">下午茶、生日会、工作餐</div>
             </div>
         </div>
@@ -327,7 +382,7 @@
     <div class="col-xs-12 pt-10 pl-20 pr-20 category">
         <div class="col-xs-12 br-3 materiel animated fadeInRight" style="animation-delay: 0.24s;-webkit-animation-delay: 0.24s;">
             <div class="col-xs-4 pt-15 pb-15 pl-5">
-                <img class="img-paper" src="{{MEDIA_URL}}img/home/paper.png">
+                <img class="img-paper" src="{{MEDIA_URL}}img/home/card.png">
             </div>
             <div class="col-xs-8 co-ffffff text-right pr-5 pt-15">
                 <div class="f16">宣传&物料</div>
