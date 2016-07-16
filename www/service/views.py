@@ -10,12 +10,17 @@ from django.shortcuts import render_to_response
 
 from common import utils, page
 from misc.decorators import common_ajax_response, member_required, request_limit_by_ip
-from www.account.interface import UserBase
+from www.service.interface import KindBase
 from www.weixin.interface import WeixinBase, Sign
 
 
+kb = KindBase()
+
+
 def index(request, template_name='mobile/index.html'):
-    # print request.META.get("HTTP_USER_AGENT")
+    data = kb.get_kind_list()
+    print data
+
     return render_to_response(template_name, locals(), context_instance=RequestContext(request))
 
 
