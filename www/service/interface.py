@@ -37,8 +37,11 @@ class KindBase(object):
     def get_kind_list(self, city_id=1974):
         """
         @note:获取首页所需列表
-        data = [(0, u"餐饮福利", u"下午茶、生日会、工作餐、礼品", True, [{"id": 1, "name": u"下午茶", "is_open": True, "is_new": True}, ]),
-                ]
+        data = [
+            (0, u"餐饮福利", u"下午茶、生日会、工作餐、礼品", True, [
+                {"id": 1, "name": u"下午茶", "is_open": True, "is_new": True}, 
+            ]),
+        ]
         """
         data = []
         kois = list(KindOpenInfo.objects.filter(city_id=city_id))
@@ -62,7 +65,7 @@ class KindBase(object):
                 lst_kind_name.append(kind.name)
 
             big_kind_summary = u"、".join(lst_kind_name)
-            ls = (kt[0], kt[1], big_kind_summary, is_new_total, ks)
+            ls = [kt[0], kt[1], big_kind_summary, is_new_total, ks]
             data.append(ls)
 
         return data
