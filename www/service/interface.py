@@ -14,12 +14,12 @@ from common import utils, debug, validators, cache, raw_sql
 from www.misc.decorators import cache_required
 from www.misc import consts
 
-from www.service.models import Kind, KindOpenInfo
+from www.service.models import Kind, KindOpenInfo, Service
 
 DEFAULT_DB = 'default'
 
 dict_err = {
-    20101: u'',
+    20101: u'该类别下已有同名供应商',
 
 }
 dict_err.update(consts.G_DICT_ERROR)
@@ -28,12 +28,12 @@ dict_err.update(consts.G_DICT_ERROR)
 class KindBase(object):
 
     def __init__(self):
-        self.cache = cache.Cache()
+        pass
 
     def __del__(self):
-        del self.cache
+        pass
 
-    # @cache_required(cache_key='kind_list_%s', expire=3600 * 12)
+    # @cache_required(cache_key='kind_list_%s', expire=3600 * 12, cache_key_type="city_id")
     def get_kind_list(self, city_id=1974):
         """
         @note:获取首页所需列表
@@ -66,3 +66,25 @@ class KindBase(object):
             data.append(ls)
 
         return data
+
+
+class ServiceBase(object):
+
+    def __init__(self):
+        pass
+
+    def __del__(self):
+        pass
+
+    def add_service(self, name, kind_id, logo, city_id, summary, des, imgs, service_area,
+                    tel=None, addr=None, longitude=None, latitude=None, join_time=None, recommend_user_id=None,
+                    recommend_des=None, level=0, is_show=True, sort=0):
+        if Service.objects.filter(name=name, kind=kind_id):
+            return 20101, dict_err.get(20101)
+
+        try:
+            assert all([logo, city_id, summary, des, imgs, service_area])
+        except Exception, e:
+            return 99800, dict_err.get(99800)
+
+        service = Service.objects.create(name=name, kind_id=kind_id, logo=logo, city_id=city_id, summary=summary)

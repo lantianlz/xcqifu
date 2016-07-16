@@ -18,7 +18,8 @@ kb = KindBase()
 
 
 def index(request, template_name='mobile/index.html'):
-    data = kb.get_kind_list()
+    city_id = request.session.get("city_id", 1974)
+    data = kb.get_kind_list(city_id=city_id)
     print data
 
     return render_to_response(template_name, locals(), context_instance=RequestContext(request))

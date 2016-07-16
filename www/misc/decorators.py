@@ -91,6 +91,7 @@ def cache_required(cache_key, cache_key_type=0, expire=3600 * 24, cache_config=c
     0：传参为：func(self, cache_key_param)
     1：传参为：func(cache_key_param)
     2：传参为：func(self) cache_key为self.id
+    cache_key：传参为：func(self, cache_key=123) cache_key为kwargs中获取
     '''
 
     def _wrap_decorator(func):
@@ -109,6 +110,8 @@ def cache_required(cache_key, cache_key_type=0, expire=3600 * 24, cache_config=c
                     cache_key = cache_key % args[0]
                 if cache_key_type == 2:
                     cache_key = cache_key % args[0].id
+                if isinstance(cache_key_type, (unicode, str)):
+                    cache_key = cache_key % kwargs.get(cache_key_type)
             return cache.get_or_update_data_from_cache(cache_key, expire, cache_config, must_update_cache, func, *args, **kwargs)
         return _decorator
     return _wrap_decorator
