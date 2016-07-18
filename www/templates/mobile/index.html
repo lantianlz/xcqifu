@@ -266,6 +266,20 @@
         background-color: #f07925;
         color: #ffffff;
     }
+    .close-modal{
+        position: fixed;
+        left: 47%;
+        bottom: 10%;
+        border-radius: 50%;
+        border: 2px solid #fff;
+        width: 35px;
+        height: 35px;
+        color: #fff;
+        text-align: center;
+        padding-top: 5px;
+        font-size: 20px;
+        opacity: 0.8;
+    }
 </style>
 {% endblock %}
 
@@ -294,6 +308,7 @@
                             '</div>',
                         '</div>',
                     '</div>',
+                    '<span class="close-modal close animated fadeInUp" data-dismiss="modal"><i class="fa fa-close"></i></span>',
                 '</div>'
             ].join('');
 
@@ -328,6 +343,9 @@
             $('#child-category-modal').on('hide.bs.modal', function (e) {
                 $(this).remove();
                 $('.clone-category').remove();
+            });
+            $('.close-modal').on('click', function(){
+                // $('#child-category-modal').modal('close');
             });
 
             var cloneObj = $(this).clone(),
@@ -400,7 +418,7 @@
             <div class="col-xs-3 pt-15 pb-15 pl-5">
                 <img class="img-{{category.5}}" src="{{MEDIA_URL}}img/home/{{category.5}}.png">
             </div>
-            <div class="col-xs-9 co-ffffff text-right pr-5 pt-15">
+            <div class="col-xs-9 co-ffffff text-right pl-0 pr-5 pt-15">
                 <div class="f16">{{category.1}}</div>
                 <div class="f12 pt-2">{{category.2}}</div>
             </div>

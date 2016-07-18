@@ -20,7 +20,7 @@ kb = KindBase()
 def index(request, template_name='mobile/index.html'):
     city_id = request.session.get("city_id", 1974)
     data = kb.get_kind_list(city_id=city_id)
-    print data
+    # print data
 
     # 类别样式对应字典
     CATEGORY_STYLE_DICT = {
