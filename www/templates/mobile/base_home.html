@@ -60,9 +60,9 @@
     $(document).ready(function(){
         FastClick.attach(document.body);
 
-        $('.back').on('click', function(){
-            window.history.go(-1);
-        });
+        // $('.back').on('click', function(){
+        //     window.history.go(-1);
+        // });
     });
 </script>
 {% block js %}{% endblock %}
@@ -71,9 +71,9 @@
 {% block base_container %}
 
 {% block back %}
-<span class="back">
+<a class="back" href="{% block back_url %}/{% endblock %}">
     <i class="fa fa-angle-left"></i>
-</span>
+</a>
 {% endblock %}
 
 {% block container %}{% endblock %}
