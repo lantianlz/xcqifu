@@ -18,6 +18,7 @@ urlpatterns = patterns('',
                        url(r'^account/', include('www.account.urls')),
                        url(r'^weixin/', include('www.weixin.urls')),
                        url(r'^service/', include('www.service.urls')),
+                       url(r'^kind/(?P<kind_id>\d+)$', 'www.service.views.service_list'),
 
                        url(r'^(?P<txt_file_name>\w+)\.txt$', 'www.misc.views.txt_view'),
                        url(r'^s/(?P<template_name>.*)$', 'www.misc.views.static_view'),

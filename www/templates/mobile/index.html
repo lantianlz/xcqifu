@@ -3,299 +3,13 @@
 {% block title %}即刻服务{% endblock title %}
 {% block css %}
 <link rel="stylesheet" type="text/css" href="{{MEDIA_URL}}css/animate/animate.min.css">
-<style type="text/css">
-    .bg-curtain{
-        background-color: #39383e;
-        width: 220%;
-        height: 825%;
-        position: absolute;
-        top: -729%;
-        left: -60%;
-        border-radius: 50%;
-        box-shadow: #ddd 0px 2px 3px;
-    }
-    .logo{
-        width: 25px;
-        height: 25px;
-    }
-    .slogan{
-        background-color: #ffffff;
-        box-shadow: #f7adad 0px 0px 4px;
-        border-radius: 5px;
-        padding: 8px 2px;
-        text-align: center;
-    }
-    .welfare{
-        background: linear-gradient(to right, #f68e57, #f9b757);
-        -webkit-animation-delay: 0s;
-                animation-delay: 0s;
-    }
-    .img-welfare{
-        width: 50px;
-    }
-    .development{
-        background: linear-gradient(to right, #f35c9e, #f35dcb);
-        -webkit-animation-delay: 0.08s;
-                animation-delay: 0.08s;
-    }
-    .img-development{
-        width: 40px;
-        margin-left: 4px;
-        margin-bottom: -3px;
-    }
-    .environment{
-        background: linear-gradient(to right, #5ed8ac, #5fe99e);
-        -webkit-animation-delay: 0.16s;
-                animation-delay: 0.16s;
-    }
-    .img-environment{
-        width: 38px;
-        margin-left: 4px;
-        margin-bottom: -4px;
-        margin-top: -4px;
-    }
-    .materiel{
-        background: linear-gradient(to right, #5ea8ff, #5eb9ff);
-        -webkit-animation-delay: 0.24s;
-                animation-delay: 0.24s;
-    }
-    .img-materiel{
-        width: 30px;
-        margin-left: 7px;
-        margin-bottom: -4px;
-    }
-    .company{
-        background: linear-gradient(to right, #3fb5e2, #55d2e8);
-        -webkit-animation-delay: 0.36s;
-                animation-delay: 0.36s;
-    }
-    .img-company{
-        width: 46px;
-        margin-left: 0px;
-    }
-    .other{
-        background: linear-gradient(to right, #a386fc, #b792fc);
-        -webkit-animation-delay: 0.4s;
-                animation-delay: 0.4s;
-    }
-    .img-other{
-        width: 50px;
-        margin-left: -3px;
-        margin-bottom: 2px;
-        margin-top: 3px;
-    }
-
-    .location{
-        color: #ffffff;
-        width: 100%;
-        text-align: center;
-        position: absolute;
-        left: 0;
-        top: 0;
-        padding-top: 15px;
-    }
-    .child-category{
-        padding-top: 170px;
-        padding-left: 20px;
-        padding-right: 20px;
-        transition: all 1s;
-        opacity: 1;
-    }
-    .child-category-item{
-        padding: 30px 0;
-        font-size: 16px;
-        color: #ffffff;
-        position: relative;
-    }
-    .vl{
-        display: inline-block;
-        width: 4px;
-        height: 14px;
-        margin-right: 15px;
-        margin-bottom: -1px;
-        background-color: #ffffff;
-    }
-    .child-new>.child-new-flag{
-        display: inline-block;
-    }
-    .child-new-flag{
-        position: absolute;
-        font-size: 12px;
-        transform: scale(0.8);
-        left: -23px;
-        bottom: -18px;
-        display: inline-block;
-        text-align: center;
-        color: #f07925;
-        letter-spacing: 1px;
-    }
-    .child-unopen{
-        /*text-align: center;*/
-        color: #48494b;
-    }
-    .child-unopen .vl{
-        background-color: #48494b;
-    }
-    .child-unopen>.child-unopen-flag{
-        display: block;
-        color: #48494b;
-    }
-    .child-unopen-flag{
-        text-align: center;
-        display: none;
-        left: -25px;
-    }
-    .child-unopen-flag>span{
-        display: inline-block;
-        transform: scale(0.7);
-        font-size: 12px;
-    }
-    .modal-content{
-        background-color: transparent;
-        box-shadow: none;
-        border: 0;
-    }
-    .modal-backdrop.in{
-        opacity: 0.9;
-    }
-    .modal.fade .modal-dialog{
-        -webkit-transition: -webkit-transform .3s ease-out;
-                transition:         transform .3s ease-out;
-        -webkit-transform: translate3d(0,0,0);
-                transform: translate3d(0,0,0);
-    }
-    .new{
-        position: absolute;
-        width: 50px;
-        left: -12px;
-        top: -12px;
-    }
-    .clone-category{
-        position: fixed;
-        -webkit-transition: all .5s cubic-bezier(0.18, 0.89, 0.32, 1.28);
-                transition: all .5s cubic-bezier(0.18, 0.89, 0.32, 1.28);
-        -webkit-transform-origin: 50% 50%;
-                transform-origin: 50% 50%;
-        z-index: 1111;
-    }
-    .animated{
-        -webkit-animation-duration: 0.6s;
-                animation-duration: 0.6s;
-    }
-    @-webkit-keyframes fadeInLeft {
-        from {
-            opacity: 0;
-            -webkit-transform: translate3d(-30%, 0, 0);
-                    transform: translate3d(-30%, 0, 0);
-        }
-
-        to {
-            opacity: 1;
-            -webkit-transform: none;
-                    transform: none;
-        }
-    }
-
-    @keyframes fadeInLeft {
-        from {
-            opacity: 0;
-            -webkit-transform: translate3d(-30%, 0, 0);
-                    transform: translate3d(-30%, 0, 0);
-        }
-
-        to {
-            opacity: 1;
-            -webkit-transform: none;
-                    transform: none;
-        }
-    }
-    @-webkit-keyframes fadeInRight {
-        from {
-            opacity: 0;
-            -webkit-transform: translate3d(30%, 0, 0);
-                    transform: translate3d(30%, 0, 0);
-        }
-
-        to {
-            opacity: 1;
-            -webkit-transform: none;
-                    transform: none;
-        }
-    }
-
-    @keyframes fadeInRight {
-        from {
-            opacity: 0;
-            -webkit-transform: translate3d(30%, 0, 0);
-                    transform: translate3d(30%, 0, 0);
-        }
-
-        to {
-            opacity: 1;
-            -webkit-transform: none;
-                    transform: none;
-        }
-    }
-
-    .cities{
-        width: 100%;
-        position: absolute;
-        z-index: 1;
-        left: 0;
-        padding: 15px 1% 20px 1%;
-        bottom: -60px;
-        background-color: #39383e;
-        display: none;
-    }
-    .cities.active{
-        display: block;
-    }
-    .city{
-        width: 18%;
-        text-align: center;
-        display: inline-block;
-    }
-    .city>span{
-        font-size: 12px;
-        padding: 3px 8px;
-        border-radius: 3px;
-        border: 1px solid #6b6b6b;
-    }
-    .city>span.active{
-        border: 1px solid #f07925;
-        background-color: #f07925;
-        color: #ffffff;
-    }
-    .close-modal{
-        position: fixed;
-        left: 47%;
-        bottom: 10%;
-        border-radius: 50%;
-        border: 2px solid #fff;
-        width: 35px;
-        height: 35px;
-        color: #fff;
-        text-align: center;
-        padding-top: 5px;
-        font-size: 20px;
-        opacity: 0.8;
-    }
-</style>
+<link rel="stylesheet" type="text/css" href="{{MEDIA_URL}}css/site/index.css?v={{MEDIA_VERSION}}">
 {% endblock %}
 
 {% block js %}
 <script type="text/javascript">
     $(document).ready(function(){
-        var CATEGORY_STYLE_DICT = {
-                0: 'welfare',
-                1: 'development',
-                2: 'environment',
-                3: 'materiel',
-                4: 'company',
-                5: 'other'
-            },
-
-            DATA = {{data_json|safe}},
+        var DATA = {{data_json|safe}},
 
             CHILD_CATEGORY_HTML = [
                 '<div class="modal" id="child-category-modal" style="perspective: 500px; -webkit-perspective: 500px;">',
@@ -321,7 +35,7 @@
             // console.log(data)
             $.map(data, function(per, i){
                 childCategoryStr += [
-                    '<a href="/service/">',
+                    '<a href="'+per.url+'">',
                         '<div class="child-category-item col-xs-6 animated fadeInDown '+(per.is_open?"":"child-unopen")+' '+(per.is_new?"child-new":"")+'">',
                             '<div class="col-xs-10 col-xs-offset-2 pr-0 pl-0">',
                                 '<span class="vl"></span>',
@@ -343,9 +57,6 @@
             $('#child-category-modal').on('hide.bs.modal', function (e) {
                 $(this).remove();
                 $('.clone-category').remove();
-            });
-            $('.close-modal').on('click', function(){
-                // $('#child-category-modal').modal('close');
             });
 
             var cloneObj = $(this).clone(),
@@ -411,12 +122,12 @@
 
     {% for category in data %}
     <div class="col-xs-12 pt-10 pl-20 pr-20 category" data-index="{{forloop.counter}}">
-        <div class="col-xs-12 br-3 {{category.5}} animated {% cycle 'fadeInLeft' 'fadeInRight' %} over-flow-hide">
+        <div class="col-xs-12 br-3 category-{{category.0}} animated {% cycle 'fadeInLeft' 'fadeInRight' %} over-flow-hide">
             {% if category.3 %}
             <img class="new" src="{{MEDIA_URL}}img/home/new.png">
             {% endif %}
             <div class="col-xs-3 pt-15 pb-15 pl-5">
-                <img class="img-{{category.5}}" src="{{MEDIA_URL}}img/home/{{category.5}}.png">
+                <img class="img-category-{{category.0}}" src="{{MEDIA_URL}}img/home/category-{{category.0}}.png">
             </div>
             <div class="col-xs-9 co-ffffff text-right pl-0 pr-5 pt-15">
                 <div class="f16">{{category.1}}</div>

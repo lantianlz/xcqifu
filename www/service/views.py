@@ -22,27 +22,15 @@ def index(request, template_name='mobile/index.html'):
     data = kb.get_kind_list(city_id=city_id)
     # print data
 
-    # 类别样式对应字典
-    CATEGORY_STYLE_DICT = {
-        0: 'welfare',
-        1: 'development',
-        2: 'environment',
-        3: 'materiel',
-        4: 'company',
-        5: 'other'
-    }
-    # 将样式加到每个类别里面
-    for x in data:
-        x.append(CATEGORY_STYLE_DICT[x[0]])
-
     # 转换成json
     data_json = json.dumps(data)
     return render_to_response(template_name, locals(), context_instance=RequestContext(request))
 
 
-def service_list(request, template_name='mobile/service/service_list.html'):
+def service_list(request, kind_id, template_name='mobile/service/service_list.html'):
     return render_to_response(template_name, locals(), context_instance=RequestContext(request))
 
 
 def service_detail(request, service_id, template_name='mobile/service/service_detail.html'):
     return render_to_response(template_name, locals(), context_instance=RequestContext(request))
+
