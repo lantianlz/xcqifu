@@ -61,10 +61,10 @@ class KindBase(object):
                 is_new = True if koi.open_time.date() >= (datetime.datetime.now().date() - datetime.timedelta(days=7)) else False
                 if is_new:
                     is_new_total = True
-                ks.append(dict(id=kind.id, name=kind.name, is_open=True if koi else False, is_new=is_new))
+                ks.append(dict(id=kind.id, name=kind.name, is_open=True if koi else False, is_new=is_new, url=kind.get_url()))
                 lst_kind_name.append(kind.name)
 
-            big_kind_summary = u"、".join(lst_kind_name[:3]) + (u"、..." if len(lst_kind_name) > 3 else "")
+            big_kind_summary = u"、".join(lst_kind_name[:3]) + (u" ..." if len(lst_kind_name) > 3 else "")
             ls = [kt[0], kt[1], big_kind_summary, is_new_total, ks]
             data.append(ls)
 

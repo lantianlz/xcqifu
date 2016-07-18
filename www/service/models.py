@@ -23,7 +23,7 @@ class Kind(models.Model):
         ordering = ["sort", "-create_time"]
 
     def get_url(self):
-        return u'/service/%s' % self.id
+        return u'/kind/%s' % self.id
 
     def get_full_url(self):
         return u'%s%s' % (settings.MAIN_DOMAIN, self.get_url())
