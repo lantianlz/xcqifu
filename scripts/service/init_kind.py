@@ -32,7 +32,7 @@ def init_kind():
         [
             {"name": u"团队旅游", "slogan": u"公司团队旅游的组织、策划、预定，不再为去哪儿感到焦虑", },
             {"name": u"素质拓展", "slogan": u"团队文化建设通过拓展训练是一个不错的方式", },
-            {"name": u"team building", "slogan": u"岂止于吃吃吃，让你们的team building充满不一样的乐趣", },
+            {"name": u"团队聚餐", "slogan": u"岂止于吃吃吃，让你们的team building充满不一样的乐趣", },
         ],
         [
             {"name": u"名片制作", "slogan": u"好的名片，在这里制作", },

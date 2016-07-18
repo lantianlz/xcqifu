@@ -64,7 +64,7 @@ class KindBase(object):
                 ks.append(dict(id=kind.id, name=kind.name, is_open=True if koi else False, is_new=is_new))
                 lst_kind_name.append(kind.name)
 
-            big_kind_summary = u"、".join(lst_kind_name)
+            big_kind_summary = u"、".join(lst_kind_name[:3]) + (u"、..." if len(lst_kind_name) > 3 else "")
             ls = [kt[0], kt[1], big_kind_summary, is_new_total, ks]
             data.append(ls)
 
@@ -90,4 +90,6 @@ class ServiceBase(object):
         except Exception, e:
             return 99800, dict_err.get(99800)
 
-        service = Service.objects.create(name=name, kind_id=kind_id, logo=logo, city_id=city_id, summary=summary)
+        service = Service.objects.create(name=name, kind_id=kind_id, logo=logo, city_id=city_id, summary=summary, des=des,
+                                         )
+        return 0, service
