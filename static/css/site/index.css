@@ -109,7 +109,7 @@
     margin-bottom: -1px;
     background-color: #ffffff;
 }
-.child-new>.child-new-flag{
+.child-new .child-new-flag{
     display: inline-block;
 }
 .child-new-flag{
@@ -118,7 +118,7 @@
     transform: scale(0.8);
     left: -5px;
     bottom: -18px;
-    display: inline-block;
+    display: none;
     text-align: center;
     color: #f07925;
     letter-spacing: 1px;
