@@ -10,11 +10,12 @@ from django.shortcuts import render_to_response
 
 from common import utils, page
 from misc.decorators import common_ajax_response, member_required, request_limit_by_ip
-from www.service.interface import KindBase
+from www.service.interface import KindBase, ServiceBase
 from www.weixin.interface import WeixinBase, Sign
 
 
 kb = KindBase()
+sb = ServiceBase()
 
 
 def index(request, template_name='mobile/index.html'):
@@ -28,9 +29,10 @@ def index(request, template_name='mobile/index.html'):
 
 
 def service_list(request, kind_id, template_name='mobile/service/service_list.html'):
+    services = sb.get_service_by_kind(kind_id)
     return render_to_response(template_name, locals(), context_instance=RequestContext(request))
 
 
 def service_detail(request, service_id, template_name='mobile/service/service_detail.html'):
+    service = sb.get_service_by_id(service_id)
     return render_to_response(template_name, locals(), context_instance=RequestContext(request))
-
