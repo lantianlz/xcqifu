@@ -50,6 +50,27 @@
         color: #fff;
         font-size: 25px;
         padding-top: 6px;
+        -webkit-animation: back 1s 1s both;
+                animation: back 1s 1s both;
+    }
+    .back:hover, .back:focus{
+        color: #fff;
+    }
+    @-webkit-keyframes back {
+        from {
+            opacity: 1;
+        }
+        to {
+            opacity: 0.4;
+        }
+    }
+    @keyframes back {
+        from {
+            opacity: 1;
+        }
+        to {
+            opacity: 0.4;
+        }
     }
 </style>
 {% block css %}{% endblock %}
