@@ -39,7 +39,7 @@ class KindBase(object):
         @note:获取首页所需列表
         data = [
             (0, u"餐饮福利", u"下午茶、生日会、工作餐、礼品", True, [
-                {"id": 1, "name": u"下午茶", "is_open": True, "is_new": True}, 
+                {"id": 1, "name": u"下午茶", "is_open": True, "is_new": True},
             ]),
         ]
         """
@@ -91,5 +91,21 @@ class ServiceBase(object):
             return 99800, dict_err.get(99800)
 
         service = Service.objects.create(name=name, kind_id=kind_id, logo=logo, city_id=city_id, summary=summary, des=des,
-                                         )
+                                         imgs=imgs, service_area=service_area, tel=tel, addr=addr, longitude=longitude, latitude=latitude,
+                                         join_time=join_time, recommend_user_id=recommend_user_id, recommend_des=recommend_des,
+                                         level=level, is_show=is_show, sort=sort)
+
         return 0, service
+
+    def get_service_by_kind(self, kind, state=True):
+        ps = dict(kind=kind)
+        if state is not None:
+            ps.update(dict(state=state))
+
+        return Service.objects.select_related("kind").filter(**ps)
+
+    def get_service_by_id(self, service_id):
+        try:
+            return Service.objects.select_related("kind").get(id=service_id)
+        except Service.DoesNotExist:
+            return ''
