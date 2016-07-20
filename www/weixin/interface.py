@@ -29,9 +29,9 @@ dict_weixin_app = {
         'url': ''
     },
     'xcqifu': {
-        'app_id': 'wxd6922b078dff1607',
+        'app_id': 'wx849eb5bab8d7e9e0',
         'app_secret': '',
-        'app_type': 'gh_6830b9f3748d',
+        'app_type': 'gh_efd135bc6aa7',
         'token': 'xcqifu',
         'url': ''
     },
