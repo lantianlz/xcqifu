@@ -111,7 +111,7 @@ def cache_required(cache_key, cache_key_type=0, expire=3600 * 24, cache_config=c
                 if cache_key_type == 2:
                     cache_key = cache_key % args[0].id
                 if isinstance(cache_key_type, (unicode, str)):
-                    cache_key = cache_key % kwargs.get(cache_key_type)
+                    cache_key = cache_key % (kwargs.get(cache_key_type) or func.func_defaults[0])
             return cache.get_or_update_data_from_cache(cache_key, expire, cache_config, must_update_cache, func, *args, **kwargs)
         return _decorator
     return _wrap_decorator
@@ -175,7 +175,7 @@ def auto_select_template(func):
     @note: 过滤器, 自动判断模板选择
     """
     def _decorator(request, *args, **kwargs):
-        template_name = kwargs.get("template_name")
+        template_name = kwargs.get("template_name") or func.func_defaults[0]
         if template_name:
             dict_user_agent = utils.format_user_agent(request.META.get('HTTP_USER_AGENT'))
             if dict_user_agent['device_type'] in ('pc', 'pad'):
