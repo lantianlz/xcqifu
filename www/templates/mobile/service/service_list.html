@@ -2,60 +2,7 @@
 {% block title %}服务商列表{% endblock title %}
 {% block css %}
 <link rel="stylesheet" type="text/css" href="{{MEDIA_URL}}css/animate/animate.min.css">
-<style type="text/css">
-    body,html{
-        height: 100%;
-        background: linear-gradient(to right, #f68e57, #f9b757);
-    }
-    .list-group-item{
-        box-shadow: #dd955b 1px 5px 0px;
-        border: 0;
-    }
-    .list-group-item:last-child {
-        border-bottom-right-radius: 2px;
-        border-bottom-left-radius: 2px;
-    }
-    .list-group-item:first-child {
-        border-top-left-radius: 2px;
-        border-top-right-radius: 2px;
-    }
-    .avatar{
-        width: 62px;
-        height: 62px;
-        border-radius: 50%;
-        position: absolute;
-        left: 10px;
-        top: 3px;
-    }
-    .bg-curtain{
-        background-color: #fdd464;
-        height: 110px;
-        width: 110px;
-        border-radius: 50%;
-        position: absolute;
-        left: -57px;
-        top: -21px;
-    }
-    .fa-quote-left{
-        position: absolute;
-        left: 20px;
-        top: 15px;
-        font-size: 15px;
-    }
-    .fa-plug{
-        position: absolute;
-        left: 45%;
-        bottom: -6px;
-        font-size: 35px;
-        -webkit-transform: rotateZ(-45deg);
-                transform: rotateZ(-45deg);
-        color: #c3d4da;
-    }
-    .animated{
-        -webkit-animation-duration: 0.8s;
-                animation-duration: 0.8s;
-    }
-</style>
+<link rel="stylesheet" type="text/css" href="{{MEDIA_URL}}css/site/service_list.css?v={{MEDIA_VERSION}}">
 {% endblock %}
 {% block back_url %}/{% endblock %}
 {% block container %}
@@ -67,36 +14,19 @@
     </div>
 
     <ul class="list-group col-xs-12 pl-20 pr-20">
-        <a href="/service/1" class="list-group-item col-xs-12 pr-0 pl-0 over-flow-hide mb-15 animated fadeInUp" style="animation-delay: 0.2s;-webkit-animation-delay: 0.2s;">
+
+        {% for service in services %}
+        <a href="/service/{{service.id}}" class="list-group-item col-xs-12 pr-0 pl-0 over-flow-hide mb-15 animated fadeInUp" style="animation-delay: {{ service.delays }}s;-webkit-animation-delay: {{  service.delays }}s;">
             <div class="col-xs-12 pl-70 pr-10 pt-3 pb-3 pr h67">
                 <span class="bg-curtain"></span>
-                <img class="avatar" src="{{MEDIA_URL}}img/service/avatar-1.jpg">
-                <div class="col-xs-12 f17 pr-5">三点十分</div>
-                <div class="col-xs-12 f12 co-b6b6b6 pt-3 pr-5">下午茶服务专家，最新鲜的水果、美味的点心，尽在三点十分</div>
+                <img class="avatar" src="{{service.logo}}">
+                <div class="col-xs-12 f17 pr-5">{{service.name}}</div>
+                <div class="col-xs-12 f12 co-b6b6b6 pt-3 pr-5">{{service.summary}}</div>
             </div>
         </a>
-        <a href="/service/1" class="list-group-item col-xs-12 pr-0 pl-0 over-flow-hide mb-15 animated fadeInUp" style="animation-delay: 0.3s;-webkit-animation-delay: 0.3s;">
-            <div class="col-xs-12 pl-70 pr-10 pt-3 pb-3 pr h67">
-                <span class="bg-curtain"></span>
-                <img class="avatar" src="{{MEDIA_URL}}img/service/avatar-2.jpg">
-                <div class="col-xs-12 f17 pr-5">三点十分</div>
-                <div class="col-xs-12 f12 co-b6b6b6 pt-3 pr-5">下午茶服务专家，最新鲜的水果、美味的点心，尽在三点十分</div>
-            </div>
-        </a>
-        <a href="/service/1" class="list-group-item col-xs-12 pr-0 pl-0 over-flow-hide mb-15 animated fadeInUp" style="animation-delay: 0.4s;-webkit-animation-delay: 0.4s;">
-            <div class="col-xs-12 pl-70 pr-10  pt-3 pb-3 pr h67">
-                <span class="bg-curtain"></span>
-                <img class="avatar" src="{{MEDIA_URL}}img/service/avatar-1.jpg">
-                <div class="col-xs-12 f17 pr-5">
-                    <span>光谷创业咖啡</span>
-                    <span class="pull-right co-ea232a f14 pt-3">300元<span class="f12">/工位</span></span>
-                </div>
-                <div class="col-xs-12 f12 co-b6b6b6 pt-3 pr-5">
-                    <i class="fa fa-map-marker pr-3"></i>成都市高新区天府五街菁蓉国际广场4B-9楼
-                </div>
-            </div>
-        </a>
-        <li class="list-group-item col-xs-12 pr-0 pl-0 over-flow-hide mb-15 animated fadeInUp" style="animation-delay: 0.5s;-webkit-animation-delay: 0.5s;">
+        {% endfor %}
+
+        <li class="list-group-item col-xs-12 pr-0 pl-0 over-flow-hide mb-15 animated fadeInUp" style="animation-delay: {{ last_delay }}s;-webkit-animation-delay: {{ last_delay }}s;">
             <div class="col-xs-12 text-center co-95989d h67 pt-5 pr">
                 <span>Coming Soon</span>
                 <i class="fa fa-plug"></i>

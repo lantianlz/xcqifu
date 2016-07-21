@@ -262,7 +262,7 @@
 .close-modal{
     position: fixed;
     left: 45.5%;
-    bottom: 10%;
+    bottom: 7%;
     border-radius: 50%;
     border: 2px solid rgba(255, 255, 255, 0.3);
     width: 35px;
