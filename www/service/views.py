@@ -9,7 +9,7 @@ from django.template import RequestContext
 from django.shortcuts import render_to_response
 
 from common import utils, page
-from misc.decorators import common_ajax_response, member_required, request_limit_by_ip
+from misc.decorators import common_ajax_response, member_required, request_limit_by_ip, auto_select_template
 from www.service.interface import KindBase, ServiceBase
 from www.weixin.interface import WeixinBase, Sign
 
@@ -18,6 +18,7 @@ kb = KindBase()
 sb = ServiceBase()
 
 
+@auto_select_template
 def index(request, template_name='mobile/index.html'):
     city_id = request.session.get("city_id", 1974)
     data = kb.get_kind_list(city_id=city_id)

@@ -73,6 +73,8 @@ def init_kind():
 
 def init_kind_open_info():
     for kind in Kind.objects.all():
+        if KindOpenInfo.objects.filter(kind=kind, city_id=1974):
+            continue
         KindOpenInfo.objects.create(kind=kind, city_id=1974, open_time=datetime.datetime.now())
 
 
