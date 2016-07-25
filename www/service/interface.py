@@ -70,6 +70,12 @@ class KindBase(object):
 
         return data
 
+    def get_kind_by_id(self, kind_id):
+        try:
+            return Kind.objects.get(id=kind_id)
+        except Service.DoesNotExist:
+            return ''
+
 
 class ServiceBase(object):
 

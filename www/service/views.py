@@ -30,6 +30,9 @@ def index(request, template_name='mobile/index.html'):
 
 
 def service_list(request, kind_id, template_name='mobile/service/service_list.html'):
+
+    kind = kb.get_kind_by_id(kind_id)
+
     _services = sb.get_service_by_kind(kind_id)
     services = []
     for i in range(_services.count()):
@@ -38,6 +41,9 @@ def service_list(request, kind_id, template_name='mobile/service/service_list.ht
         services.append(temp)
 
     last_delay = 0.2 + len(services)*0.1
+
+    # 如果服务商数量少于2显示 即将开放
+    show_comingsoon = True if len(services)<=2 else False
 
     return render_to_response(template_name, locals(), context_instance=RequestContext(request))
 
