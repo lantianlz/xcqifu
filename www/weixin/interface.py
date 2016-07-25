@@ -167,6 +167,8 @@ class WeixinBase(object):
                                u'反馈方法：直接在此微信服务号中输入你的金玉良言即可，客服人员会及时跟进哦'
                                )
                     return self.get_base_content_response(to_user, from_user, content=content)
+            elif event in ('unsubscribe'):
+                pass
 
         # 文字识别
         msg_types = jq('msgtype')
