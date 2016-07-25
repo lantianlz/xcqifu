@@ -11,6 +11,7 @@ from pyquery import PyQuery as pq
 
 from common import cache, debug
 from www.misc import consts
+from www.weixin.weixin_config import dict_weixin_app
 
 
 dict_err = {
@@ -20,22 +21,6 @@ dict_err.update(consts.G_DICT_ERROR)
 
 
 weixin_api_url = 'https://api.weixin.qq.com'
-dict_weixin_app = {
-    'xcqifu_test': {
-        'app_id': 'wx0d227d4f9b19658a',
-        'app_secret': '513bdaf5b6022df4913f4cb5543fa688',
-        'app_type': 'gh_65671b9fff9d',
-        'token': 'xcqifu_test',
-        'url': ''
-    },
-    'xcqifu': {
-        'app_id': 'wx849eb5bab8d7e9e0',
-        'app_secret': '',
-        'app_type': 'gh_efd135bc6aa7',
-        'token': 'xcqifu',
-        'url': ''
-    },
-}
 
 
 class WeixinBase(object):
@@ -100,9 +85,8 @@ class WeixinBase(object):
         return base_xml % dict(to_user=from_user, from_user=to_user, timestamp=int(time.time()), content=error_info)
 
     def get_subscribe_event_response(self, to_user, from_user):
-        content = (u'小橙企服，下午茶点服务专家；'
-                   u'我们专注于为企业提供按需定制的下午茶点服务，免费配送上门。\n'
-                   u'新鲜的水果，可口的点心，尽在小橙企服，欢迎立即免费试吃体验。'
+        content = (u'一站式搞定行政事务，尽在小橙企服。\n'
+                   u'立即访问底部菜单体验，go go'
                    )
         return self.get_base_content_response(to_user, from_user, content=content)
 
@@ -143,23 +127,24 @@ class WeixinBase(object):
         # 事件
         if events:
             event = events[0].text.lower()
-            if event in ('scan', 'subscribe'):  # 扫码登陆事件
+            # 关注或者扫码登陆事件
+            if event in ('scan', 'subscribe'):
+                event_key = u""
+                event_keys = jq('event_key')
+                if event_keys:
+                    event_key = event_keys[0]
+
+                # 首次关注自动注册用户
+                if event == "subscribe":
+                    UserBase().regist_by_weixin(from_user, app_key, qrscene=event_key)
+
                 tickets = jq('ticket')
                 if tickets:
                     ticket = tickets[0].text
                     errcode, errmsg = UserBase().login_by_weixin_qr_code(ticket, from_user, app_key)
                     return self.get_base_content_response(to_user, from_user, errmsg)
-            if event in ('subscribe',):
-                # pass
+                return self.get_subscribe_event_response(to_user, from_user)  # 关注信息
 
-                # 发送客服消息通知用户
-                content = u"所推荐的公司成功订购后，有红包相送哦"
-                url = u'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxd6922b078dff1607&redirect_uri=http%3A%2F%2Fwww.xcqifu.com%2Faccount%2Foauth%2Fweixin&response_type=code&scope=snsapi_base&state=recommend#wechat_redirect'
-                img_info = u'[{"title": "推荐有礼", "description": "%s", "url": "%s", "picurl": "%s"}]' \
-                    % (content, url, 'http://static.xcqifu.com/img/recommend.jpg')
-                self.send_msg_to_weixin(content, from_user, app_key, msg_type='news', img_info=img_info)
-
-                return self.get_subscribe_event_response(to_user, from_user)
             elif event in ('click', ):
                 event_key = jq('eventkey')[0].text.lower()
                 if event_key == 'feedback':
@@ -167,6 +152,8 @@ class WeixinBase(object):
                                u'反馈方法：直接在此微信服务号中输入你的金玉良言即可，客服人员会及时跟进哦'
                                )
                     return self.get_base_content_response(to_user, from_user, content=content)
+            elif event in ('unsubscribe'):
+                pass
 
         # 文字识别
         msg_types = jq('msgtype')

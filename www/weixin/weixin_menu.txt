@@ -9,16 +9,36 @@
         }, 
         {
             "type": "view", 
-            "name": "关于小橙", 
-            "url": ""
-        }, 
-        {
-            "type": "view", 
             "name": "个人信息", 
             "url": ""
         }, 
 
+        {
+            "name": "关于小橙", 
+            "sub_button": [
+                {
+                    "type": "view", 
+                    "name": "关于小橙", 
+                    "url": "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxd6922b078dff1607&redirect_uri=http%3A%2F%2Fwww.3-10.cc%2Faccount%2Foauth%2Fweixin&response_type=code&scope=snsapi_base&state=contact#wechat_redirect"
+                },
+                {
+                    "type": "click", 
+                    "name": "意见反馈", 
+                    "key": "feedback"
+                }
+            ]
         }
+
     ]
 }
 
+
+
+{
+    "type": "view", 
+    "name": "产品介绍", 
+    "url": "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxd6922b078dff1607&redirect_uri=http%3A%2F%2Fwww.3-10.cc%2Faccount%2Foauth%2Fweixin&response_type=code&scope=snsapi_base&state=introduction#wechat_redirect"
+}, 
+
+
+        
