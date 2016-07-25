@@ -136,7 +136,7 @@ class WeixinBase(object):
 
                 # 首次关注自动注册用户
                 if event == "subscribe":
-                    pass
+                    UserBase().regist_by_weixin(from_user, app_key, qrscene=event_key)
 
                 tickets = jq('ticket')
                 if tickets:
