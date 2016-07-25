@@ -164,3 +164,14 @@ class ExternalToken(models.Model):
     class Meta:
         unique_together = [("source", "access_token"), ("source", "external_user_id")]
         ordering = ["-create_time"]
+
+
+"""
+是否还处于关注微信公众号状态
+推荐人信息
+
+二维码类型：个人二维码、渠道二维码
+是否是永久二维码
+二维码图片地址
+创建时间
+"""

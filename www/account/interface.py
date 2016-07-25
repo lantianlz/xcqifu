@@ -624,11 +624,11 @@ class UserBase(object):
         except Exception, e:
             debug.get_debug_detail_and_send_email(e)
 
-    def login_by_weixin_qr_code(self, ticket, openid, app_key):
+    def regist_by_weixin(self, openid, app_key, qrscene=""):
         """
-        @note: 通过微信二维码扫码登陆
+        @note: 通过微信注册用户
         """
-        assert ticket and openid and app_key
+        assert openid and app_key
         from www.weixin.interface import dict_weixin_app
         from www.tasks import async_change_profile_from_weixin
 
@@ -636,6 +636,7 @@ class UserBase(object):
         flag, result = self.get_user_by_external_info(source='weixin', access_token="access_token_%s" % openid, external_user_id=openid,
                                                       refresh_token=None, nick=user_info['nick'], ip=None, expire_time=0,
                                                       user_url=user_info['url'], gender=user_info['gender'], app_id=dict_weixin_app[app_key]["app_id"])
+        user = None
         if flag:
             user = result
             UserBase().update_user_last_login_time(user.id, last_active_source=2)
@@ -645,7 +646,16 @@ class UserBase(object):
                 async_change_profile_from_weixin(user, app_key, openid)
             else:
                 async_change_profile_from_weixin.delay(user, app_key, openid)
+        return user, result
 
+    def login_by_weixin_qr_code(self, ticket, openid, app_key):
+        """
+        @note: 通过微信二维码扫码登陆
+        """
+        assert ticket and openid and app_key
+        user, result = self.regist_by_weixin(openid, app_key)
+
+        if user:
             errcode, errmsg = 0, u"扫码登陆网站成功"
         else:
             errcode, errmsg = -1, result

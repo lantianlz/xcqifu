@@ -32,19 +32,19 @@ def member_required(func):
                 return HttpResponse('need_login')
             else:
                 user_agent = request.META.get("HTTP_USER_AGENT", "").lower()
+                try:
+                    url = urllib.quote_plus(request.get_full_path())
+                except:
+                    url = urllib.quote_plus('/')
 
                 if "micromessenger" in user_agent:  # 微信端自动登录
-                    return HttpResponseRedirect(Consumer(WeixinBase().init_app_key()).authorize())
+                    return HttpResponseRedirect(Consumer(WeixinBase().init_app_key(state=url)).authorize())
 
                 if "android" in user_agent or "iphone" in user_agent:   # 手机浏览器端需要处理
                     err_msg = u'需要登陆后进行操作<br /><br />请在微信中搜索公众号「小橙企服」，关注后通过菜单访问'
                     return render_to_response('error.html', locals(), context_instance=RequestContext(request))
 
                 # 电脑端跳转到登陆页面
-                try:
-                    url = urllib.quote_plus(request.get_full_path())
-                except:
-                    url = '/'
                 return HttpResponseRedirect("/login_weixin?next_url=%s" % url)
 
         return func(request, *args, **kwargs)

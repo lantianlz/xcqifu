@@ -130,7 +130,7 @@ def oauth_weixin(request):
                 async_change_profile_from_weixin.delay(user, app_key, openid)
 
             dict_next = {
-                "introduction": "/company/introduction_m", 
+                "introduction": "/company/introduction_m",
                 "booking": "/company/booking",
                 "recommend": "/company/invite",
                 "contact": "/s/contact_us_m",
