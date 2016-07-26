@@ -111,34 +111,22 @@ def oauth_weixin(request):
 
         # 自动检测用户登陆
         openid = dict_result.get("openid")
-        user_info = dict(nick=u"weixin_%s" % int(time.time() * 1000), url="", gender=0)
+        user, result = UserBase().regist_by_weixin(openid, app_key, ip=utils.get_clientip(request), expire_time=dict_result['expires_in'])
 
-        flag, result = UserBase().get_user_by_external_info(source='weixin', access_token=access_token, external_user_id=openid,
-                                                            refresh_token=None, nick=user_info['nick'],
-                                                            ip=utils.get_clientip(request), expire_time=dict_result['expires_in'],
-                                                            user_url=user_info['url'], gender=user_info['gender'], app_id=dict_weixin_app[app_key]["app_id"])
-        if flag:
-            user = result
+        if user:
             user.backend = 'www.middleware.user_backend.AuthBackend'
             auth.login(request, user)
-            UserBase().update_user_last_login_time(user.id, ip=utils.get_clientip(request), last_active_source=2)
 
-            # 更新用户资料
-            if settings.LOCAL_FLAG:
-                async_change_profile_from_weixin(user, app_key, openid)
-            else:
-                async_change_profile_from_weixin.delay(user, app_key, openid)
+            # dict_next = {
+            #     "introduction": "/company/introduction_m",
+            #     "booking": "/company/booking",
+            #     "recommend": "/company/invite",
+            #     "contact": "/s/contact_us_m",
+            #     "admin": "/admin/nav"
+            # }
+            # next_url = dict_next.get(weixin_state, dict_next["recommend"])
 
-            dict_next = {
-                "introduction": "/company/introduction_m",
-                "booking": "/company/booking",
-                "recommend": "/company/invite",
-                "contact": "/s/contact_us_m",
-                "admin": "/admin/nav"
-            }
-            next_url = dict_next.get(weixin_state, dict_next["recommend"])
-
-            return HttpResponseRedirect(next_url)
+            return HttpResponseRedirect(weixin_state)
         else:
             error_msg = result or u'微信登陆失败，请重试'
             return HttpResponse(error_msg)

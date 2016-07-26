@@ -1,16 +1,14 @@
-一、正式菜单
-
 {
     "button": [
         {
             "type": "view", 
             "name": "即刻服务", 
-            "url": ""
+            "url": "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx849eb5bab8d7e9e0&redirect_uri=http%3A%2F%2Fwww.xcqifu.com%2Faccount%2Foauth%2Fweixin&response_type=code&scope=snsapi_base&state=%2F#wechat_redirect"
         }, 
         {
             "type": "view", 
             "name": "个人信息", 
-            "url": ""
+            "url": "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx849eb5bab8d7e9e0&redirect_uri=http%3A%2F%2Fwww.xcqifu.com%2Faccount%2Foauth%2Fweixin&response_type=code&scope=snsapi_base&state=%2Fprofile#wechat_redirect"
         }, 
 
         {
@@ -19,7 +17,7 @@
                 {
                     "type": "view", 
                     "name": "关于小橙", 
-                    "url": "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxd6922b078dff1607&redirect_uri=http%3A%2F%2Fwww.3-10.cc%2Faccount%2Foauth%2Fweixin&response_type=code&scope=snsapi_base&state=contact#wechat_redirect"
+                    "url": "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx849eb5bab8d7e9e0&redirect_uri=http%3A%2F%2Fwww.xcqifu.com%2Faccount%2Foauth%2Fweixin&response_type=code&scope=snsapi_base&state=%2Fs%2Fabout#wechat_redirect"
                 },
                 {
                     "type": "click", 
@@ -34,11 +32,5 @@
 
 
 
-{
-    "type": "view", 
-    "name": "产品介绍", 
-    "url": "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxd6922b078dff1607&redirect_uri=http%3A%2F%2Fwww.3-10.cc%2Faccount%2Foauth%2Fweixin&response_type=code&scope=snsapi_base&state=introduction#wechat_redirect"
-}, 
 
 
-        

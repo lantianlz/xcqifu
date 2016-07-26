@@ -624,7 +624,7 @@ class UserBase(object):
         except Exception, e:
             debug.get_debug_detail_and_send_email(e)
 
-    def regist_by_weixin(self, openid, app_key, qrscene=""):
+    def regist_by_weixin(self, openid, app_key, qrscene="", ip=None, expire_time=0):
         """
         @note: 通过微信注册用户
         """
@@ -634,12 +634,12 @@ class UserBase(object):
 
         user_info = dict(nick=u"weixin_%s" % int(time.time() * 1000), url="", gender=0)
         flag, result = self.get_user_by_external_info(source='weixin', access_token="access_token_%s" % openid, external_user_id=openid,
-                                                      refresh_token=None, nick=user_info['nick'], ip=None, expire_time=0,
+                                                      refresh_token=None, nick=user_info['nick'], ip=ip, expire_time=expire_time,
                                                       user_url=user_info['url'], gender=user_info['gender'], app_id=dict_weixin_app[app_key]["app_id"])
         user = None
         if flag:
             user = result
-            UserBase().update_user_last_login_time(user.id, last_active_source=2)
+            UserBase().update_user_last_login_time(user.id, ip=ip, last_active_source=2)
 
             # 更新用户资料
             if settings.LOCAL_FLAG:
