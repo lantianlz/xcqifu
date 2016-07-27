@@ -28,7 +28,7 @@
     width: 50px;
 }
 .category-1{
-    background: linear-gradient(to right, #f35c9e, #f35dcb);
+    background: linear-gradient(to right, #ff589c, #ff58c9);
     -webkit-animation-delay: 0.08s;
             animation-delay: 0.08s;
 }
@@ -38,7 +38,7 @@
     margin-bottom: -3px;
 }
 .category-2{
-    background: linear-gradient(to right, #5ed8ac, #5fe99e);
+    background: linear-gradient(to right, #35d9ae, #29eaa1);
     -webkit-animation-delay: 0.16s;
             animation-delay: 0.16s;
 }
@@ -49,7 +49,7 @@
     margin-top: -4px;
 }
 .category-3{
-    background: linear-gradient(to right, #5ea8ff, #5eb9ff);
+    background: linear-gradient(to right, #52a7fe, #4cb8fe);
     -webkit-animation-delay: 0.24s;
             animation-delay: 0.24s;
 }
@@ -59,7 +59,7 @@
     margin-bottom: -4px;
 }
 .category-4{
-    background: linear-gradient(to right, #3fb5e2, #55d2e8);
+    background: linear-gradient(to right, #05b5e1, #2ad2e8);
     -webkit-animation-delay: 0.36s;
             animation-delay: 0.36s;
 }
@@ -68,7 +68,7 @@
     margin-left: 0px;
 }
 .category-5{
-    background: linear-gradient(to right, #a386fc, #b792fc);
+    background: linear-gradient(to right, #a883fa, #bd90fa);
     -webkit-animation-delay: 0.4s;
             animation-delay: 0.4s;
 }
