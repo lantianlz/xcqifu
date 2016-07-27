@@ -91,15 +91,15 @@
 {% block container %}
 <div class="curtain-container">
     <div class="curtain">
-        <img class="curtain-img" src="{{MEDIA_URL}}img/profile/profile.jpg">
+        <img class="curtain-img" src="{{request.user.get_avatar_600}}">
         <div class="curtain-cover"></div>
     </div>
 </div>
 <div class="row ml-0 mr-0 pt-10">
-    <div class="col-xs-12 text-center f18 pt-50 co-ffffff z-99">汤唯</div>
+    <div class="col-xs-12 text-center f18 pt-50 co-ffffff z-99">{{request.user.nick}}</div>
     <div class="col-xs-12 text-center pt-15 z-99">
         <span class="avatar">
-            <img class="avatar-img" src="{{MEDIA_URL}}img/profile/profile.jpg">
+            <img class="avatar-img" src="{{request.user.get_avatar_600}}">
         </span>
     </div>
     <div class="col-xs-6 col-xs-offset-3 pt-40 pl-10 pr-10">
