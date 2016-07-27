@@ -472,12 +472,12 @@ class UserBase(object):
     @transaction.commit_manually(using=ACCOUNT_DB)
     def get_user_by_external_info(self, source, access_token, external_user_id,
                                   refresh_token, nick, ip, expire_time,
-                                  user_url='', gender=0, app_id=None):
+                                  user_url='', gender=0, app_id=None, is_sub_weixin=True):
         try:
             assert all((source, access_token, external_user_id, nick))
 
             expire_time = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(int(time.time()) + int(expire_time)))
-            et = self.get_external_user(source, access_token, external_user_id, refresh_token, expire_time)
+            et = self.get_external_user(source, access_token, external_user_id, refresh_token, expire_time, is_sub_weixin=is_sub_weixin)
             if et:
                 flag, result = True, self.get_user_by_id(et.user_id)
             else:
@@ -518,7 +518,7 @@ class UserBase(object):
             for i in xrange(10):
                 return '%s_%s' % (nick,  str(int(time.time() * 1000))[-3:])
 
-    def get_external_user(self, source, access_token, external_user_id, refresh_token, expire_time):
+    def get_external_user(self, source, access_token, external_user_id, refresh_token, expire_time, is_sub_weixin=True):
         assert all((source, access_token, external_user_id))
 
         et = None
@@ -529,6 +529,7 @@ class UserBase(object):
                 et.access_token = access_token
                 et.refresh_token = refresh_token
                 et.expire_time = expire_time
+                et.is_sub_weixin = is_sub_weixin
                 et.save()
         else:
             ets = list(ExternalToken.objects.filter(source=source, access_token=access_token))
@@ -538,6 +539,7 @@ class UserBase(object):
                     et.external_user_id = external_user_id
                     et.refresh_token = refresh_token
                     et.expire_time = expire_time
+                    et.is_sub_weixin = is_sub_weixin
                     et.save()
         return et
 
@@ -823,3 +825,9 @@ class ExternalTokenBase(object):
         if nick:
             objs = objs.filter(nick=nick)
         return objs
+
+    def update_is_sub_weixin(self, external_user_id, is_sub_weixin):
+        """
+        @note: 更新是否关注微信状态
+        """
+        ExternalToken.objects.filter(external_user_id=external_user_id, source="weixin").update(is_sub_weixin=is_sub_weixin)

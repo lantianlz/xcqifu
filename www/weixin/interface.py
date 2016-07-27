@@ -153,7 +153,9 @@ class WeixinBase(object):
                                )
                     return self.get_base_content_response(to_user, from_user, content=content)
             elif event in ('unsubscribe'):
-                pass
+                # 更新是否关注微信状态
+                from www.account.interface import ExternalTokenBase
+                ExternalTokenBase().update_is_sub_weixin(from_user, False)
 
         # 文字识别
         msg_types = jq('msgtype')

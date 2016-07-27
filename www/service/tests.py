@@ -41,6 +41,9 @@ def main():
     d1 = datetime.datetime.strptime("2016-07-22", '%Y-%m-%d') - datetime.datetime.strptime("2016-05-09", '%Y-%m-%d')
     print d1
 
+    from www.account.interface import ExternalTokenBase
+    ExternalTokenBase().update_is_sub_weixin("111", is_sub_weixin=True)
+
 
 if __name__ == '__main__':
     main()

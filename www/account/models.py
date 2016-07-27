@@ -159,6 +159,7 @@ class ExternalToken(models.Model):
     expire_time = models.DateTimeField()
     create_time = models.DateTimeField(auto_now_add=True)
     update_time = models.DateTimeField(auto_now=True)
+    is_sub_weixin = models.BooleanField(default=True)   # 是否关注微信
     state = models.BooleanField(default=True)
 
     class Meta:
