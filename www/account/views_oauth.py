@@ -87,6 +87,7 @@ def oauth_sina(request):
 
 def oauth_weixin(request):
     import logging
+    import urllib
     from www.misc.oauth2.weixin import Consumer
     from www.weixin.interface import dict_weixin_app, WeixinBase
     from www.tasks import async_change_profile_from_weixin
