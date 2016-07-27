@@ -10,7 +10,7 @@ from django.contrib import auth
 from django.template import RequestContext
 from django.shortcuts import render_to_response
 
-from common import utils
+from common import utils, cache
 from www.misc.oauth2 import format_external_user_info
 from www.account.interface import UserBase
 
@@ -94,6 +94,20 @@ def oauth_weixin(request):
     app_key = WeixinBase().init_app_key()
     client = Consumer(app_key)
 
+    def _get_next_url(weixin_state):
+        if weixin_state.startswith(""):
+            _next_url = cache.Cache().get(weixin_state)
+        else:
+            dict_next = {
+                "index": "/",
+                "about": "/s/about",
+                "profile": "/account/profile",
+                "contact": "/s/contact_us_m",
+                "admin": "/admin/nav"
+            }
+            _next_url = dict_next.get(weixin_state, dict_next["index"])
+        return _next_url
+
     code = request.REQUEST.get('code')
     if not code:
         return HttpResponseRedirect(client.authorize())
@@ -117,15 +131,7 @@ def oauth_weixin(request):
             user.backend = 'www.middleware.user_backend.AuthBackend'
             auth.login(request, user)
 
-            dict_next = {
-                "index": "/",
-                "about": "/s/about",
-                "profile": "/account/profile",
-                "contact": "/s/contact_us_m",
-                "admin": "/admin/nav"
-            }
-            next_url = dict_next.get(weixin_state, dict_next["index"])
-
+            next_url = _get_next_url(weixin_state)
             return HttpResponseRedirect(next_url)
         else:
             error_msg = result or u'微信登陆失败，请重试'

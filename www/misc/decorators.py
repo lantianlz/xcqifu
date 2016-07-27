@@ -8,6 +8,7 @@
 
 
 import urllib
+import time
 import json
 from functools import wraps
 from django.http import HttpResponse, HttpResponseRedirect, Http404
@@ -38,7 +39,10 @@ def member_required(func):
                     url = urllib.quote_plus('/')
 
                 if "micromessenger" in user_agent:  # 微信端自动登录
-                    return HttpResponseRedirect(Consumer(WeixinBase().init_app_key(state=url)).authorize())
+                    cache_key = "cacheurl%s" % int(time.time() * 1000)
+                    cache.Cache().set(cache_key, url, time_out=120)
+
+                    return HttpResponseRedirect(Consumer(WeixinBase().init_app_key(), state=cache_key).authorize())
 
                 if "android" in user_agent or "iphone" in user_agent:   # 手机浏览器端需要处理
                     err_msg = u'需要登陆后进行操作<br /><br />请在微信中搜索公众号「小橙企服」，关注后通过菜单访问'
