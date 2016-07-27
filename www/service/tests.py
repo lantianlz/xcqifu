@@ -35,11 +35,8 @@ def main():
               肉多多，好吃的工作餐
               """, imgs='<img src="/static/img/service/detail-1.jpg">', service_area=u"成都高新区", tel="4008-920-310", addr=u"成都市天府五街菁蓉国际广场",
                longitude="104.069271", latitude="30.544437", join_time="2016-07-19", )
-    # print sb.add_service(**ps1)
-    # print sb.add_service(**ps2)
-
-    d1 = datetime.datetime.strptime("2016-07-22", '%Y-%m-%d') - datetime.datetime.strptime("2016-05-09", '%Y-%m-%d')
-    print d1
+    print sb.add_service(**ps1)
+    print sb.add_service(**ps2)
 
 
 if __name__ == '__main__':

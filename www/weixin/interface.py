@@ -153,7 +153,9 @@ class WeixinBase(object):
                                )
                     return self.get_base_content_response(to_user, from_user, content=content)
             elif event in ('unsubscribe'):
-                pass
+                # 更新是否关注微信状态
+                from www.account.interface import ExternalTokenBase
+                ExternalTokenBase().update_is_sub_weixin(from_user, False)
 
         # 文字识别
         msg_types = jq('msgtype')
@@ -198,7 +200,8 @@ class WeixinBase(object):
 
     def get_weixin_access_token(self, app_key):
         # 本地调试模式不走缓存
-        if not settings.LOCAL_FLAG:
+        # if not settings.LOCAL_FLAG:
+        if False:
             key = 'weixin_access_token_for_%s' % app_key
             access_token = self.cache.get(key)
             if access_token is None:

@@ -10,7 +10,7 @@ from django.contrib import auth
 from django.template import RequestContext
 from django.shortcuts import render_to_response
 
-from common import utils
+from common import utils, cache
 from www.misc.oauth2 import format_external_user_info
 from www.account.interface import UserBase
 
@@ -87,12 +87,27 @@ def oauth_sina(request):
 
 def oauth_weixin(request):
     import logging
+    import urllib
     from www.misc.oauth2.weixin import Consumer
     from www.weixin.interface import dict_weixin_app, WeixinBase
     from www.tasks import async_change_profile_from_weixin
 
     app_key = WeixinBase().init_app_key()
     client = Consumer(app_key)
+
+    def _get_next_url(weixin_state):
+        if weixin_state.startswith("cacheurl"):
+            _next_url = urllib.unquote(cache.Cache().get(weixin_state))
+        else:
+            dict_next = {
+                "index": "/",
+                "about": "/s/about",
+                "profile": "/account/profile",
+                "contact": "/s/contact_us_m",
+                "admin": "/admin/nav"
+            }
+            _next_url = dict_next.get(weixin_state, dict_next["index"])
+        return _next_url
 
     code = request.REQUEST.get('code')
     if not code:
@@ -111,33 +126,13 @@ def oauth_weixin(request):
 
         # 自动检测用户登陆
         openid = dict_result.get("openid")
-        user_info = dict(nick=u"weixin_%s" % int(time.time() * 1000), url="", gender=0)
+        user, result = UserBase().regist_by_weixin(openid, app_key, ip=utils.get_clientip(request), expire_time=dict_result['expires_in'])
 
-        flag, result = UserBase().get_user_by_external_info(source='weixin', access_token=access_token, external_user_id=openid,
-                                                            refresh_token=None, nick=user_info['nick'],
-                                                            ip=utils.get_clientip(request), expire_time=dict_result['expires_in'],
-                                                            user_url=user_info['url'], gender=user_info['gender'], app_id=dict_weixin_app[app_key]["app_id"])
-        if flag:
-            user = result
+        if user:
             user.backend = 'www.middleware.user_backend.AuthBackend'
             auth.login(request, user)
-            UserBase().update_user_last_login_time(user.id, ip=utils.get_clientip(request), last_active_source=2)
 
-            # 更新用户资料
-            if settings.LOCAL_FLAG:
-                async_change_profile_from_weixin(user, app_key, openid)
-            else:
-                async_change_profile_from_weixin.delay(user, app_key, openid)
-
-            dict_next = {
-                "introduction": "/company/introduction_m",
-                "booking": "/company/booking",
-                "recommend": "/company/invite",
-                "contact": "/s/contact_us_m",
-                "admin": "/admin/nav"
-            }
-            next_url = dict_next.get(weixin_state, dict_next["recommend"])
-
+            next_url = _get_next_url(weixin_state)
             return HttpResponseRedirect(next_url)
         else:
             error_msg = result or u'微信登陆失败，请重试'

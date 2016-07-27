@@ -472,7 +472,7 @@ class UserBase(object):
     @transaction.commit_manually(using=ACCOUNT_DB)
     def get_user_by_external_info(self, source, access_token, external_user_id,
                                   refresh_token, nick, ip, expire_time,
-                                  user_url='', gender=0, app_id=None):
+                                  user_url='', gender=0, app_id=None, is_sub_weixin=True):
         try:
             assert all((source, access_token, external_user_id, nick))
 
@@ -480,6 +480,7 @@ class UserBase(object):
             et = self.get_external_user(source, access_token, external_user_id, refresh_token, expire_time)
             if et:
                 flag, result = True, self.get_user_by_id(et.user_id)
+                ExternalTokenBase().update_is_sub_weixin(external_user_id, is_sub_weixin)
             else:
                 email = '%s_%s@mrxcqifu.com' % (source, int(time.time() * 1000))
                 nick = self.generate_nick_by_external_nick(nick)
@@ -624,7 +625,7 @@ class UserBase(object):
         except Exception, e:
             debug.get_debug_detail_and_send_email(e)
 
-    def regist_by_weixin(self, openid, app_key, qrscene=""):
+    def regist_by_weixin(self, openid, app_key, qrscene="", ip=None, expire_time=0):
         """
         @note: 通过微信注册用户
         """
@@ -634,12 +635,12 @@ class UserBase(object):
 
         user_info = dict(nick=u"weixin_%s" % int(time.time() * 1000), url="", gender=0)
         flag, result = self.get_user_by_external_info(source='weixin', access_token="access_token_%s" % openid, external_user_id=openid,
-                                                      refresh_token=None, nick=user_info['nick'], ip=None, expire_time=0,
+                                                      refresh_token=None, nick=user_info['nick'], ip=ip, expire_time=expire_time,
                                                       user_url=user_info['url'], gender=user_info['gender'], app_id=dict_weixin_app[app_key]["app_id"])
         user = None
         if flag:
             user = result
-            UserBase().update_user_last_login_time(user.id, last_active_source=2)
+            UserBase().update_user_last_login_time(user.id, ip=ip, last_active_source=2)
 
             # 更新用户资料
             if settings.LOCAL_FLAG:
@@ -823,3 +824,11 @@ class ExternalTokenBase(object):
         if nick:
             objs = objs.filter(nick=nick)
         return objs
+
+    def update_is_sub_weixin(self, external_user_id, is_sub_weixin):
+        """
+        @note: 更新是否关注微信状态
+        """
+        et = ExternalToken.objects.get(external_user_id=external_user_id, source="weixin")
+        et.is_sub_weixin = is_sub_weixin
+        et.save()
