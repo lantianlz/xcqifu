@@ -95,8 +95,8 @@ def oauth_weixin(request):
     client = Consumer(app_key)
 
     def _get_next_url(weixin_state):
-        if weixin_state.startswith(""):
-            _next_url = cache.Cache().get(weixin_state)
+        if weixin_state.startswith("cacheurl"):
+            _next_url = urllib.unquote(cache.Cache().get(weixin_state))
         else:
             dict_next = {
                 "index": "/",
