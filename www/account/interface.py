@@ -477,9 +477,10 @@ class UserBase(object):
             assert all((source, access_token, external_user_id, nick))
 
             expire_time = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(int(time.time()) + int(expire_time)))
-            et = self.get_external_user(source, access_token, external_user_id, refresh_token, expire_time, is_sub_weixin=is_sub_weixin)
+            et = self.get_external_user(source, access_token, external_user_id, refresh_token, expire_time)
             if et:
                 flag, result = True, self.get_user_by_id(et.user_id)
+                ExternalTokenBase().update_is_sub_weixin(external_user_id, is_sub_weixin)
             else:
                 email = '%s_%s@mrxcqifu.com' % (source, int(time.time() * 1000))
                 nick = self.generate_nick_by_external_nick(nick)
@@ -518,7 +519,7 @@ class UserBase(object):
             for i in xrange(10):
                 return '%s_%s' % (nick,  str(int(time.time() * 1000))[-3:])
 
-    def get_external_user(self, source, access_token, external_user_id, refresh_token, expire_time, is_sub_weixin=True):
+    def get_external_user(self, source, access_token, external_user_id, refresh_token, expire_time):
         assert all((source, access_token, external_user_id))
 
         et = None
@@ -529,7 +530,6 @@ class UserBase(object):
                 et.access_token = access_token
                 et.refresh_token = refresh_token
                 et.expire_time = expire_time
-                et.is_sub_weixin = is_sub_weixin
                 et.save()
         else:
             ets = list(ExternalToken.objects.filter(source=source, access_token=access_token))
@@ -539,7 +539,6 @@ class UserBase(object):
                     et.external_user_id = external_user_id
                     et.refresh_token = refresh_token
                     et.expire_time = expire_time
-                    et.is_sub_weixin = is_sub_weixin
                     et.save()
         return et
 
@@ -830,4 +829,6 @@ class ExternalTokenBase(object):
         """
         @note: 更新是否关注微信状态
         """
-        ExternalToken.objects.filter(external_user_id=external_user_id, source="weixin").update(is_sub_weixin=is_sub_weixin)
+        et = ExternalToken.objects.get(external_user_id=external_user_id, source="weixin")
+        et.is_sub_weixin = is_sub_weixin
+        et.save()
