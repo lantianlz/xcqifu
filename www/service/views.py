@@ -32,7 +32,7 @@ def index(request, template_name='mobile/index.html'):
 def service_list(request, kind_id, template_name='mobile/service/service_list.html'):
 
     kind = kb.get_kind_by_id(kind_id)
-
+    
     _services = sb.get_service_by_kind(kind_id)
     services = []
     for i in range(_services.count()):

@@ -3,7 +3,7 @@ body,html{
     background: linear-gradient(to right, #f68e57, #f9b757);
 }
 .list-group-item{
-    box-shadow: #dd955b 1px 5px 0px;
+    box-shadow: rgba(71, 71, 71, 0.17) 1px 5px 0px;
     border: 0;
 }
 .list-group-item:last-child {
