@@ -117,16 +117,16 @@ def oauth_weixin(request):
             user.backend = 'www.middleware.user_backend.AuthBackend'
             auth.login(request, user)
 
-            # dict_next = {
-            #     "introduction": "/company/introduction_m",
-            #     "booking": "/company/booking",
-            #     "recommend": "/company/invite",
-            #     "contact": "/s/contact_us_m",
-            #     "admin": "/admin/nav"
-            # }
-            # next_url = dict_next.get(weixin_state, dict_next["recommend"])
+            dict_next = {
+                "index": "/",
+                "about": "/s/about",
+                "profile": "/account/profile",
+                "contact": "/s/contact_us_m",
+                "admin": "/admin/nav"
+            }
+            next_url = dict_next.get(weixin_state, dict_next["index"])
 
-            return HttpResponseRedirect(weixin_state)
+            return HttpResponseRedirect(next_url)
         else:
             error_msg = result or u'微信登陆失败，请重试'
             return HttpResponse(error_msg)
