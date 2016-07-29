@@ -141,8 +141,9 @@ class WeixinBase(object):
                 tickets = jq('ticket')
                 if tickets:
                     ticket = tickets[0].text
-                    errcode, errmsg = UserBase().login_by_weixin_qr_code(ticket, from_user, app_key)
-                    return self.get_base_content_response(to_user, from_user, errmsg)
+                    if not event_key.startswith("invite"):
+                        errcode, errmsg = UserBase().login_by_weixin_qr_code(ticket, from_user, app_key)
+                        return self.get_base_content_response(to_user, from_user, errmsg)
                 return self.get_subscribe_event_response(to_user, from_user)  # 关注信息
 
             elif event in ('click', ):
@@ -249,14 +250,18 @@ class WeixinBase(object):
             debug.get_debug_detail_and_send_email(e)
         return data
 
-    def get_qr_code_ticket(self, app_key, expire=300):
+    def get_qr_code_ticket(self, app_key, expire=300, is_limit=False, scene_str=""):
         """
         @note: 获取二维码对应的ticket
         """
         access_token = self.get_weixin_access_token(app_key)
         url = '%s/cgi-bin/qrcode/create?access_token=%s' % (weixin_api_url, access_token)
-        data = u'{"expire_seconds":%s, "action_name":"QR_SCENE", "action_info": {"scene": {"scene_id": %s}}' % (expire, int(time.time() * 1000))
+        if not is_limit:
+            data = u'{"expire_seconds":%s, "action_name":"QR_SCENE", "action_info": {"scene": {"scene_id": %s}}' % (expire, int(time.time() * 1000))
+        else:
+            data = u'{"action_name":"QR_LIMIT_STR_SCENE", "action_info": {"scene": {"scene_str": "%s"}}' % scene_str
         data = data.encode('utf8')
+        print data
 
         result = {}
         try:
