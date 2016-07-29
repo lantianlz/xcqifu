@@ -130,7 +130,7 @@ class WeixinBase(object):
             # 关注或者扫码登陆事件
             if event in ('scan', 'subscribe'):
                 event_key = u""
-                event_keys = jq('event_key')
+                event_keys = jq('eventkey')
                 if event_keys:
                     event_key = event_keys[0]
 
