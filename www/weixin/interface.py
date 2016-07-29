@@ -144,6 +144,8 @@ class WeixinBase(object):
                     if not event_key.startswith("invite"):
                         errcode, errmsg = UserBase().login_by_weixin_qr_code(ticket, from_user, app_key)
                         return self.get_base_content_response(to_user, from_user, errmsg)
+                    else:
+                        return self.get_base_content_response(to_user, from_user, u"")
                 return self.get_subscribe_event_response(to_user, from_user)  # 关注信息
 
             elif event in ('click', ):
