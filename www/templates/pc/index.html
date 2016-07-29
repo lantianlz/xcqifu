@@ -22,15 +22,29 @@ body,html{
     top: 0;
     background-color: #ffa320;
     position: absolute;
-    transform: rotateZ(-37deg) translateX(-108%) translateY(20%);
-    animation: yellow 1s 2.8s cubic-bezier(0.22, 0.61, 0.36, 1) both;
+    -webkit-transform: rotateZ(-37deg) translateX(-108%) translateY(20%);
+            transform: rotateZ(-37deg) translateX(-108%) translateY(20%);
+    -webkit-animation: yellow 1s 2.8s cubic-bezier(0.22, 0.61, 0.36, 1) both;
+            animation: yellow 1s 2.8s cubic-bezier(0.22, 0.61, 0.36, 1) both;
 }
 @-webkit-keyframes yellow{
     0% {
-        transform: rotateZ(-37deg) translateX(-108%) translateY(20%);
+        -webkit-transform: rotateZ(-37deg) translateX(-108%) translateY(20%);
+                transform: rotateZ(-37deg) translateX(-108%) translateY(20%);
     }
     100% {
-        transform: rotateZ(-37deg) translateX(-55%) translateY(20%);
+        -webkit-transform: rotateZ(-37deg) translateX(-55%) translateY(20%);
+                transform: rotateZ(-37deg) translateX(-55%) translateY(20%);
+    }
+}
+@keyframes yellow{
+    0% {
+        -webkit-transform: rotateZ(-37deg) translateX(-108%) translateY(20%);
+                transform: rotateZ(-37deg) translateX(-108%) translateY(20%);
+    }
+    100% {
+        -webkit-transform: rotateZ(-37deg) translateX(-55%) translateY(20%);
+                transform: rotateZ(-37deg) translateX(-55%) translateY(20%);
     }
 }
 .flag-yellow{
@@ -38,7 +52,8 @@ body,html{
     position: absolute;
     right: 7%;
     top: 12%;
-    transform: rotateZ(37deg);
+    -webkit-transform: rotateZ(37deg);
+            transform: rotateZ(37deg);
 }
 
 .red{
@@ -48,15 +63,29 @@ body,html{
     top: 0;
     background-color: #ea3b49;
     position: absolute;
-    transform: rotateZ(-37deg) translateX(45%) translateY(-122%);
-    animation: red 1s 2.8s cubic-bezier(0.22, 0.61, 0.36, 1) both;
+    -webkit-transform: rotateZ(-37deg) translateX(45%) translateY(-122%);
+            transform: rotateZ(-37deg) translateX(45%) translateY(-122%);
+    -webkit-animation: red 1s 2.8s cubic-bezier(0.22, 0.61, 0.36, 1) both;
+            animation: red 1s 2.8s cubic-bezier(0.22, 0.61, 0.36, 1) both;
 }
 @-webkit-keyframes red{
     0% {
-        transform: rotateZ(-37deg) translateX(45%) translateY(-122%);
+        -webkit-transform: rotateZ(-37deg) translateX(45%) translateY(-122%);
+                transform: rotateZ(-37deg) translateX(45%) translateY(-122%);
     }
     100% {
-        transform: rotateZ(-37deg) translateX(45%) translateY(-42%);
+        -webkit-transform: rotateZ(-37deg) translateX(45%) translateY(-42%);
+                transform: rotateZ(-37deg) translateX(45%) translateY(-42%);
+    }
+}
+@keyframes red{
+    0% {
+        -webkit-transform: rotateZ(-37deg) translateX(45%) translateY(-122%);
+                transform: rotateZ(-37deg) translateX(45%) translateY(-122%);
+    }
+    100% {
+        -webkit-transform: rotateZ(-37deg) translateX(45%) translateY(-42%);
+                transform: rotateZ(-37deg) translateX(45%) translateY(-42%);
     }
 }
 .flag-red{
@@ -64,7 +93,8 @@ body,html{
     position: absolute;
     left: 3%;
     bottom: 14%;
-    transform: rotateZ(37deg);
+    -webkit-transform: rotateZ(37deg);
+            transform: rotateZ(37deg);
 }
 
 .blue{
@@ -75,15 +105,29 @@ body,html{
     top: 0;
     background-color: #1573f7;
     position: absolute;
-    transform: rotateZ(-37deg) translateX(108%) translateY(58%);
-    animation: blue 1s 2.8s cubic-bezier(0.22, 0.61, 0.36, 1) both;
+    -webkit-transform: rotateZ(-37deg) translateX(108%) translateY(58%);
+            transform: rotateZ(-37deg) translateX(108%) translateY(58%);
+    -webkit-animation: blue 1s 2.8s cubic-bezier(0.22, 0.61, 0.36, 1) both;
+            animation: blue 1s 2.8s cubic-bezier(0.22, 0.61, 0.36, 1) both;
 }
 @-webkit-keyframes blue{
     0% {
-        transform: rotateZ(-37deg) translateX(108%) translateY(58%);
+        -webkit-transform: rotateZ(-37deg) translateX(108%) translateY(58%);
+                transform: rotateZ(-37deg) translateX(108%) translateY(58%);
     }
     100% {
-        transform: rotateZ(-37deg) translateX(45%) translateY(58%);
+        -webkit-transform: rotateZ(-37deg) translateX(45%) translateY(58%);
+                transform: rotateZ(-37deg) translateX(45%) translateY(58%);
+    }
+}
+@keyframes blue{
+    0% {
+        -webkit-transform: rotateZ(-37deg) translateX(108%) translateY(58%);
+                transform: rotateZ(-37deg) translateX(108%) translateY(58%);
+    }
+    100% {
+        -webkit-transform: rotateZ(-37deg) translateX(45%) translateY(58%);
+                transform: rotateZ(-37deg) translateX(45%) translateY(58%);
     }
 }
 .flag-blue{
@@ -91,7 +135,8 @@ body,html{
     position: absolute;
     left: 24%;
     top: -26%;
-    transform: rotateZ(37deg);
+    -webkit-transform: rotateZ(37deg);
+            transform: rotateZ(37deg);
 }
 .des{
     width: 20%;
@@ -102,12 +147,21 @@ body,html{
     background-color: #ffffff;
     padding-left: 20px;
     padding-top: 35px;
-    transform: translateY(100%);
-    animation: desUp 0.8s 3.4s cubic-bezier(0.22, 0.61, 0.36, 1) both;
+    -webkit-transform: translateY(100%);
+            transform: translateY(100%);
+    -webkit-animation: desUp 0.8s 3.4s cubic-bezier(0.22, 0.61, 0.36, 1) both;
+            animation: desUp 0.8s 3.4s cubic-bezier(0.22, 0.61, 0.36, 1) both;
 }
 @-webkit-keyframes desUp{
     100% {
-        transform: translateY(0%);
+        -webkit-transform: translateY(0%);
+                transform: translateY(0%);
+    }
+}
+@keyframes desUp{
+    100% {
+        -webkit-transform: translateY(0%);
+                transform: translateY(0%);
     }
 }
 .line{
@@ -147,12 +201,19 @@ body,html{
     position: absolute;
     left: 43%;
     top: 44%;
-    animation: logoUp 0.8s 2.4s both;
+    -webkit-animation: logoUp 0.8s 2.4s both;
+            animation: logoUp 0.8s 2.4s both;
 }
 @-webkit-keyframes logoUp{
     100% {
-        left: 9%;
-        top: 30%;
+        -webkit-transform: translateX(-235%) translateY(-200%);
+                transform: translateX(-235%) translateY(-200%);
+    }
+}
+@keyframes logoUp{
+    100% {
+        -webkit-transform: translateX(-235%) translateY(-200%);
+                transform: translateX(-235%) translateY(-200%);
     }
 }
 .logo{
@@ -160,24 +221,47 @@ body,html{
     left: 0;
     top: 2px;
     width: 50px;
-    transform: translateX(55px);
-    animation: logoLeft 1s both;
+    -webkit-transform: translateX(55px);
+            transform: translateX(55px);
+    -webkit-animation: logoLeft 1s both;
+            animation: logoLeft 1s both;
     opacity: 0;
 }
 @-webkit-keyframes logoLeft{
     0% {
         opacity: 0;
-        transform: scale(0.7) translateX(55px);
+        -webkit-transform: scale(0.7) translateX(55px);
+                transform: scale(0.7) translateX(55px);
     }
     50% {
         opacity: 1;
-        transform: scale(1) translateX(55px);
+        -webkit-transform: scale(1) translateX(55px);
+                transform: scale(1) translateX(55px);
     }
     100% {
         opacity: 1;
-        transform: scale(1) translateX(0px);
+        -webkit-transform: scale(1) translateX(0px);
+                transform: scale(1) translateX(0px);
     }
 }
+@keyframes logoLeft{
+    0% {
+        opacity: 0;
+        -webkit-transform: scale(0.7) translateX(55px);
+                transform: scale(0.7) translateX(55px);
+    }
+    50% {
+        opacity: 1;
+        -webkit-transform: scale(1) translateX(55px);
+                transform: scale(1) translateX(55px);
+    }
+    100% {
+        opacity: 1;
+        -webkit-transform: scale(1) translateX(0px);
+                transform: scale(1) translateX(0px);
+    }
+}
+
 
 .text{
     padding-left: 66px;
@@ -188,34 +272,59 @@ body,html{
 }
 .t1{
     opacity: 0;
-    animation: textLeft 1s 0.7s both;
+    -webkit-animation: textLeft 1s 0.7s both;
+            animation: textLeft 1s 0.7s both;
 }
 .t2{
     opacity: 0;
-    animation: textLeft 1s 0.75s both;
+    -webkit-animation: textLeft 1s 0.75s both;
+            animation: textLeft 1s 0.75s both;
 }
 .t3{
     opacity: 0;
-    animation: textLeft 1s 0.8s both;
+    -webkit-animation: textLeft 1s 0.8s both;
+            animation: textLeft 1s 0.8s both;
 }
 .t4{
     opacity: 0;
-    animation: textLeft 1s 0.85s both;
+    -webkit-animation: textLeft 1s 0.85s both;
+            animation: textLeft 1s 0.85s both;
 }
 @-webkit-keyframes textLeft{
     0% {
         opacity: 0;
-        transform: translateX(50px) translateY(10px);
+        -webkit-transform: translateX(50px) translateY(10px);
+                transform: translateX(50px) translateY(10px);
     }
     70% {
         opacity: 1;
-        transform: translateX(0px) translateY(10px);
+        -webkit-transform: translateX(0px) translateY(10px);
+                transform: translateX(0px) translateY(10px);
     }
     100% {
         opacity: 1;
-        transform: translateX(0px) translateY(0px);
+        -webkit-transform: translateX(0px) translateY(0px);
+                transform: translateX(0px) translateY(0px);
     }
 }
+@keyframes textLeft{
+    0% {
+        opacity: 0;
+        -webkit-transform: translateX(50px) translateY(10px);
+                transform: translateX(50px) translateY(10px);
+    }
+    70% {
+        opacity: 1;
+        -webkit-transform: translateX(0px) translateY(10px);
+                transform: translateX(0px) translateY(10px);
+    }
+    100% {
+        opacity: 1;
+        -webkit-transform: translateX(0px) translateY(0px);
+                transform: translateX(0px) translateY(0px);
+    }
+}
+
 
 .slogan-wrap{
     padding-left: 65px;
@@ -225,16 +334,31 @@ body,html{
 
 .slogan{
     width: 120px;
-    animation: sloganUp 0.5s 1.8s both;
+    -webkit-animation: sloganUp 0.5s 1.8s both;
+            animation: sloganUp 0.5s 1.8s both;
 }
 @-webkit-keyframes sloganUp{
     0% {
         opacity: 0;
-        transform: translateY(10px);
+        -webkit-transform: translateY(10px);
+                transform: translateY(10px);
     }
     100% {
         opacity: 1;
-        transform: translateY(0px);
+        -webkit-transform: translateY(0px);
+                transform: translateY(0px);
+    }
+}
+@keyframes sloganUp{
+    0% {
+        opacity: 0;
+        -webkit-transform: translateY(10px);
+                transform: translateY(10px);
+    }
+    100% {
+        opacity: 1;
+        -webkit-transform: translateY(0px);
+                transform: translateY(0px);
     }
 }
 .copy-right{
@@ -243,12 +367,21 @@ body,html{
     color: #ffeecb;
     bottom: 10px;
     left: 38%;
-    transform: translateY(25px);
-    animation: copyRightUp 1s 4.6s both;
+    -webkit-transform: translateY(25px);
+            transform: translateY(25px);
+    -webkit-animation: copyRightUp 1s 4.6s both;
+            animation: copyRightUp 1s 4.6s both;
 }
 @-webkit-keyframes copyRightUp{
     100% {
-        transform: translateY(0px);
+        -webkit-transform: translateY(0px);
+                transform: translateY(0px);
+    }
+}
+@keyframes copyRightUp{
+    100% {
+        -webkit-transform: translateY(0px);
+                transform: translateY(0px);
     }
 }
 .weixin-text{
