@@ -259,13 +259,13 @@
     <div class="col-xs-10 col-xs-offset-1 pt-20 pb-30">
         <div class="col-xs-12 card">
             <div class="col-xs-12 pt-15">
-                <img class="avatar" src="{{MEDIA_URL}}img/profile/profile.jpg">
+                <img class="avatar" src="{{request.user.get_avatar_100}}">
             </div>
             <div class="col-xs-12 pt-10">
-                汤唯的小橙专属二维码
+                {{request.user.nick}}的小橙专属二维码
             </div>
             <div class="col-xs-12 pt-10">
-                <img class="qrcode" src="{{MEDIA_URL}}img/qrcode.png">
+                <img class="qrcode" src="{{qrcode.get_img}}">
             </div>
             <div class="col-xs-10 col-xs-offset-1 pt-20 pb-30">
                 <button type="submit" class="btn btn-default btn-block btn-recommend">分享给朋友</button>
