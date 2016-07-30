@@ -23,6 +23,6 @@ def async_send_email_xcqifu_worker(emails, title, content, type='text'):
 
 
 @task(queue='www_xcqifu_worker', name='www_xcqifu_worker.async_change_profile_from_weixin')
-def async_change_profile_from_weixin(user, app_key, openid):
+def async_change_profile_from_weixin(user, app_key, openid, qrscene=""):
     from www.account.interface import UserBase
     UserBase().change_profile_from_weixin(user, app_key, openid)

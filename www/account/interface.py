@@ -575,7 +575,7 @@ class UserBase(object):
 
         return objs
 
-    def change_profile_from_weixin(self, user, app_key, openid):
+    def change_profile_from_weixin(self, user, app_key, openid, qrscene=""):
         '''
         @note: 通过微信资料修改
         '''
@@ -584,7 +584,7 @@ class UserBase(object):
             from www.misc import qiniu_client
             from www.weixin.interface import dict_weixin_app, WeixinBase
 
-            if user.nick.startswith("weixin_"):
+            if user.nick.startswith("weixin_") or True:
                 user_id = user.id
                 app_id = dict_weixin_app[app_key]["app_id"]
 
@@ -622,6 +622,13 @@ class UserBase(object):
 
                     # 更新缓存
                     self.get_user_by_id(user.id, must_update_cache=True)
+
+                    # 录入用户邀请信息
+                    if qrscene:
+                        try:
+                            UserInviteBase().create_ui(qrscene, user.id)
+                        except Exception, e:
+                            debug.get_debug_detail_and_send_email(e)
             return 0, user
         except Exception, e:
             debug.get_debug_detail_and_send_email(e)
@@ -644,18 +651,11 @@ class UserBase(object):
             user = result
             UserBase().update_user_last_login_time(user.id, ip=ip, last_active_source=2)
 
-            # 录入用户邀请信息
-            if qrscene:
-                try:
-                    UserInviteBase().create_ui(qrscene, user.id)
-                except Exception, e:
-                    debug.get_debug_detail_and_send_email(e)
-
             # 更新用户资料
             if settings.LOCAL_FLAG:
-                async_change_profile_from_weixin(user, app_key, openid)
+                async_change_profile_from_weixin(user, app_key, openid, qrscene)
             else:
-                async_change_profile_from_weixin.delay(user, app_key, openid)
+                async_change_profile_from_weixin.delay(user, app_key, openid, qrscene)
         return user, result
 
     def login_by_weixin_qr_code(self, ticket, openid, app_key):
