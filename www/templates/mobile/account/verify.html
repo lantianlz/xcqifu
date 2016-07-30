@@ -49,30 +49,6 @@
         outline: 0;
         border-bottom: 1px #f07925 solid;
     }
-    .fa-user{
-        position: absolute;
-        left: -10px;
-        top: 40px;
-        font-size: 15px;
-    }
-    .fa-phone{
-        position: absolute;
-        left: -10px;
-        top: 41px;
-        font-size: 15px;
-    }
-    .fa-coffee{
-        position: absolute;
-        left: -11px;
-        top: 41px;
-        font-size: 15px;
-    }
-    .fa-building-o{
-        position: absolute;
-        left: -10px;
-        top: 41px;
-        font-size: 15px;
-    }
     
     .btn-verify{
         border-radius: 20px;
@@ -96,6 +72,12 @@
     }
     .fa-check-square{
         color: #20ba48;
+    }
+    .profile-icon{
+        width: 15px;
+        position: absolute;
+        left: -12px;
+        top: 40px;
     }
 </style>
 {% endblock %}
@@ -134,28 +116,28 @@
             <div class="col-xs-12 pl-10 pr-0">
                 <input type="text" name="name" class="text-input" value="隔壁老王">
             </div>
-            <i class="fa fa-user"></i>
+            <img class="profile-icon" src="{{MEDIA_URL}}img/profile/profile-icon-5.png">
         </li>
         <li class="list-group-item col-xs-12 pl-0 pr-0">
             <div class="col-xs-12 pl-15 pr-0 co-95989d f12">手机号码</div>
             <div class="col-xs-12 pl-10 pr-0">
                 <input type="text" name="name" class="text-input" value="13888888888">
             </div>
-            <i class="fa fa-phone"></i>
+            <img class="profile-icon" src="{{MEDIA_URL}}img/profile/profile-icon-6.png">
         </li>
         <li class="list-group-item col-xs-12 pl-0 pr-0">
             <div class="col-xs-12 pl-15 pr-0 co-95989d f12">公司职位</div>
             <div class="col-xs-12 pl-10 pr-0">
                 <input type="text" name="name" class="text-input" value="行政主管">
             </div>
-            <i class="fa fa-coffee"></i>
+            <img class="profile-icon" src="{{MEDIA_URL}}img/profile/profile-icon-7.png">
         </li>
         <li class="list-group-item col-xs-12 pl-0 pr-0">
             <div class="col-xs-12 pl-15 pr-0 co-95989d f12">公司名称</div>
             <div class="col-xs-12 pl-10 pr-0">
                 <input type="text" name="name" class="text-input" value="成都大橙科技有限公司">
             </div>
-            <i class="fa fa-building-o"></i>
+            <img class="profile-icon" src="{{MEDIA_URL}}img/profile/profile-icon-8.png">
         </li>
         <li class="list-group-item col-xs-10 col-xs-offset-1 pl-0 pr-0 pt-35">
             <button type="submit" class="btn btn-default btn-block btn-verify">提交审核</button>

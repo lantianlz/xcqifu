@@ -77,6 +77,10 @@
         background-color: red;
         border-radius: 50%;
     }
+    .profile-icon{
+        width: 15px;
+        margin-top: -4px;
+    }
 </style>
 {% endblock %}
 
@@ -105,19 +109,19 @@
     <div class="col-xs-6 col-xs-offset-3 pt-40 pl-10 pr-10">
         <ul class="list-group text-center">
             <a href="/account/verify" class="list-group-item f16 pt-20 pb-20">
-                <i class="fa fa-user pr-15 pt-3"></i>
+                <img class="profile-icon" src="{{MEDIA_URL}}img/profile/profile-icon-1.png">
                 <span class="display-inline pl-20 pr">认证信息<i class="new-msg"></i></span>
             </a>
             <a href="/account/booking" class="list-group-item f16 pt-20 pb-20">
-                <i class="fa fa-clock-o pr-15 pt-3"></i>
+                <img class="profile-icon" src="{{MEDIA_URL}}img/profile/profile-icon-2.png">
                 <span class="display-inline pl-20">我的预约</span>
             </a>
             <a class="list-group-item f16 pt-20 pb-20">
-                <i class="fa fa-heart pr-15 pt-3"></i>
+                <img class="profile-icon" src="{{MEDIA_URL}}img/profile/profile-icon-3.png">
                 <span class="display-inline pl-20">我的收藏</span>
             </a>
             <a href="/account/recommendation" class="list-group-item f16 pt-20 pb-20">
-                <i class="fa fa-commenting pr-15 pt-3"></i>
+                <img class="profile-icon" src="{{MEDIA_URL}}img/profile/profile-icon-4.png">
                 <span class="display-inline pl-20">我的推荐</span>
             </a>
         </ul>
