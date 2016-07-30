@@ -11,7 +11,7 @@ from common import utils, debug, validators, cache, raw_sql
 from www.misc.decorators import cache_required
 from www.misc import consts
 from www.tasks import async_send_email
-from www.account.models import User, Profile, LastActive, ActiveDay, ExternalToken, InviteQrcode, UserInvite
+from www.account.models import User, Profile, LastActive, ActiveDay, ExternalToken, InviteQrcode, UserInvite, VerifyInfo
 from www.weixin.interface import WeixinBase
 
 dict_err = {
@@ -931,9 +931,27 @@ class UserInviteBase(object):
             qrcode.user_count += 1
             qrcode.save()
 
-            # 发送模板消息
+            # todo 发送模板消息通知邀请人
 
             return 0, ui
 
     def get_user_invites(self, from_user_id):
         return UserInvite.objects.filter(from_user_id=from_user_id)
+
+
+class VerifyInfoBase(object):
+
+    def add_verfy_info(self, user_id, name, mobile, title, company_name):
+        try:
+            assert all([user_id, name, mobile, title, company_name])
+        except Exception, e:
+            return 99800, dict_err.get(99800)
+
+        if VerifyInfo.objects.filter(user_id=user_id):
+            return 99802, dict_err.get(99802)
+
+        verfy_info = VerifyInfo.objects.create(user_id=user_id, name=name, mobile=mobile, title=title, company_name=company_name)
+
+        # todo 发送模板消息通知给内部成员
+
+        return 0, verfy_info

@@ -180,6 +180,7 @@ class VerifyInfo(models.Model):
     company_name = models.CharField(max_length=32, db_index=True)
     state = models.IntegerField(default=0, choices=state_choices, db_index=True)
     create_time = models.DateTimeField(auto_now_add=True, db_index=True)
+    update_time = models.DateTimeField(auto_now=True)
 
 
 class InviteQrcode(models.Model):

@@ -25,8 +25,8 @@ def init_kind():
         [
             {"name": u"下午茶", "slogan": u"你离有人文情怀的公司，还差一份下午茶", },
             {"name": u"工作餐", "slogan": u"要想小伙伴活干得好，饭首先得管饱", },
-            {"name": u"生日会", "slogan": u"让定期举办的生日会也充满不一样的乐趣，布置和食物都交给我们吧", },
-            {"name": u"礼品", "slogan": u"每逢佳节来一份礼品，展示一份心意", },
+            {"name": u"生日会", "slogan": u"每月一次的生日会都别出心裁，让员工都兴高采烈地期待自己又老一岁！", },
+            {"name": u"礼品", "slogan": u"不再千篇一律，定制专属的暖心之作", },
             {"name": u"饮用水", "slogan": u"老板，桶装水来10桶", },
         ],
         [
@@ -35,14 +35,14 @@ def init_kind():
             {"name": u"团队聚餐", "slogan": u"岂止于吃吃吃，让你们的team building充满不一样的乐趣", },
         ],
         [
-            {"name": u"名片制作", "slogan": u"好的名片，在这里制作", },
+            {"name": u"名片制作", "slogan": u"好名片，让名字闪闪亮", },
             {"name": u"物料制作", "slogan": u"产品宣传、DM单、户外展架在这里应有尽有", },
             {"name": u"易拉宝", "slogan": u"迎风扛一面易拉宝，线下地推利器", },
             {"name": u"服装定制", "slogan": u"T恤、工作服、卫衣全都可以在这里搞定", },
         ],
         [
             {"name": u"植物租赁", "slogan": u"装饰你的办公室，让你的眼前一片绿色", },
-            {"name": u"办公用品", "slogan": u"在这里办公用品一站式搞定", },
+            {"name": u"办公用品", "slogan": u"不再为繁琐东奔西跑，我们为你一步到位", },
             {"name": u"IT服务", "slogan": u"不再耽误程序猿哥哥的宝贵时间，请选择专业的IT服务商", },
             {"name": u"快递", "slogan": u"三通一达都在这里可以找到", },
             {"name": u"保洁", "slogan": u"让办公室持续保持干净", },
@@ -56,17 +56,18 @@ def init_kind():
             {"name": u"法律顾问", "slogan": u"法律顾问", },
         ],
         [
-            {"name": u"孵化器", "slogan": u"孵化器", },
+            {"name": u"孵化器", "slogan": u"逐条优选更符合团队方向的孵化器，让自己如沐春风般健康成长", },
             {"name": u"会议场地", "slogan": u"会议场地", },
-            {"name": u"健康体检", "slogan": u"健康体检", },
-            {"name": u"员工保险", "slogan": u"员工保险", },
-            {"name": u"装修设计", "slogan": u"装修设计", },
+            {"name": u"健康体检", "slogan": u"在别人眼里他们只关心你的绩效，我们关心你，更关心你的健康", },
+            {"name": u"员工保险", "slogan": u"保生活，保平安，更有安全感", },
+            {"name": u"装修设计", "slogan": u"成都TOP10办公装修公司，都在这了", },
         ],
 
     ]
     for i, data in enumerate(datas):
         for d in data:
             if Kind.objects.filter(name=d['name']):
+                Kind.objects.filter(name=d['name']).update(slogan=d['slogan'])
                 continue
             Kind.objects.create(name=d['name'], slogan=d['slogan'], kind_type=i)
 
