@@ -203,12 +203,12 @@ class InviteQrcode(models.Model):
 
 class UserInvite(models.Model):
     """
-    @note: 用户邀请信息
+    @note: 邀请信息
     """
-    from_user_id = models.CharField(max_length=32, db_index=True)
+    from_user_id = models.CharField(max_length=32, db_index=True, null=True)
     to_user_id = models.CharField(max_length=32, db_index=True)
     qrcode = models.ForeignKey("InviteQrcode")
     create_time = models.DateTimeField(auto_now_add=True, db_index=True)
 
     class Meta:
-        unique_together = [("from_user_id", "to_user_id")]
+        unique_together = [("qrcode", "to_user_id")]

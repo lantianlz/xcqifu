@@ -913,13 +913,17 @@ class UserInviteBase(object):
 
     def create_ui(self, unique_code, to_user_id):
         qrcode = InviteQrcodeBase().get_qrcode_by_code(unique_code)
-        if qrcode.state != 0 or (not UserBase().get_user_by_id(to_user_id)) or qrcode.user_id == to_user_id:
+        if qrcode.user_id == to_user_id or (not UserBase().get_user_by_id(to_user_id)):
             return 99800, dict_err.get(99800)
 
         if UserInvite.objects.filter(qrcode=qrcode, to_user_id=to_user_id):
             return 99802, dict_err.get(99802)
         else:
             ui = UserInvite.objects.create(from_user_id=qrcode.user_id, to_user_id=to_user_id, qrcode=qrcode)
+
+            # 更新计数器
+            qrcode.user_count += 1
+            qrcode.save()
 
             # 发送模板消息
 
