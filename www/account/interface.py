@@ -585,7 +585,7 @@ class UserBase(object):
             from www.misc import qiniu_client
             from www.weixin.interface import dict_weixin_app, WeixinBase
 
-            if user.nick.startswith("weixin_") or True:
+            if user.nick.startswith("weixin_"):
                 user_id = user.id
                 app_id = dict_weixin_app[app_key]["app_id"]
 
