@@ -509,8 +509,9 @@ class UserBase(object):
             transaction.rollback(using=ACCOUNT_DB)
             return False, dict_err.get(99900)
 
-    def generate_nick_by_external_nick(self, nick):
-        if not self.get_user_by_nick(nick):
+    def generate_nick_by_external_nick(self, nick, user_id=None):
+        exist_user = self.get_user_by_nick(nick)
+        if (not exist_user) or (exist_user.id == user_id):
             return nick
         else:
             for i in xrange(3):
@@ -613,7 +614,7 @@ class UserBase(object):
                         et.nick = nick
                         et.save()
 
-                    nick = self.generate_nick_by_external_nick(nick)
+                    nick = self.generate_nick_by_external_nick(nick, user.id)
                     user = self.get_user_by_id(user_id)
                     user.nick = nick
                     user.avatar = user_avatar
@@ -623,7 +624,6 @@ class UserBase(object):
                     # 更新缓存
                     self.get_user_by_id(user.id, must_update_cache=True)
 
-                    logging.error(u"qrscene is %s" % qrscene)
                     # 录入用户邀请信息
                     if qrscene:
                         try:
