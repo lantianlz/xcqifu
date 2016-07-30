@@ -11,7 +11,8 @@ from common import utils, debug, validators, cache, raw_sql
 from www.misc.decorators import cache_required
 from www.misc import consts
 from www.tasks import async_send_email
-from www.account.models import User, Profile, LastActive, ActiveDay, ExternalToken
+from www.account.models import User, Profile, LastActive, ActiveDay, ExternalToken, InviteQrcode, UserInvite
+from www.weixin.interface import WeixinBase
 
 dict_err = {
     10100: u'邮箱重复',
@@ -636,11 +637,19 @@ class UserBase(object):
         user_info = dict(nick=u"weixin_%s" % int(time.time() * 1000), url="", gender=0)
         flag, result = self.get_user_by_external_info(source='weixin', access_token="access_token_%s" % openid, external_user_id=openid,
                                                       refresh_token=None, nick=user_info['nick'], ip=ip, expire_time=expire_time,
-                                                      user_url=user_info['url'], gender=user_info['gender'], app_id=dict_weixin_app[app_key]["app_id"])
+                                                      user_url=user_info['url'], gender=user_info['gender'],
+                                                      app_id=dict_weixin_app[app_key]["app_id"])
         user = None
         if flag:
             user = result
             UserBase().update_user_last_login_time(user.id, ip=ip, last_active_source=2)
+
+            # 录入用户邀请信息
+            if qrscene:
+                try:
+                    UserInviteBase().create_ui(qrscene, user.id)
+                except Exception, e:
+                    debug.get_debug_detail_and_send_email(e)
 
             # 更新用户资料
             if settings.LOCAL_FLAG:
@@ -832,3 +841,89 @@ class ExternalTokenBase(object):
         et = ExternalToken.objects.get(external_user_id=external_user_id, source="weixin")
         et.is_sub_weixin = is_sub_weixin
         et.save()
+
+
+class InviteQrcodeBase(object):
+
+    def generate_unique_code(self):
+        last_qrs = InviteQrcode.objects.all().order_by("-id")
+        num = 0
+        prefix = "invite"
+        if last_qrs:
+            last_qr = last_qrs[0]
+            num = int(last_qr.unique_code.split("_")[1]) + 1
+        return u"%s_%s" % (prefix, num)
+
+    def create_user_qrcode(self, user_id):
+        wb = WeixinBase()
+
+        user = UserBase().get_user_by_id(user_id)
+        if not user:
+            return 99600, dict_err.get(99600)
+        if InviteQrcode.objects.filter(user_id=user_id):
+            return 99802, dict_err.get(99802)
+
+        unique_code = self.generate_unique_code()
+        ticket_info = wb.get_qr_code_ticket(wb.init_app_key(), is_limit=True, scene_str=unique_code)
+
+        if not ticket_info:
+            raise Exception, u"获取推广二维码异常"
+        ticket = ticket_info["ticket"]
+        name = u"个人码_%s" % user.nick
+        qrcode = InviteQrcode.objects.create(name=name, user_id=user_id, unique_code=unique_code, ticket=ticket, state=0)
+
+        return 0, qrcode
+
+    def create_channel_qrcode(self, name):
+        wb = WeixinBase()
+        unique_code = self.generate_unique_code()
+
+        try:
+            assert all([name, ])
+        except Exception, e:
+            return 99800, dict_err.get(99800)
+
+        if InviteQrcode.objects.filter(name=name):
+            return 99802, dict_err.get(99802)
+
+        ticket_info = wb.get_qr_code_ticket(wb.init_app_key(), is_limit=True, scene_str=unique_code)
+
+        if not ticket_info:
+            raise Exception, u"获取推广二维码异常"
+        ticket = ticket_info["ticket"]
+        qrcode = InviteQrcode.objects.create(name=name, unique_code=unique_code, ticket=ticket, state=1)
+
+        return 0, qrcode
+
+    def get_qrcode_by_code(self, unique_code):
+        try:
+            return InviteQrcode.objects.get(unique_code=unique_code)
+        except InviteQrcode.DoesNotExist:
+            return None
+
+    def get_or_create_user_qrcode(self, user_id):
+        qrcodes = list(InviteQrcode.objects.filter(user_id=user_id))
+        if qrcodes:
+            return qrcodes[0]
+        else:
+            return self.create_user_qrcode(user_id)[1]
+
+
+class UserInviteBase(object):
+
+    def create_ui(self, unique_code, to_user_id):
+        qrcode = InviteQrcodeBase().get_qrcode_by_code(unique_code)
+        if qrcode.state != 0 or (not UserBase().get_user_by_id(to_user_id)) or qrcode.user_id == to_user_id:
+            return 99800, dict_err.get(99800)
+
+        if UserInvite.objects.filter(qrcode=qrcode, to_user_id=to_user_id):
+            return 99802, dict_err.get(99802)
+        else:
+            ui = UserInvite.objects.create(from_user_id=qrcode.user_id, to_user_id=to_user_id, qrcode=qrcode)
+
+            # 发送模板消息
+
+            return 0, ui
+
+    def get_user_invites(self, from_user_id):
+        return UserInvite.objects.filter(from_user_id=from_user_id)

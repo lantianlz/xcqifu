@@ -36,8 +36,8 @@ class SimpleTest(TestCase):
         ub = interface.UserBase()
         # print ub.set_password(raw_password='123')
         # print ub.check_password(raw_password='123')
-        errcode, result = ub.regist_user_with_transaction(email='lantian-lz@163.com', nick='simplejoy', password='851129',
-                                                          re_password="851129", ip='127.0.0.1', mobilenumber='15208411129')
+        errcode, result = ub.regist_user_with_transaction(email='lz@3-10.cc', nick='orange', password='851129',
+                                                          re_password="851129", ip='127.0.0.1', mobilenumber='13005012270')
         if not errcode == 0:
             print result.__repr__()
             print result.encode('utf-8')
@@ -57,10 +57,19 @@ class SimpleTest(TestCase):
         print user.is_staff()
         print dumps(user)
 
+    def test_qr_code(self):
+        qrb = interface.InviteQrcodeBase()
+        uib = interface.UserInviteBase()
+        # print qrb.create_channel_qrcode(name="PC首页渠道码")
+        # print qrb.create_user_qrcode(user_id="2fda4e0053da11e6bd8ad0a637ea4c03")
+        print uib.create_ui(unique_code="invite_5", to_user_id="1dd8cd8c561711e693c7d0a637ea4c03")
+
 
 if __name__ == '__main__':
     st = SimpleTest()
     # print st.test_basic_addition()
     # print utils.uuid_without_dash()
-    print st.test_regist()
+    # print st.test_regist()
     # st.re_test()
+
+    st.test_qr_code()

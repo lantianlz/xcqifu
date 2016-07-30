@@ -2,6 +2,7 @@
 *.py[cod]
 settings.py*
 config_real.py
+weixin_config.py
 
 # C extensions
 *.so

@@ -144,6 +144,8 @@ class WeixinBase(object):
                     if not event_key.startswith("invite"):
                         errcode, errmsg = UserBase().login_by_weixin_qr_code(ticket, from_user, app_key)
                         return self.get_base_content_response(to_user, from_user, errmsg)
+                    else:
+                        return self.get_base_content_response(to_user, from_user, u"welcome back")
                 return self.get_subscribe_event_response(to_user, from_user)  # 关注信息
 
             elif event in ('click', ):
@@ -261,7 +263,6 @@ class WeixinBase(object):
         else:
             data = u'{"action_name":"QR_LIMIT_STR_SCENE", "action_info": {"scene": {"scene_str": "%s"}}' % scene_str
         data = data.encode('utf8')
-        print data
 
         result = {}
         try:
@@ -320,90 +321,6 @@ class WeixinBase(object):
             }
          }
         ''' % dict(name=name, remark=remark)
-
-        return self.send_template_msg(app_key, openid, content, template_id)
-
-    def send_use_order_code_template_msg(self, openid, product_type, name, time, remark, app_key=None):
-        template_id = "gdkyj2dncX-KXtPFYIArByLiSs00bq2wfNBru8fxeXg"
-        app_key = app_key or self.init_app_key()
-        content = u'''
-         {
-            "productType": {
-                "value":"%(product_type)s",
-                "color":"#000000"
-            },
-            "name": {
-                "value":"%(name)s",
-                "color":"#000000"
-            },
-            "time":{
-                "value":"%(time)s",
-                "color":"#000000"
-            },
-            "remark":{
-                "value":"%(remark)s",
-                "color":"#EF8A55"
-            }
-         }
-        ''' % dict(product_type=product_type, name=name, time=time, remark=remark)
-
-        return self.send_template_msg(app_key, openid, content, template_id)
-
-    def send_balance_insufficient_template_msg(self, openid, info, name, balance, remark, app_key=None):
-        '''
-        发送余额不足通知
-        '''
-        template_id = "uw0DFAED4ajczOZVUNHPAz3BKtSlgb8NUcb4F8FtEIc"
-        app_key = app_key or self.init_app_key()
-        content = u'''
-         {
-            "first": {
-                "value":"%(info)s",
-                "color":"#EF7B32"
-            },
-            "keyword1": {
-                "value":"%(name)s",
-                "color":"#000000"
-            },
-            "keyword2":{
-                "value":"%(balance)s",
-                "color":"#000000"
-            },
-            "remark":{
-                "value":"%(remark)s",
-                "color":"#000000"
-            }
-         }
-        ''' % dict(info=info, name=name, balance=balance, remark=remark)
-
-        return self.send_template_msg(app_key, openid, content, template_id)
-
-    def send_recharge_success_template_msg(self, openid, info, date, amount, remark, app_key=None):
-        '''
-        发送充值成功通知
-        '''
-        template_id = "r2u4sOmPKAyQPCz5nfIjwrodnJ9mpNxRTTrTe_8B_x0"
-        app_key = app_key or self.init_app_key()
-        content = u'''
-         {
-            "first": {
-                "value":"%(info)s",
-                "color":"#EF7B32"
-            },
-            "keynote1": {
-                "value":"%(date)s",
-                "color":"#000000"
-            },
-            "keynote2":{
-                "value":"%(amount)s",
-                "color":"#000000"
-            },
-            "remark":{
-                "value":"%(remark)s",
-                "color":"#000000"
-            }
-         }
-        ''' % dict(info=info, date=date, amount=amount, remark=remark)
 
         return self.send_template_msg(app_key, openid, content, template_id)
 

@@ -167,12 +167,48 @@ class ExternalToken(models.Model):
         ordering = ["-create_time"]
 
 
-"""
-是否还处于关注微信公众号状态
-推荐人信息
+class VerifyInfo(models.Model):
+    """
+    @note: 认证信息
+    """
+    state_choices = ((0, u'未认证'), (1, u'已认证'))
 
-二维码类型：个人二维码、渠道二维码
-是否是永久二维码
-二维码图片地址
-创建时间
-"""
+    user_id = models.CharField(max_length=32, unique=True)
+    name = models.CharField(max_length=32, db_index=True)
+    mobile = models.CharField(max_length=32)
+    title = models.CharField(max_length=32, db_index=True)
+    company_name = models.CharField(max_length=32, db_index=True)
+    state = models.IntegerField(default=0, choices=state_choices, db_index=True)
+    create_time = models.DateTimeField(auto_now_add=True, db_index=True)
+
+
+class InviteQrcode(models.Model):
+    """
+    @note: 二维码信息
+    """
+    state_choices = ((0, u'个人二维码'), (1, u'渠道二维码'))
+
+    user_id = models.CharField(max_length=32, db_index=True, null=True)
+    name = models.CharField(max_length=32, db_index=True)
+    unique_code = models.CharField(max_length=32, unique=True)
+    ticket = models.CharField(max_length=200, unique=True)
+    user_count = models.IntegerField(default=0, db_index=True)  # 邀请用户总数
+
+    state = models.IntegerField(default=0, choices=state_choices, db_index=True)
+    create_time = models.DateTimeField(auto_now_add=True, db_index=True)
+
+    def get_img(self):
+        return "https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=%s" % self.ticket
+
+
+class UserInvite(models.Model):
+    """
+    @note: 用户邀请信息
+    """
+    from_user_id = models.CharField(max_length=32, db_index=True)
+    to_user_id = models.CharField(max_length=32, db_index=True)
+    qrcode = models.ForeignKey("InviteQrcode")
+    create_time = models.DateTimeField(auto_now_add=True, db_index=True)
+
+    class Meta:
+        unique_together = [("from_user_id", "to_user_id")]

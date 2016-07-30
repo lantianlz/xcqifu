@@ -215,15 +215,25 @@ def profile(request, template_name='mobile/account/profile.html'):
     return render_to_response(template_name, locals(), context_instance=RequestContext(request))
 
 
+@member_required
 def verify(request, template_name='mobile/account/verify.html'):
     return render_to_response(template_name, locals(), context_instance=RequestContext(request))
 
 
+@member_required
 def booking(request, template_name='mobile/account/booking.html'):
     return render_to_response(template_name, locals(), context_instance=RequestContext(request))
 
 
+@member_required
 def recommendation(request, template_name='mobile/account/recommendation.html'):
+    from www.account.interface import InviteQrcodeBase, UserInviteBase
+    qrcode = InviteQrcodeBase().get_or_create_user_qrcode(request.user.id)
+
+    user_invites = UserInviteBase().get_user_invites(request.user.id)
+    for ui in user_invites:
+        ui.user = ub.get_user_by_id(ui.to_user_id)
+
     return render_to_response(template_name, locals(), context_instance=RequestContext(request))
 
 
