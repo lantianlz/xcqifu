@@ -623,6 +623,7 @@ class UserBase(object):
                     # 更新缓存
                     self.get_user_by_id(user.id, must_update_cache=True)
 
+                    logging.error(u"qrscene is %s" % qrscene)
                     # 录入用户邀请信息
                     if qrscene:
                         try:
