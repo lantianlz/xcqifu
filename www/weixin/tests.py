@@ -39,8 +39,10 @@ def main():
     # pprint(wb.get_user_info(app_key, to_user))
     # pprint(wb.get_qr_code_ticket(app_key))
 
-    print wb.send_balance_insufficient_template_msg(
-        to_user, u"账户已达「1000」最高透支额，请及时充值", u"成都大橙科技有限公司", u"-1001", u"感谢您的支持，祝工作愉快")
+    # print wb.send_balance_insufficient_template_msg(to_user, u"账户已达「1000」最高透支额，请及时充值", u"成都大橙科技有限公司", u"-1001",
+    #                                                 u"感谢您的支持，祝工作愉快")
+
+    print wb.get_qr_code_ticket(app_key, is_limit=True, scene_str="invite_0")
 
 
 if __name__ == '__main__':
