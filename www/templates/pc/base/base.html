@@ -30,6 +30,18 @@
     <body>
         {% block base_container %}{% endblock base_container%}
 
+        <script type="text/javascript" src="{{MEDIA_URL}}js/jquery/jquery.placeholder.js"></script>
+        <script type="text/javascript" src="{{MEDIA_URL}}js/common.js?v={{MEDIA_VERSION}}"></script>
+        <script type="text/javascript" src="{{MEDIA_URL}}js/site.js?v={{MEDIA_VERSION}}"></script>
+        <script type="text/javascript">
+            var MEDIA_URL = '{{MEDIA_URL|default:''}}',
+                MAIN_DOMAIN = '{{MAIN_DOMAIN|default:''}}',
+                CURRENT_USER_ID = "{{request.user.id|default:''}}",
+                ERROR_MSG = '{{error_msg|default:''}}',
+                SUCCESS_MSG = '{{success_msg|default:''}}',
+                INFO_MSG = '{{info_msg|default:''}}',
+                WARNING_MSG = '{{warning_msg|default:''}}';
+        </script>
         {% block base_js %}{% endblock %}
 
         {% include "_tongji.html" %}
