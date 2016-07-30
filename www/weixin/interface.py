@@ -141,6 +141,7 @@ class WeixinBase(object):
                 tickets = jq('ticket')
                 if tickets:
                     ticket = tickets[0].text
+                    event_key = event_key.replace("qrscene_", "")
                     if not event_key.startswith("invite"):
                         errcode, errmsg = UserBase().login_by_weixin_qr_code(ticket, from_user, app_key)
                         return self.get_base_content_response(to_user, from_user, errmsg)
