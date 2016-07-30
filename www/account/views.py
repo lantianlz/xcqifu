@@ -235,6 +235,12 @@ def recommendation(request, template_name='mobile/account/recommendation.html'):
     for ui in user_invites:
         ui.user = ub.get_user_by_id(ui.to_user_id)
 
+    from www.weixin.interface import WeixinBase, Sign
+    # 微信key
+    url = u'http://%s' % (request.get_host() + request.get_full_path())
+    sign = Sign(WeixinBase().get_weixin_jsapi_ticket(WeixinBase().init_app_key()), url)
+    sign_dict = sign.sign()
+
     return render_to_response(template_name, locals(), context_instance=RequestContext(request))
 
 
