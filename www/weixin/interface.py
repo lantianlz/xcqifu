@@ -34,6 +34,9 @@ class WeixinBase(object):
     def init_app_key(self, default_value="xcqifu"):
         return "xcqifu_test" if settings.LOCAL_FLAG else default_value
 
+    def get_app_id(self):
+        return dict_weixin_app[self.init_app_key()]['app_id']
+
     def get_base_text_response(self):
         '''
         @note: 文字信息模板

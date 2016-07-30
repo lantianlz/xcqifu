@@ -269,3 +269,23 @@ class request_limit_by_ip(object):
                                                   context_instance=RequestContext(request))
             return func(request, *args, **kwargs)
         return _decorator
+
+
+def weixin_js_required(func):
+    """
+    @note: 微信js装饰器
+    """
+    def _decorator(request, *args, **kwargs):
+        from www.weixin.interface import WeixinBase, Sign
+
+        wb = WeixinBase()
+        # 微信key
+        url = u'http://%s' % (request.get_host() + request.get_full_path())
+        sign = Sign(WeixinBase().get_weixin_jsapi_ticket(wb.init_app_key()), url)
+        sign_dict = sign.sign()
+
+        request.sign_dict = sign_dict
+        request.weixin_app_id = wb.get_app_id()
+
+        return func(request, *args, **kwargs)
+    return _decorator
