@@ -134,23 +134,23 @@
     <div class="col-xs-10 col-xs-offset-1 pt-20 pb-30 pl-0 pr-0">
         <div class="col-xs-12 card">
             <div class="col-xs-12 pt-15">
-                <img class="avatar" src="{{MEDIA_URL}}img/profile/profile.jpg">
+                <img class="avatar" src="{{qrcode.user.get_avatar_65}}">
             </div>
             <div class="col-xs-12 pt-10">
-                汤唯的小橙专属二维码
+                你的老朋友{{qrcode.user.nick}}热情的邀请你加入
             </div>
             <div class="col-xs-12 pt-10">
-                <img class="qrcode" src="{{MEDIA_URL}}img/qrcode.png">
+                <img class="qrcode" src="{{qrcode.get_img}}">
             </div>
             <div class="col-xs-10 col-xs-offset-1 pt-20 pb-30">
-                <button type="submit" class="btn btn-default btn-block btn-recommend">长按二维码识别</button>
+                <button type="submit" class="btn btn-default btn-block btn-recommend">长按上方二维码识别</button>
             </div>
             <div class="col-xs-12 friends">
                 <span class="circle-left"></span>
                 <span class="circle-right"></span>
                 <div class="col-xs-12 pl-0 pr-0 f13">
                     <div>推荐你扫我的专属二维码关注，</div>
-                    <div class="pt-3">行政的事儿就来小橙企服找找呗！</div>
+                    <div class="pt-3">一站搞定行政事务，尽在小橙企服</div>
                 </div>
             </div>
         </div>

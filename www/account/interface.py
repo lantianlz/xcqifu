@@ -901,6 +901,12 @@ class InviteQrcodeBase(object):
         except InviteQrcode.DoesNotExist:
             return None
 
+    def get_qrcode_by_id(self, qrcode_id):
+        try:
+            return InviteQrcode.objects.get(id=qrcode_id)
+        except InviteQrcode.DoesNotExist:
+            return None
+
     def get_or_create_user_qrcode(self, user_id):
         qrcodes = list(InviteQrcode.objects.filter(user_id=user_id))
         if qrcodes:

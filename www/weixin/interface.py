@@ -85,8 +85,8 @@ class WeixinBase(object):
         return base_xml % dict(to_user=from_user, from_user=to_user, timestamp=int(time.time()), content=error_info)
 
     def get_subscribe_event_response(self, to_user, from_user):
-        content = (u'一站式搞定行政事务，尽在小橙企服。\n'
-                   u'立即访问底部菜单体验，go go'
+        content = (u'一站式搞定行政事务，尽在小橙企服，'
+                   u'立即访问底部菜单体验。'
                    )
         return self.get_base_content_response(to_user, from_user, content=content)
 
