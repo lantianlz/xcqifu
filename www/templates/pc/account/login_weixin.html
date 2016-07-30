@@ -9,8 +9,39 @@ body, html{
     height: 100%;
 }
 
+.login{
+    color: #EF7B32;
+}
 .login:hover, .login:active, .login:focus{
     color: #EF7B32;
+}
+
+.success{
+    display: none;
+    color: #19BA40;
+    font-size: 13px;
+    border-radius: 4px;
+    border: 1px solid #333;
+    background-color: #333;
+    padding: 5px 10px;
+}
+.tips{
+    display: none;
+    color: #EF7B32;
+    font-size: 13px;
+    border-radius: 4px;
+    border: 1px solid #333;
+    background-color: #333;
+    padding: 5px 10px;
+}
+.notice{
+    display: none;
+    color: #EF7B32;
+    font-size: 13px;
+    border-radius: 4px;
+    border: 1px solid #333;
+    background-color: #333;
+    padding: 5px 10px;
 }
 </style>
 {% endblock %}
@@ -80,7 +111,7 @@ $(document).ready(function(){
             </div>
             {% else %}
             <div class="pt-40">
-                <img class="w45" src="{{MEDIA_URL}}img/logo_white.png">
+                <img class="w50" src="{{MEDIA_URL}}img/logo_white.png">
             </div>
             <div class="pt-5 text-center co-ffffff f15">
                 小橙企服
@@ -94,26 +125,26 @@ $(document).ready(function(){
                 <div class="co-ffffff f13">请使用微信扫描二维码登录</div>
             </div>
             <div class="pt-0 pl-30 pr-30">
-                <div class="co-19BA40 f13 success none bdr-4 border-1 bdc-333333 bgc-333333 pt-5 pb-5 pl-10 pr-10">
+                <div class="success">
                     <i class="fa fa-check pr-3 f15"></i>扫码登录成功，页面跳转中...
                 </div>
             </div>
             <div class="pt-0 pl-30 pr-30">
-                <div class="co-EF7B32 f13 tips none bdr-4 border-1 bdc-333333 bgc-333333 pt-5 pb-5 pl-10 pr-10">
+                <div class="tips">
                     <i class="fa fa-exclamation-circle pr-3 f15"></i>当前二维码已过期，请刷新页面后重试
                 </div>
             </div>
             <div class="pt-0 pl-30 pr-30">
-                <div class="co-EF7B32 f13 notice none bdr-4 border-1 bdc-333333 bgc-333333 pt-5 pb-5 pl-10 pr-10">
+                <div class="notice">
                 </div>
             </div>
         </div>
     </div>
 </div>
-<div class="text-center w pf" style="bottom: 70px; ">
-    <a class="co-EF7B32 login" href="/login?next_url={{next_url}}">使用帐号登录<i class="fa fa-sign-in pl-3 f15"></i></a>
+<div class="text-center w100p pf" style="bottom: 70px;">
+    <a class="login" href="/login?next_url={{next_url}}">使用帐号登录<i class="fa fa-sign-in pl-3 f15"></i></a>
 </div>
-<div class="text-center co-888888 f12" style="margin-top: -50px;">
+<div class="text-center w100p pf f12 co-95989d" style="bottom: 20px;">
     Copyright &copy; {% if YEAR == "2015" %}{{YEAR}}{% else %}2015 - {{YEAR}}{% endif %} 大橙科技. All Rights Reserved.
 </div>
 {% endblock %}

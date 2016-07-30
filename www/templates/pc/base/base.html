@@ -5,6 +5,7 @@
     <head>
         <meta charset="utf-8" />
         <title>{% block title_all %}{% block title %}{% endblock title %}{% block title_tail %} - 小橙企服{% endblock title_tail %}{% endblock title_all %}</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
         <meta name="renderer" content="webkit" />
         <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1" >
         <meta name="keywords" content="{% block keywords %}小橙企服 一站搞定行政事务 工作餐 下午茶 植物租赁 餐饮福利 员工活动 宣传物料 日常办公 公司代办{% endblock keywords %}" />
@@ -13,6 +14,7 @@
         <link rel="shortcut icon" href="{{MEDIA_URL}}img/favicon.ico" />
         <link rel="stylesheet" type="text/css" href="/static/css/bootstrap/bootstrap.min.css" />
         <link rel="stylesheet" type="text/css" href="{{MEDIA_URL}}css/font-awesome/css/font-awesome.min.css" />
+        <link rel="stylesheet" type="text/css" href="{{MEDIA_URL}}css/site.css?v={{MEDIA_VERSION}}" />
         {% block base_css %}{% endblock %}
         <script type="text/javascript" src="{{MEDIA_URL}}js/jquery/jquery-1.7.min.js"></script>
         <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
