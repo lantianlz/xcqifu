@@ -242,7 +242,7 @@ def recommend(request, qrcode_id, template_name='mobile/account/recommend.html')
     from www.account.interface import InviteQrcodeBase, UserInviteBase
 
     qrcode = InviteQrcodeBase().get_qrcode_by_id(qrcode_id)
-    if not qrcode:
+    if not qrcode or qrcode.state != 0:
         raise Http404
 
     qrcode.user = ub.get_user_by_id(qrcode.user_id)
