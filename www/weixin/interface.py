@@ -306,23 +306,39 @@ class WeixinBase(object):
             errcode, errmsg = 70100, dict_err.get(70100)
         return errcode, errmsg
 
-    def send_buy_success_template_msg(self, openid, name, remark, app_key=None):
-        template_id = "xZssRUhtE-xGOINN1eVaVpoprKtmQq9VOqcPFkujCL0"
+    def send_invite_success_template_msg(self, openid, name, gender, regist_time, app_key=None):
+        """
+        @note: 发送邀请注册成功提醒消息
+        """
+        template_id = "ANMe8H4Ii465YJKIUYHhUTiaqgBa9XADFQY-CW7UXMI"
         app_key = app_key or self.init_app_key()
         content = u'''
          {
-            "name": {
-                "value":"%(name)s",
+            "first": {
+                "value":"干得漂亮，成功邀请新用户一枚，请尽快联系TA填写认证信息",
                 "color":"#EF8A55"
             },
+            "keyword1": {
+                "value":"%(name)s",
+                "color":"#999999"
+            },
+            "keyword2":{
+                "value":"%(gender)s",
+                "color":"#999999"
+            },
+            "keyword3":{
+                "value":"%(regist_time)s",
+                "color":"#999999"
+            },
             "remark":{
-                "value":"%(remark)s",
+                "value":"点击查看所有邀请记录",
                 "color":"#999999"
             }
          }
-        ''' % dict(name=name, remark=remark)
+        ''' % dict(name=name, gender=gender, regist_time=regist_time)
 
-        return self.send_template_msg(app_key, openid, content, template_id)
+        jump_url = "%s/account/recommendation" % settings.MAIN_DOMAIN
+        return self.send_template_msg(app_key, openid, content, template_id, jump_url=jump_url)
 
     def send_todo_list_template_msg(self, openid, info, job, priority, remark, app_key=None):
         '''

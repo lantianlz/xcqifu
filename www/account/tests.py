@@ -63,9 +63,9 @@ class SimpleTest(TestCase):
         vib = interface.VerifyInfoBase()
         # print qrb.create_channel_qrcode(name="PC首页渠道码")
         # print qrb.create_user_qrcode(user_id="2fda4e0053da11e6bd8ad0a637ea4c03")
-        # print uib.create_ui(unique_code="invite_5", to_user_id="2fda4e0053da11e6bd8ad0a637ea4c03")
-        print vib.add_verfy_info(user_id="2fda4e0053da11e6bd8ad0a637ea4c03", name="11", mobile="22",
-                                 title="33", company_name="44")
+        print uib.create_ui(unique_code="invite_5", to_user_id="1dd8cd8c561711e693c7d0a637ea4c03")
+        # print vib.add_verfy_info(user_id="2fda4e0053da11e6bd8ad0a637ea4c03", name="11", mobile="22",
+        #                          title="33", company_name="44")
 
 
 if __name__ == '__main__':

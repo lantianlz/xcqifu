@@ -919,7 +919,9 @@ class UserInviteBase(object):
 
     def create_ui(self, unique_code, to_user_id):
         qrcode = InviteQrcodeBase().get_qrcode_by_code(unique_code)
-        if qrcode.user_id == to_user_id or (not UserBase().get_user_by_id(to_user_id)):
+
+        to_user = UserBase().get_user_by_id(to_user_id)
+        if qrcode.user_id == to_user_id or (not to_user):
             return 99800, dict_err.get(99800)
 
         if UserInvite.objects.filter(qrcode=qrcode, to_user_id=to_user_id):
@@ -931,7 +933,12 @@ class UserInviteBase(object):
             qrcode.user_count += 1
             qrcode.save()
 
-            # todo 发送模板消息通知邀请人
+            # 个人邀请的，发送模板消息通知邀请人
+            if qrcode.user_id:
+                openid = ExternalTokenBase().get_weixin_openid_by_user_id(qrcode.user_id)
+                # openid = "okQdow-Svk_sI4LEHf0LbUAUoK2A"
+                if openid:
+                    WeixinBase().send_invite_success_template_msg(openid, to_user.nick, to_user.get_gender_display(), to_user.create_time)
 
             return 0, ui
 
