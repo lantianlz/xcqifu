@@ -510,8 +510,9 @@ class UserBase(object):
             transaction.rollback(using=ACCOUNT_DB)
             return False, dict_err.get(99900)
 
-    def generate_nick_by_external_nick(self, nick):
-        if not self.get_user_by_nick(nick):
+    def generate_nick_by_external_nick(self, nick, user_id=None):
+        exist_user = self.get_user_by_nick(nick)
+        if (not exist_user) or (exist_user.id == user_id):
             return nick
         else:
             for i in xrange(3):
@@ -576,7 +577,7 @@ class UserBase(object):
 
         return objs
 
-    def change_profile_from_weixin(self, user, app_key, openid):
+    def change_profile_from_weixin(self, user, app_key, openid, qrscene=""):
         '''
         @note: 通过微信资料修改
         '''
@@ -614,7 +615,7 @@ class UserBase(object):
                         et.nick = nick
                         et.save()
 
-                    nick = self.generate_nick_by_external_nick(nick)
+                    nick = self.generate_nick_by_external_nick(nick, user.id)
                     user = self.get_user_by_id(user_id)
                     user.nick = nick
                     user.avatar = user_avatar
@@ -623,6 +624,13 @@ class UserBase(object):
 
                     # 更新缓存
                     self.get_user_by_id(user.id, must_update_cache=True)
+
+                    # 录入用户邀请信息
+                    if qrscene:
+                        try:
+                            UserInviteBase().create_ui(qrscene, user.id)
+                        except Exception, e:
+                            debug.get_debug_detail_and_send_email(e)
             return 0, user
         except Exception, e:
             debug.get_debug_detail_and_send_email(e)
@@ -645,18 +653,11 @@ class UserBase(object):
             user = result
             UserBase().update_user_last_login_time(user.id, ip=ip, last_active_source=2)
 
-            # 录入用户邀请信息
-            if qrscene:
-                try:
-                    UserInviteBase().create_ui(qrscene, user.id)
-                except Exception, e:
-                    debug.get_debug_detail_and_send_email(e)
-
             # 更新用户资料
             if settings.LOCAL_FLAG:
-                async_change_profile_from_weixin(user, app_key, openid)
+                async_change_profile_from_weixin(user, app_key, openid, qrscene)
             else:
-                async_change_profile_from_weixin.delay(user, app_key, openid)
+                async_change_profile_from_weixin.delay(user, app_key, openid, qrscene)
         return user, result
 
     def login_by_weixin_qr_code(self, ticket, openid, app_key):
