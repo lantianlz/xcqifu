@@ -165,17 +165,4 @@ $(document).ready(function(){
         alert(e);
     }
 
-    // 点击按钮效果
-    $('.btn-wave').on('mousedown', function(e){
-        var e = e || window.event,
-            offset = $(this).offset(),
-            left = e.pageX - offset.left - 20,
-            top = e.pageY - offset.top - 20,
-            target = $('<span class="wave" style="left: '+left+'px; top: '+top+'px"></span>').appendTo($(this));
-        
-        target.one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
-            $(this).remove();
-        });
-    });
-
 });

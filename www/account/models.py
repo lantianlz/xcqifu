@@ -177,7 +177,7 @@ class VerifyInfo(models.Model):
     name = models.CharField(max_length=32, db_index=True)
     mobile = models.CharField(max_length=32)
     title = models.CharField(max_length=32, db_index=True)
-    company_name = models.CharField(max_length=32, db_index=True)
+    company_name = models.CharField(max_length=64, db_index=True)
     state = models.IntegerField(default=0, choices=state_choices, db_index=True)
     create_time = models.DateTimeField(auto_now_add=True, db_index=True)
     update_time = models.DateTimeField(auto_now=True)

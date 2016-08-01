@@ -29,6 +29,7 @@ dict_err = {
     10111: u'该邮箱尚未注册',
     10112: u'code已失效，请重新执行重置密码操作',
     10113: u'没有找到对象',
+    10114: u'已经提交审核，请耐心等待审核结果',
 }
 dict_err.update(consts.G_DICT_ERROR)
 
@@ -954,11 +955,37 @@ class VerifyInfoBase(object):
         except Exception, e:
             return 99800, dict_err.get(99800)
 
-        if VerifyInfo.objects.filter(user_id=user_id):
-            return 99802, dict_err.get(99802)
+        # if VerifyInfo.objects.filter(user_id=user_id):
+        #     return 99802, dict_err.get(99802)
 
-        verfy_info = VerifyInfo.objects.create(user_id=user_id, name=name, mobile=mobile, title=title, company_name=company_name)
+        # verfy_info = VerifyInfo.objects.create(user_id=user_id, name=name, mobile=mobile, title=title, company_name=company_name)
 
-        # todo 发送模板消息通知给内部成员
+        try:
+            verfy_info, is_created = VerifyInfo.objects.get_or_create(user_id=user_id)
+            
+            # 防止重复提交
+            if not is_created and verfy_info.state == 0:
+                return 10114, dict_err.get(10114)
+
+            verfy_info.name = name
+            verfy_info.mobile = mobile
+            verfy_info.title = title
+            verfy_info.company_name = company_name
+            verfy_info.state = 0
+            verfy_info.save()
+            # todo 发送模板消息通知给内部成员
+            
+        except Exception, e:
+            if is_created:
+                verfy_info.delete()
+
+            debug.get_debug_detail_and_send_email(e)
+            return 99900, dict_err.get(99900)
 
         return 0, verfy_info
+
+    def get_info_by_user_id(self, user_id):
+        try:
+            return VerifyInfo.objects.get(user_id=user_id)
+        except VerifyInfo.DoesNotExist:
+            return None

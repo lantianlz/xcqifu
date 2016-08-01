@@ -1,5 +1,5 @@
 body{
-	font-family: 'Lantinghei SC', 'Open Sans', Arial, 'Hiragino Sans GB', 'Microsoft YaHei', 微软雅黑, STHeiti, 'WenQuanYi Micro Hei', SimSun, sans-serif;
+    font-family: 'Lantinghei SC', 'Open Sans', Arial, 'Hiragino Sans GB', 'Microsoft YaHei', 微软雅黑, STHeiti, 'WenQuanYi Micro Hei', SimSun, sans-serif;
 }
 
 a:focus {outline: none; -moz-outline: none;}
@@ -110,5 +110,10 @@ a:focus {outline: none; -moz-outline: none;}
 .btn:focus, 
 .btn:active:focus, 
 .btn.active:focus{
-        outline: 0;
-    }
+    outline: 0;
+}
+
+.error{
+    color: #ff3c3c;
+    font-size: 12px;
+}
