@@ -116,7 +116,7 @@
     position: absolute;
     font-size: 12px;
     transform: scale(0.8);
-    left: -5px;
+    left: -4px;
     bottom: -18px;
     display: none;
     text-align: center;
@@ -129,20 +129,22 @@
 .child-unopen .vl{
     background-color: #48494b;
 }
-.child-unopen>.child-unopen-flag{
-    display: block;
-    color: #48494b;
+.child-unopen .child-unopen-flag{
+    display: inline-block;
+    width: 150px;
 }
 .child-unopen-flag{
-    text-align: center;
-    display: none;
-    left: -25px;
-}
-.child-unopen-flag>span{
-    display: inline-block;
-    transform: scale(0.7);
+    position: absolute;
     font-size: 12px;
+    transform: scale(0.8);
+    left: -15px;
+    bottom: -18px;
+    display: none;
+    text-align: left;
+    color: #48494b;
+    letter-spacing: 1px;
 }
+
 .modal-content{
     background-color: transparent;
     box-shadow: none;
