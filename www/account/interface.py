@@ -965,8 +965,8 @@ class VerifyInfoBase(object):
             verfy_info, is_created = VerifyInfo.objects.get_or_create(user_id=user_id)
             
             # 防止重复提交
-            if not is_created and verfy_info.state == 0:
-                return 10114, dict_err.get(10114)
+            # if not is_created and verfy_info.state == 0:
+                # return 10114, dict_err.get(10114)
 
             verfy_info.name = name
             verfy_info.mobile = mobile

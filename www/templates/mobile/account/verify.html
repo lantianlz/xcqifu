@@ -107,9 +107,7 @@
             <li class="list-group-item col-xs-10 col-xs-offset-1 pl-0 pr-0 pt-35">
                 {% if not info %}
                 <button type="submit" class="btn btn-default btn-block btn-verify">提交审核</button>
-                {% endif %}
-
-                {% if info.state == 1 %}
+                {% else %}
                 <button type="submit" class="btn btn-default btn-block btn-modify"><i class="fa fa-pencil-square-o pr-10"></i>修改信息</button>
                 {% endif %}
             </li>
