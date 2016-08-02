@@ -8,6 +8,11 @@
 {% block js %}
 <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
 <script type="text/javascript">
+    var title = '小橙企服';
+    var desc = '你的老朋友「{{request.user.nick}}」热情的邀请你来体验小橙企服，一站搞定行政事务，更省心！';
+    var link = 'http://www.xcqifu.com/account/recommend/{{qrcode.id}}';
+
+
     $(document).ready(function(){
         $('.btn-recommend').on('click', function(){
             $('.cover').show();
@@ -32,9 +37,9 @@
 
         wx.ready(function(){
             wx.onMenuShareAppMessage({
-                title: '小橙企服',
-                desc: '你的老朋友{{request.user.nick}}热情的邀你加入',
-                link: 'http://www.xcqifu.com/account/recommend/{{qrcode.id}}',
+                title: title,
+                desc: desc,
+                link: link,
                 imgUrl: 'http://static.3-10.cc/img/logo.jpg',
                 trigger: function (res) {
                     // alert('用户点击发送给朋友');
@@ -51,9 +56,9 @@
             });
             
             wx.onMenuShareTimeline({
-                title: '小橙企服',
-                desc: '你的老朋友{{request.user.nick}}热情的邀你加入',
-                link: 'http://www.xcqifu.com/account/recommend/{{qrcode.id}}',
+                title: desc,
+                desc: "",
+                link: link,
                 imgUrl: 'http://static.3-10.cc/img/logo.jpg',
                 trigger: function (res) {
                     // alert('用户点击分享到朋友圈');

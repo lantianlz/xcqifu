@@ -213,3 +213,4 @@ class UserInvite(models.Model):
 
     class Meta:
         unique_together = [("qrcode", "to_user_id")]
+        ordering = ["-id"]

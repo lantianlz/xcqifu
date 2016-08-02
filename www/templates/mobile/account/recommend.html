@@ -1,5 +1,5 @@
 {% extends "mobile/base_home.html" %}
-{% block title %}我的推荐{% endblock title %}
+{% block title %}邀你体验{% endblock title %}
 {% block css %}
 <link rel="stylesheet" type="text/css" href="{{MEDIA_URL}}css/animate/animate.min.css">
 <link rel="stylesheet" type="text/css" href="{{MEDIA_URL}}css/site/account/recommend.css?v={{MEDIA_VERSION}}">
@@ -32,7 +32,7 @@
                 <img class="avatar" src="{{qrcode.user.get_avatar_65}}">
             </div>
             <div class="col-xs-12 pt-10">
-                你的老朋友{{qrcode.user.nick}}热情的邀你加入
+                你的老朋友「{{qrcode.user.nick}}」热情的邀你加入
             </div>
             <div class="col-xs-12 pt-10">
                 <img class="qrcode" src="{{qrcode.get_img}}">

@@ -58,7 +58,7 @@ class KindBase(object):
             lst_kind_name = []
             for kind in kinds:
                 koi = _get_kind_open(kind)
-                is_new = True if koi.open_time.date() >= (datetime.datetime.now().date() - datetime.timedelta(days=7)) else False
+                is_new = True if koi and koi.open_time.date() >= (datetime.datetime.now().date() - datetime.timedelta(days=7)) else False
                 if is_new:
                     is_new_total = True
                 ks.append(dict(id=kind.id, name=kind.name, is_open=True if koi else False, is_new=is_new, url=kind.get_url()))

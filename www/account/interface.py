@@ -872,6 +872,7 @@ class InviteQrcodeBase(object):
             raise Exception, u"获取推广二维码异常"
         ticket = ticket_info["ticket"]
         name = u"个人码_%s" % user.nick
+
         qrcode = InviteQrcode.objects.create(name=name, user_id=user_id, unique_code=unique_code, ticket=ticket, state=0)
 
         return 0, qrcode
@@ -914,7 +915,10 @@ class InviteQrcodeBase(object):
         if qrcodes:
             return qrcodes[0]
         else:
-            return self.create_user_qrcode(user_id)[1]
+            try:
+                return self.create_user_qrcode(user_id)[1]
+            except:
+                return InviteQrcode.objects.get(user_id=user_id)    # 访问频率太快重新请求
 
 
 class UserInviteBase(object):
@@ -963,7 +967,7 @@ class VerifyInfoBase(object):
 
         try:
             verfy_info, is_created = VerifyInfo.objects.get_or_create(user_id=user_id)
-            
+
             # 防止重复提交
             # if not is_created and verfy_info.state == 0:
                 # return 10114, dict_err.get(10114)
@@ -975,7 +979,7 @@ class VerifyInfoBase(object):
             verfy_info.state = 0
             verfy_info.save()
             # todo 发送模板消息通知给内部成员
-            
+
         except Exception, e:
             if is_created:
                 verfy_info.delete()
