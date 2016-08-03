@@ -222,16 +222,11 @@ def verify(request, template_name='mobile/account/verify.html'):
 
     # 提交审核
     if request.method == "POST":
-        vib.add_verfy_info(request.user.id, request.POST.get('name'), 
-            request.POST.get('mobile'), request.POST.get('title'), request.POST.get('company'))
+        vib.add_verfy_info(request.user.id, request.POST.get('name'),
+                           request.POST.get('mobile'), request.POST.get('title'), request.POST.get('company'))
 
     info = vib.get_info_by_user_id(request.user.id)
-    
-    return render_to_response(template_name, locals(), context_instance=RequestContext(request))
 
-
-@member_required
-def booking(request, template_name='mobile/account/booking.html'):
     return render_to_response(template_name, locals(), context_instance=RequestContext(request))
 
 
