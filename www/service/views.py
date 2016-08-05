@@ -60,3 +60,13 @@ def service_detail(request, service_id, template_name='mobile/service/service_de
             recommend_user_info.update(name=verify_info.name, title=verify_info.title, company_name=verify_info.company_name)
 
     return render_to_response(template_name, locals(), context_instance=RequestContext(request))
+
+
+def service_des(request, service_id, template_name='mobile/service/service_des.html'):
+
+    return render_to_response(template_name, locals(), context_instance=RequestContext(request))
+
+
+
+
+    
