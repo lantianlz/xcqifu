@@ -1,0 +1,65 @@
+{% extends "mobile/base_home.html" %}
+{% block title %}{{service.name}}{% endblock title %}
+{% block css %}
+<!-- <link rel="stylesheet" type="text/css" href="{{MEDIA_URL}}css/site/service_detail.css?v={{MEDIA_VERSION}}"> -->
+<style type="text/css">
+.img-des{
+    width: 90px;
+    position: absolute;
+    left: 15px;
+    top: 28px;
+    padding: 10px;
+    box-shadow: 0px 0px 5px #ffcfa3;
+}
+.booking{
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background-color: #ffffff;
+    padding: 15px 5px;
+    text-align: center;
+}
+.btn-booking{
+    color: #f07925;
+    padding: 3px 40px;
+    border-radius: 18px;
+    background-color: #fff;
+    box-shadow: #ffd5b8 0 2px 4px;
+    border: 0;
+    font-size: 16px;
+}
+</style>
+{% endblock %}
+
+{% block js %}
+<script type="text/javascript">
+$(document).ready(function(){
+
+});
+</script>
+{% endblock %}
+{% block back_url %}{{product.service.get_url}}{% endblock %}
+{% block container %}
+<div class="row ml-0 mr-0">
+    <div class="col-xs-12 pl-105 pt-20">
+        <img class="img-des" src="{{product.cover}}">
+        <div class="col-xs-12 f20 pt-15">{{product.name}}</div>
+        <div class="col-xs-12 f12 co-95989d pt-3">{{product.summary}}</div>
+        <div class="col-xs-12 co-48494b pt-10">
+            <span class="co-ea232a"><i class="fa fa-rmb"></i>{{product.price}}</span>
+        </div>
+    </div>
+    <div class="col-xs-12 pt-20 pb-10">
+        <div class="col-xs-12 border-bottom-1 bdc-eeeeee"></div>
+    </div>
+    <div class="col-xs-12 des">
+        {{product.des}}
+    </div>
+    <div class="booking">
+        <button class="btn-booking" value="">立即预定</button>
+    </div>
+</div>
+{% endblock %}
+
+{% block nav %}{% endblock %}

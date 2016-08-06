@@ -61,7 +61,7 @@ body{
     <ul class="list-group col-xs-12 pl-20 pr-20">
 
         {% for service in services %}
-        <a href="/service/{{service.id}}" class="list-group-item col-xs-12 pr-0 pl-0 over-flow-hide mb-15 animated fadeInUp" style="animation-delay: {{ service.delays }}s;-webkit-animation-delay: {{  service.delays }}s;">
+        <a href="{{service.get_url}}" class="list-group-item col-xs-12 pr-0 pl-0 over-flow-hide mb-15 animated fadeInUp" style="animation-delay: {{ service.delays }}s;-webkit-animation-delay: {{  service.delays }}s;">
             <div class="col-xs-12 pl-70 pr-10 pt-3 pb-3 pr h67">
                 <span class="bg-curtain"></span>
                 <img class="avatar" src="{{service.logo}}">

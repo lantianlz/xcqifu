@@ -19,10 +19,11 @@ def main():
     from www.tasks import async_send_email
     from pprint import pprint
 
-    from www.service.interface import ServiceBase
+    from www.service.interface import ServiceBase, ProductBase
 
     # print datetime.datetime.now().date() - datetime.timedelta(days=7)
     sb = ServiceBase()
+    pb = ProductBase()
     ps1 = dict(name=u"三点十分", kind_id=1, logo="http://static.3-10.cc/img/logo.png", city_id=1974, summary=u"三点十分，企业下午茶服务专家",
                des=u"""
               三点十分是一家专注于企业下午茶点服务的互联网公司，下午茶O2O服务领跑者
@@ -35,8 +36,13 @@ def main():
               肉多多，好吃的工作餐
               """, imgs='<img src="/static/img/service/detail-1.jpg">', service_area=u"成都高新区", tel="4008-920-310", addr=u"成都市天府五街菁蓉国际广场",
                longitude="104.069271", latitude="30.544437", join_time="2016-07-19", )
-    print sb.add_service(**ps1)
-    print sb.add_service(**ps2)
+    # print sb.add_service(**ps1)
+    # print sb.add_service(**ps2)
+
+    print pb.add_product(name=u"三分果切", service_id=2, des=u"250g每盒", price=7,
+                         cover="http://img0.3-10.cc/item_bafa4ee26f2c11e587c800163e001bb1", summary=u"分量适中，味道好")
+    print pb.add_product(name=u"两分果切", service_id=2, des=u"200g每盒", price=7,
+                         cover="http://img0.3-10.cc/item_69473dbe524b11e6856d00163e001bb1", summary=u"两种水果混搭")
 
 
 if __name__ == '__main__':

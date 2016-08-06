@@ -14,7 +14,7 @@ from common import utils, debug, validators, cache, raw_sql
 from www.misc.decorators import cache_required
 from www.misc import consts
 
-from www.service.models import Kind, KindOpenInfo, Service
+from www.service.models import Kind, KindOpenInfo, Service, Product, Order, Zan
 
 DEFAULT_DB = 'default'
 
@@ -115,3 +115,34 @@ class ServiceBase(object):
             return Service.objects.select_related("kind").get(id=service_id)
         except Service.DoesNotExist:
             return ''
+
+
+class ProductBase(object):
+
+    def __init__(self):
+        pass
+
+    def __del__(self):
+        pass
+
+    def add_product(self, name, service_id, des, price, cover=None, summary=None):
+        try:
+            assert all([name, service_id, des, price])
+        except:
+            return 99800, dict_err.get(99800)
+
+        if Product.objects.filter(name=name, service=service_id):
+            return 99802, dict_err.get(99802)
+
+        product = Product.objects.create(name=name, service_id=service_id, des=des, price=price, cover=cover, summary=summary)
+
+        return 0, product
+
+    def get_products_by_service(self, service):
+        return Product.objects.select_related("service").filter(service=service)
+
+    def get_product_by_id(self, product_id):
+        try:
+            return Product.objects.select_related("service").get(id=product_id)
+        except Service.DoesNotExist:
+            return None

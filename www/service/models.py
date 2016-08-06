@@ -79,6 +79,9 @@ class Service(models.Model):
     def get_tel(self):
         return self.tel or "4008-920-310"
 
+    def get_url(self):
+        return u'/service/%s' % self.id
+
 
 class Product(models.Model):
     '''
@@ -87,8 +90,10 @@ class Product(models.Model):
     name = models.CharField(verbose_name=u"名称", max_length=32, db_index=True)
     service = models.ForeignKey("Service")
     cover = models.CharField(verbose_name=u"封面", max_length=256, null=True)
+    summary = models.TextField(verbose_name=u"摘要信息", null=True)
     des = models.TextField(verbose_name=u"简介")
     price = models.DecimalField(verbose_name=u"价格", max_digits=20, decimal_places=2, db_index=True)
+    params = models.TextField(verbose_name=u"额外参数", null=True)
 
     state = models.BooleanField(verbose_name=u"状态是否正常", default=True)
     sort = models.IntegerField(verbose_name=u"排序", default=0)
@@ -97,6 +102,9 @@ class Product(models.Model):
     class Meta:
         ordering = ["sort", "-create_time"]
         unique_together = [("name", "service"), ]
+
+    def get_url(self):
+        return u'/service/product/%s' % self.id
 
 
 class Order(models.Model):
