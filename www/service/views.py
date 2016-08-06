@@ -61,7 +61,7 @@ def service_detail(request, service_id, template_name='mobile/service/service_de
         recommend_user_info = dict(avatar=recommend_user.get_avatar_65, name=recommend_user.nick)
         verify_info = VerifyInfoBase().get_info_by_user_id(recommend_user.id)
         if verify_info:
-            recommend_user_info.update(name=verify_info.name, title=verify_info.title, company_name=verify_info.company_name)
+            recommend_user_info.update(name=verify_info.name, title=verify_info.title, company_name=verify_info.get_short_name())
     products = ProductBase().get_products_by_service(service)
 
     return render_to_response(template_name, locals(), context_instance=RequestContext(request))

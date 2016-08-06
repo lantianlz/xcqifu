@@ -178,9 +178,14 @@ class VerifyInfo(models.Model):
     mobile = models.CharField(max_length=32)
     title = models.CharField(max_length=32, db_index=True)
     company_name = models.CharField(max_length=64, db_index=True)
+    company_short_name = models.CharField(max_length=64, null=True)
+
     state = models.IntegerField(default=0, choices=state_choices, db_index=True)
     create_time = models.DateTimeField(auto_now_add=True, db_index=True)
     update_time = models.DateTimeField(auto_now=True)
+
+    def get_short_name(self):
+        return self.company_short_name or self.company_name
 
 
 class InviteQrcode(models.Model):
