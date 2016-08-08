@@ -254,6 +254,11 @@ def recommend(request, qrcode_id, template_name='mobile/account/recommend.html')
     qrcode.user = ub.get_user_by_id(qrcode.user_id)
 
     return render_to_response(template_name, locals(), context_instance=RequestContext(request))
+
+
+def my_zan(request, template_name='mobile/account/my_zan.html'):
+    
+    return render_to_response(template_name, locals(), context_instance=RequestContext(request))
 # ===================================================ajax部分=================================================================#
 
 

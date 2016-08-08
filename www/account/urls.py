@@ -17,6 +17,7 @@ urlpatterns = patterns('www.account.views',
                        url(r'^verify', 'verify'),
                        url(r'^recommendation', 'recommendation'),
                        url(r'^recommend/(?P<qrcode_id>\d+)$', 'recommend'),
+                       url(r'^my_zan$', 'my_zan'),
                        )
 
 urlpatterns += patterns('www.account.views_oauth',

@@ -8,43 +8,25 @@
 body{
     background: linear-gradient(to right, #f68e57, #f9b757);
 }
-.bg-curtain{
-    background-color: #fdd464;
-}
 {% elif kind.kind_type == 1 %}
 body{
     background: linear-gradient(to right, #ff589c, #ff58c9);
-}
-.bg-curtain{
-    background-color: #ff77d7;
 }
 {% elif kind.kind_type == 2 %}
 body{
     background: linear-gradient(to right, #35d9ae, #29eaa1);
 }
-.bg-curtain{
-    background-color: #50f0c3;
-}
 {% elif kind.kind_type == 3 %}
 body{
     background: linear-gradient(to right, #52a7fe, #4cb8fe);
-}
-.bg-curtain{
-    background-color: #80cbff;
 }
 {% elif kind.kind_type == 4 %}
 body{
     background: linear-gradient(to right, #05b5e1, #2ad2e8);
 }
-.bg-curtain{
-    background-color: #43d9f2;
-}
 {% elif kind.kind_type == 5 %}
 body{
     background: linear-gradient(to right, #a883fa, #bd90fa);
-}
-.bg-curtain{
-    background-color: #bfa0ff;
 }
 {% endif %}
 </style>
@@ -63,7 +45,7 @@ body{
         {% for service in services %}
         <a href="{{service.get_url}}" class="list-group-item col-xs-12 pr-0 pl-0 over-flow-hide mb-15 animated fadeInUp" style="animation-delay: {{ service.delays }}s;-webkit-animation-delay: {{  service.delays }}s;">
             <div class="col-xs-12 pl-70 pr-10 pt-3 pb-3 pr h67">
-                <span class="bg-curtain"></span>
+                <span class="bg-curtain bg-curtain-{{kind.kind_type}}"></span>
                 <img class="avatar" src="{{service.logo}}">
                 <div class="col-xs-12 f17 pr-5">{{service.name}}</div>
                 <div class="col-xs-12 f12 co-b6b6b6 pt-3 pr-5">{{service.summary}}</div>

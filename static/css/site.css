@@ -119,3 +119,40 @@ a:focus {outline: none; -moz-outline: none;}
     color: #ff3c3c;
     font-size: 12px;
 }
+
+.bg-gradient-0{
+    background: linear-gradient(to right, #f68e57, #f9b757);
+}
+.bg-curtain-0{
+    background-color: #fdd464;
+}
+.bg-gradient-1{
+    background: linear-gradient(to right, #ff589c, #ff58c9);
+}
+.bg-curtain-1{
+    background-color: #ff77d7;
+}
+.bg-gradient-2{
+    background: linear-gradient(to right, #35d9ae, #29eaa1);
+}
+.bg-curtain-2{
+    background-color: #50f0c3;
+}
+.bg-gradient-3{
+    background: linear-gradient(to right, #52a7fe, #4cb8fe);
+}
+.bg-curtain-3{
+    background-color: #80cbff;
+}
+.bg-gradient-4{
+    background: linear-gradient(to right, #05b5e1, #2ad2e8);
+}
+.bg-curtain-4{
+    background-color: #43d9f2;
+}
+.bg-gradient-5{
+    background: linear-gradient(to right, #a883fa, #bd90fa);
+}
+.bg-curtain-5{
+    background-color: #bfa0ff;
+}
