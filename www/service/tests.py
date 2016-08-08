@@ -41,7 +41,7 @@ def main():
 
     print pb.add_product(name=u"三分果切", service_id=2, des=u"250g每盒", price=7,
                          cover="http://img0.3-10.cc/item_bafa4ee26f2c11e587c800163e001bb1", summary=u"分量适中，味道好")
-    print pb.add_product(name=u"两分果切", service_id=2, des=u"200g每盒", price=7,
+    print pb.add_product(name=u"两分果切", service_id=2, des=u"200g每盒", price=5,
                          cover="http://img0.3-10.cc/item_69473dbe524b11e6856d00163e001bb1", summary=u"两种水果混搭")
 
 
