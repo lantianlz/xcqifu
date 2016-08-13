@@ -34,7 +34,13 @@ $(document).ready(function(){
 });
 </script>
 {% endblock %}
-{% block back_url %}/kind/{{service.kind_id}}{% endblock %}
+{% block back_url %}
+{% if 'my_zan' in  request.META.HTTP_REFERER %}
+/service/my_zan
+{% else %}
+/kind/{{service.kind_id}}
+{% endif %}
+{% endblock %}
 {% block container %}
 <div class="row ml-0 mr-0">
     <div class="col-xs-12 pl-0 pr-0 pr">
@@ -74,7 +80,7 @@ $(document).ready(function(){
             
             <div class="col-xs-12 pl-10 pr-0 pt-5">
                 <!-- <span class="co-ea232a f15">200元<span class="co-ea232a f12"> / 位</span></span> -->
-                <span class="co-95989d f12">已预定：{{service.order_count}}次</span>
+                <span class="co-95989d f12">已被预约：{{service.order_count}}次</span>
             </div>
             
         </div>
@@ -142,7 +148,8 @@ $(document).ready(function(){
             </div>
 
             <div class="booking">
-                <button class="btn-booking" value="">立即预定</button>
+                <button class="btn-booking" value="">在线预约</button>&nbsp;&nbsp;&nbsp;或&nbsp;&nbsp;
+                <button class="btn-booking" value="">电话咨询</button>
             </div>
         </div>
         
