@@ -64,7 +64,7 @@ class Service(models.Model):
 
     recommend_user_id = models.CharField(verbose_name=u"推荐人", max_length=32, db_index=True, null=True)
     recommend_des = models.TextField(verbose_name=u"推荐语", null=True)
-    like_count = models.IntegerField(verbose_name=u"点赞次数", default=0, db_index=True)
+    zan_count = models.IntegerField(verbose_name=u"点赞次数", default=0, db_index=True)
     order_count = models.IntegerField(verbose_name=u"预订次数", default=0, db_index=True)
     level = models.IntegerField(verbose_name=u"供应商等级", default=0, choices=level_choices)
     is_show = models.BooleanField(verbose_name=u"是否在列表页显示", default=True)

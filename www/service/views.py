@@ -12,19 +12,19 @@ from common import utils, page
 from misc.decorators import common_ajax_response, member_required, request_limit_by_ip, auto_select_template
 
 from www.account.interface import UserBase, VerifyInfoBase
-from www.service.interface import KindBase, ServiceBase, ProductBase
+from www.service.interface import KindBase, ServiceBase, ProductBase, ZanBase
 from www.weixin.interface import WeixinBase, Sign
 
 
 kb = KindBase()
 sb = ServiceBase()
+zb = ZanBase()
 
 
 @auto_select_template
 def index(request, template_name='mobile/index.html'):
     city_id = request.session.get("city_id", 1974)
     data = kb.get_kind_list(city_id=city_id)
-    # print data
 
     # 转换成json
     data_json = json.dumps(data)
@@ -78,3 +78,23 @@ def product_detail(request, product_id, template_name='mobile/service/product_de
 @member_required
 def my_order(request, template_name='mobile/service/my_order.html'):
     return render_to_response(template_name, locals(), context_instance=RequestContext(request))
+
+
+@member_required
+def my_zan(request, template_name='mobile/service/my_zan.html'):
+    zans = zb.get_zan_by_user_id(request.user.id)
+    return render_to_response(template_name, locals(), context_instance=RequestContext(request))
+
+
+# ===================================================ajax部分=================================================================#
+
+@member_required
+def add_zan(request):
+    service_id = request.REQUEST.get('service_id')
+    return zb.add_zan(request.user.id, service_id)
+
+
+@member_required
+def cancel_zan(request):
+    service_id = request.REQUEST.get('service_id')
+    return zb.cancel_zan(request.user.id, service_id)
