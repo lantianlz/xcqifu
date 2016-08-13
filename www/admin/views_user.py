@@ -10,7 +10,7 @@ from django.shortcuts import render_to_response
 from common import utils, page
 from misc.decorators import staff_required, common_ajax_response, verify_permission, member_required
 
-from www.account.interface import UserBase, UserCountBase
+from www.account.interface import UserBase
 
 
 @verify_permission('')

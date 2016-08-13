@@ -12,7 +12,7 @@ from misc.decorators import staff_required, common_ajax_response, verify_permiss
 from www.weixin.interface import WeixinBase, Sign
 
 
-@verify_permission('')
+# @verify_permission('')
 def home(request):
     return HttpResponseRedirect('/admin/user')
 

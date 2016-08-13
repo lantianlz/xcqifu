@@ -416,9 +416,6 @@ class UserBase(object):
         '''
         format_user = self.get_user_by_id(user_id)
 
-        # 统计信息
-        format_user.user_count = UserCountBase().get_user_count_info(user_id)
-
         # 是否管理员
         from www.admin.interface import PermissionBase
         if PermissionBase().get_user_permissions(user_id):
@@ -446,18 +443,6 @@ class UserBase(object):
                 format_user.source_display = ets[0].get_source_display()
 
         return format_user
-
-    def format_user_with_count_info(self, user):
-        """
-        @note: 给用户设置上统计数字信息
-        """
-        user_count_info = UserCountBase().get_user_count_info(user.id)
-        user.user_journey_count = user_count_info['user_journey_count']
-        user.user_answer_count = user_count_info['user_answer_count']
-        user.user_liked_count = user_count_info['user_liked_count']
-        user.following_count = user_count_info['following_count']
-        user.follower_count = user_count_info['follower_count']
-        return user
 
     def get_active_users(self, date):
 
@@ -754,64 +739,8 @@ def user_profile_required(func):
         if not request.is_me:
             request.is_follow = ufb.check_is_follow(request.user.id, user.id)
 
-        user_count_info = UserCountBase().get_user_count_info(user_id)
-        request.user_journey_count = user_count_info['user_journey_count']
-        request.user_answer_count = user_count_info['user_answer_count']
-        request.user_liked_count = user_count_info['user_liked_count']
-        request.following_count = user_count_info['following_count']
-        request.follower_count = user_count_info['follower_count']
-
         return func(request, user, *args, **kwargs)
     return _decorator
-
-
-class UserCountBase(object):
-
-    def __init__(self):
-        pass
-
-    @cache_required(cache_key='user_count_info_%s', expire=3600 * 24)
-    def get_user_count_info(self, user_id, must_update_cache=False):
-        try:
-            uc = UserCount.objects.get(user_id=user_id)
-            return dict(user_journey_count=uc.user_journey_count, user_answer_count=uc.user_answer_count,
-                        user_liked_count=uc.user_liked_count, following_count=uc.following_count,
-                        follower_count=uc.follower_count)
-        except UserCount.DoesNotExist:
-            return dict(user_journey_count=0, user_answer_count=0, user_liked_count=0,
-                        following_count=0, follower_count=0)
-
-    def update_user_count(self, user_id, code, operate="add"):
-        assert (user_id and code)
-        uc, created = UserCount.objects.get_or_create(user_id=user_id)
-        count = getattr(uc, code)
-        if operate == 'add':
-            count += 1
-        else:
-            count -= 1
-        setattr(uc, code, count)
-        uc.save()
-
-        # 更新缓存
-        self.get_user_count_info(user_id, must_update_cache=True)
-
-    @cache_required(cache_key='user_order_by_answer_count', expire=3600)
-    def get_user_order_by_answer_count(self, must_update_cache=False, count=21):
-        ucs = UserCount.objects.all()
-        return list(ucs.order_by('-user_answer_count')[:count])
-
-    def get_show_invite_users(self, exclude_user_id, count=20):
-        '''
-        @note: 获取邀请用户展示
-        '''
-        ucs = self.get_user_order_by_answer_count()
-        data = [uc for uc in ucs if uc.user_id != exclude_user_id]
-        return data[:count]
-
-    def get_all_users_by_order_count(self, sort):
-        '''
-        '''
-        return UserCount.objects.all().order_by("-" + sort)
 
 
 class ExternalTokenBase(object):

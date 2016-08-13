@@ -14,7 +14,7 @@ urlpatterns = patterns('',
                        url(r'^save_img$', 'www.misc.views.save_img'),
 
                        url(r'^$', 'www.service.views.index'),
-                       # url(r'^admin/', include('www.admin.urls')),
+                       url(r'^admin/', include('www.admin.urls')),
                        url(r'^account/', include('www.account.urls')),
                        url(r'^weixin/', include('www.weixin.urls')),
                        url(r'^service/', include('www.service.urls')),

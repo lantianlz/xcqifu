@@ -20,7 +20,7 @@ DEFAULT_DB = 'default'
 
 dict_err = {
     20101: u'该类别下已有同名供应商',
-
+    20102: u'没有找到对应的类别',
 }
 dict_err.update(consts.G_DICT_ERROR)
 
@@ -75,6 +75,64 @@ class KindBase(object):
             return Kind.objects.get(id=kind_id)
         except Service.DoesNotExist:
             return ''
+
+    def get_all_kinds(self, state=True):
+        objs = Kind.objects.all()
+
+        if state is not None:
+            objs = objs.filter(state=state)
+
+        return objs
+
+    def search_kinds_for_admin(self, name='', state=True):
+        objs = self.get_all_kinds(state)
+
+        if name:
+            objs = objs.filter(name__icontains=name)
+
+        return objs
+
+    def modify_kind(self, kind_id, name, kind_type, hot, sort, state, slogan):
+        if not (kind_id and name and kind_type and hot and sort and state and slogan):
+            return 99800, dict_err.get(99800)
+
+        obj = self.get_kind_by_id(kind_id)
+        if not obj:
+            return 20102, dict_err.get(20102)
+
+        try:
+            obj.name = name
+            obj.kind_type = kind_type
+            obj.hot = hot
+            obj.sort = sort
+            obj.state = int(state)
+            obj.slogan = slogan
+            obj.save()
+
+        except Exception, e:
+            debug.get_debug_detail_and_send_email(e)
+            return 99900, dict_err.get(99900)
+
+        return 0, dict_err.get(0)
+
+    def add_kind(self, name, kind_type, hot, sort, state, slogan):
+        if not (name and kind_type and hot and sort and state and slogan):
+            return 99800, dict_err.get(99800)
+
+        try:
+            obj = Kind.objects.create(
+                name = name,
+                kind_type = kind_type,
+                hot = hot,
+                sort = sort,
+                state = int(state),
+                slogan = slogan
+            )
+        except Exception, e:
+            debug.get_debug_detail_and_send_email(e)
+            return 99900, dict_err.get(99900)
+
+        return 0, obj
 
 
 class ServiceBase(object):

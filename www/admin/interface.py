@@ -14,7 +14,6 @@ dict_err = {}
 
 dict_err.update(consts.G_DICT_ERROR)
 
-
 class PermissionBase(object):
 
     """docstring for PermissionBase"""
@@ -75,97 +74,6 @@ class PermissionBase(object):
 
         UserPermission.objects.filter(user_id=user_id).delete()
 
-        return 0, dict_err.get(0)
-
-
-class FriendlyLinkBase(object):
-
-    def __init__(self):
-        pass
-
-    def format_friendly_links(self, friendly_links):
-        return friendly_links
-
-    def add_friendly_link(self, name, href, link_type=0, des=None, sort_num=0):
-        try:
-            try:
-                assert name and href
-
-            except:
-                return 99800, dict_err.get(99800)
-            obj = FriendlyLink.objects.create(name=name, href=href, link_type=link_type, sort_num=sort_num, des=des)
-
-            # 更新缓存
-            self.get_all_friendly_link(must_update_cache=True)
-        except Exception, e:
-            debug.get_debug_detail(e)
-            return 99900, dict_err.get(99900)
-        return 0, obj.id
-
-    @cache_required(cache_key='all_friendly_link_qx', expire=0, cache_config=cache.CACHE_STATIC)
-    def get_all_friendly_link(self, state=True, must_update_cache=False):
-        objects = FriendlyLink.objects.all()
-        if state != None:
-            objects = objects.filter(state=state)
-
-        return objects
-
-    def get_friendly_link_by_city_id(self, city_id, link_type=(0, )):
-        flinks = []
-        for flink in (self.get_all_friendly_link()):
-            if flink.city_id == city_id and flink.link_type in link_type:
-                flinks.append(flink)
-        return flinks
-
-    def get_friendly_link_by_id(self, link_id, state=True):
-        return self.get_all_friendly_link(state).filter(id=link_id)
-
-    def get_friendly_link_by_name(self, link_name):
-        return self.get_all_friendly_link(state=None).filter(name=link_name)
-
-    def get_friendly_link_by_link_type(self, link_type):
-        flinks = []
-        link_type = link_type if isinstance(link_type, (list, tuple)) else (link_type,)
-        for flink in (self.get_all_friendly_link()):
-            if flink.link_type in link_type:
-                flinks.append(flink)
-        return flinks
-
-    def modify_friendly_link(self, link_id, **kwargs):
-        if not link_id:
-            return 99800, dict_err.get(99800)
-
-        friendly_link = self.get_friendly_link_by_id(link_id, state=None)
-        if not friendly_link:
-            return 50103, dict_err.get(50103)
-
-        friendly_link = friendly_link[0]
-
-        try:
-            for k, v in kwargs.items():
-                setattr(friendly_link, k, v)
-
-            friendly_link.save()
-
-            # 更新缓存
-            self.get_all_friendly_link(must_update_cache=True)
-        except Exception, e:
-            debug.get_debug_detail(e)
-            return 99900, dict_err.get(99900)
-
-        return 0, dict_err.get(0)
-
-    def remove_friendly_link(self, link_id):
-        if not link_id:
-            return 99800, dict_err.get(99800)
-
-        friendly_link = self.get_friendly_link_by_id(link_id, state=None)
-        if not friendly_link:
-            return 50103, dict_err.get(50103)
-        friendly_link = friendly_link[0]
-        friendly_link.delete()
-
-        self.get_all_friendly_link(must_update_cache=True)
         return 0, dict_err.get(0)
 
 

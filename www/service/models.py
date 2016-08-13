@@ -20,7 +20,7 @@ class Kind(models.Model):
     create_time = models.DateTimeField(verbose_name=u"创建时间", auto_now_add=True, db_index=True)
 
     class Meta:
-        ordering = ["sort", "create_time"]
+        ordering = ["sort", "-create_time"]
 
     def get_url(self):
         return u'/kind/%s' % self.id
