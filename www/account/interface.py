@@ -33,7 +33,7 @@ dict_err = {
 }
 dict_err.update(consts.G_DICT_ERROR)
 
-ACCOUNT_DB = 'account'
+ACCOUNT_DB = 'account_xcqifu'
 
 
 class UserBase(object):
@@ -970,7 +970,7 @@ class VerifyInfoBase(object):
 
             # 防止重复提交
             # if not is_created and verfy_info.state == 0:
-                # return 10114, dict_err.get(10114)
+            # return 10114, dict_err.get(10114)
 
             verfy_info.name = name
             verfy_info.mobile = mobile
