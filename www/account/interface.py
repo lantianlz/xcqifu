@@ -33,7 +33,7 @@ dict_err = {
 }
 dict_err.update(consts.G_DICT_ERROR)
 
-ACCOUNT_DB = 'account_xcqifu'
+ACCOUNT_DB = 'account'
 
 
 class UserBase(object):
