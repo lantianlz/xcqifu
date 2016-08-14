@@ -45,7 +45,7 @@ class Service(models.Model):
     '''
     @note: 服务商
     '''
-    level_choices = ((0, u"普通"), (0, u"自营"), (0, u"优质"))
+    level_choices = ((0, u"普通"), (1, u"自营"), (2, u"优质"))
 
     name = models.CharField(verbose_name=u"名称", max_length=32, db_index=True)
     kind = models.ForeignKey("Kind")

@@ -123,11 +123,11 @@ def get_citys_by_name(request):
     '''
     根据名字查询城市
     '''
-    city_name = request.REQUEST.get('city_name')
+    name = request.REQUEST.get('name')
 
     result = []
 
-    citys = CityBase().get_citys_by_name(city_name)
+    citys = CityBase().get_citys_by_name(name)
 
     if citys:
         for x in citys:

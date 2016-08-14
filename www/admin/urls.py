@@ -26,6 +26,7 @@ urlpatterns += patterns('www.admin.views_kind',
     url(r'^kind/add_kind$', 'add_kind'),
     url(r'^kind/modify_kind$', 'modify_kind'),
     url(r'^kind/get_kind_by_id$', 'get_kind_by_id'),
+    url(r'^kind/get_kinds_by_name$', 'get_kinds_by_name'),
     url(r'^kind/search$', 'search'),
     url(r'^kind$', 'kind'),
 )

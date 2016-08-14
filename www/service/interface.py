@@ -21,7 +21,7 @@ DEFAULT_DB = 'default'
 dict_err = {
     20101: u'该类别下已有同名供应商',
     20102: u'赞一次就可以了，多了会骄傲',
-    20103: u'没有找到对应的类别',
+    20103: u'没有找到对应的供应商',
 }
 dict_err.update(consts.G_DICT_ERROR)
 
@@ -135,6 +135,14 @@ class KindBase(object):
 
         return 0, obj
 
+    def get_kinds_by_name(self, name):
+        objs = self.get_all_kinds()
+
+        if name:
+            objs = objs.filter(name__icontains=name)
+
+        return objs[:10]
+
 
 class ServiceBase(object):
 
@@ -186,6 +194,109 @@ class ServiceBase(object):
 
     def minus_order_count(self, service_id):
         Service.objects.filter(id=service_id).update(order_count=F('order_count') - 1)
+
+    def get_all_services(self, state=True):
+        objs = Service.objects.all()
+
+        if state is not None:
+            objs = objs.filter(state=state)
+
+        return objs
+
+    def search_services_for_admin(self, name, state):
+        objs = self.get_all_services(state)
+
+        if name:
+            objs = objs.filter(name__icontains=name)
+
+        return objs
+
+    def add_service(self, name, kind, logo, city, summary, des, imgs, 
+        service_area, tel='', addr='', longitude='', latitude='', join_time='', recommend_user_id='', 
+        recommend_des='', zan_count=0, order_count=0, level=0, is_show=True, state=True, sort=0):
+
+        if not (name and kind and logo and city and summary and des and imgs):
+            return 99800, dict_err.get(99800)
+
+        if Service.objects.filter(name=name):
+            return 20201, dict_err.get(20201)
+
+        try:
+            obj = Service.objects.create(
+                name = name,
+                kind_id = kind,
+                logo = logo,
+                city_id = city,
+                summary = summary,
+                des = des,
+                imgs = imgs,
+                service_area = service_area,
+                tel = tel,
+                addr = addr,
+                longitude = longitude,
+                latitude = latitude,
+                join_time = join_time,
+                recommend_user_id = recommend_user_id,
+                recommend_des = recommend_des,
+                zan_count = zan_count,
+                order_count = order_count,
+                level = level,
+                is_show = is_show,
+                state = state,
+                sort = sort
+            )
+        except Exception, e:
+            debug.get_debug_detail_and_send_email(e)
+            return 99900, dict_err.get(99900)
+
+        return 0, obj
+
+    def modify_service(self, obj_id, name, kind, logo, city, summary, des, imgs, 
+        service_area, tel='', addr='', longitude='', latitude='', join_time='', recommend_user_id='', 
+        recommend_des='', zan_count=0, order_count=0, level=0, is_show=True, state=True, sort=0):
+
+        if not (obj_id and name and kind and logo and city and summary and des and imgs):
+            return 99800, dict_err.get(99800)
+
+        obj = self.get_service_by_id(obj_id)
+        if not obj:
+            return 20103, dict_err.get(20103)
+
+        if obj.name != name and Service.objects.filter(name=name):
+            return 20201, dict_err.get(20201)
+
+        import re
+        # imgs_str = ''.join(re.compile('<img .*?src=[\"\'](.+?)[\"\']').findall(imgs))
+        
+        try:
+            obj.name = name
+            obj.kind_id = kind
+            obj.logo = logo
+            obj.city_id = city
+            obj.summary = summary
+            obj.des = des
+            obj.imgs = imgs
+            obj.service_area = service_area
+            obj.tel = tel
+            obj.addr = addr 
+            obj.longitude = longitude
+            obj.latitude = latitude
+            obj.join_time = join_time
+            obj.recommend_user_id = recommend_user_id
+            obj.recommend_des = recommend_des
+            obj.zan_count = zan_count
+            obj.order_count = order_count
+            obj.level = level
+            obj.is_show = int(is_show)
+            obj.state = int(state)
+            obj.sort = sort
+            obj.save()
+        except Exception, e:
+            debug.get_debug_detail_and_send_email(e)
+            return 99900, dict_err.get(99900)
+
+        return 0, dict_err.get(0)
+
 
 
 class ProductBase(object):

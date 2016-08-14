@@ -29,6 +29,11 @@ PERMISSIONS = [
     {'code': 'query_kind', 'name': u'查询类别', 'parent': 'kind_manage'},
     {'code': 'modify_kind', 'name': u'修改类别', 'parent': 'kind_manage'},
 
+    {'code': 'service_manage', 'name': u'服务商管理', 'parent': None},
+    {'code': 'add_service', 'name': u'添加服务商', 'parent': 'service_manage'},
+    {'code': 'query_service', 'name': u'查询服务商', 'parent': 'service_manage'},
+    {'code': 'modify_service', 'name': u'修改服务商', 'parent': 'service_manage'},
+
     {'code': 'city_manage', 'name': u'城市管理', 'parent': None},
     #{'code': 'add_city', 'name': u'添加城市', 'parent': 'city_manage'},
     {'code': 'query_city', 'name': u'查询城市', 'parent': 'city_manage'},

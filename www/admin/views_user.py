@@ -130,7 +130,7 @@ def get_user_by_nick(request):
     '''
     根据名字查询用户
     '''
-    nick = request.REQUEST.get('nick')
+    nick = request.REQUEST.get('name')
 
     result = []
 

@@ -1,0 +1,872 @@
+{% extends "pc/admin/home.html" %}
+{% load custom_tags %}
+{% load custom_filters %}
+{% block title %}服务商管理{% endblock %}
+{% block admin_title %}服务商管理{% endblock %}
+{% block admin_title_m %}服务商管理{% endblock %}
+
+{% block css %}
+<style type="text/css">
+
+</style>
+{% endblock %}
+
+{% block javascript %}
+<script type="text/javascript">
+$(document).ready(function(){
+    // models
+    var Service = Backbone.Model.extend({
+
+        // 默认值
+        defaults: {
+            'num': ''
+        }
+
+    });
+
+    // collections
+    var Services = Backbone.Collection.extend({
+        model: Service,
+
+        _modelMaps: {
+            'num': 'num',
+            'id': 'id',
+            'name': 'name',
+            'kindId': 'kind_id',
+            'kindName': 'kind_name',
+            'logo': 'logo',
+            'cityId': 'city_id',
+            'cityName': 'city_name',
+            'summary': 'summary',
+            'des': 'des',
+            'imgs': 'imgs',
+            'serviceArea': 'service_area',
+            'tel': 'tel',
+            'addr': 'addr',
+            'longitude': 'longitude',
+            'latitude': 'latitude',
+            'joinTime': 'join_time',
+            'recommendUserId': 'recommend_user_id',
+            'recommendUserNick': 'recommend_user_nick',
+            'recommendDes': 'recommend_des',
+            'zanCount': 'zan_count',
+            'orderCount': 'order_count',
+            'level': 'level',
+            'levelStr': 'level_str',
+            'isShow': 'is_show',
+            'state': 'state',
+            'sort': 'sort',
+            'createTime': 'create_time'
+        },
+
+        search: function(name, state, pageIndex){
+            var me = this,
+                name = name||'',
+                state = state||'1',
+                pageIndex = pageIndex||1;
+
+            ajaxSend(
+                "/admin/service/search", 
+                {'name': name, 'state': state, 'page_index': pageIndex}, 
+                function(data){
+                    me.pageIndex = pageIndex;
+                    me.pageCount = data.page_count;
+                    me.name = name;
+                    me.state = state;
+
+                    me.reset($.Global.Utils.dictMapParse(data.data, me._modelMaps));
+                }
+            );
+        },
+
+        getOne: function(objId, callback){
+            var me = this;
+
+            ajaxSend(
+                "/admin/service/get_service_by_id", 
+                {'service_id': objId},
+                function(data){
+                    if(callback){
+                        callback($.Global.Utils.dictMap(data, me._modelMaps));
+                    }
+                }
+            );
+        },
+
+        //
+        modifyObj: function(data, callback){
+
+            ajaxSend(
+                "/admin/service/modify_service", 
+                data,
+                function(response){
+                    if(callback){
+                        callback(response);
+                    }
+                }
+            );
+        },
+
+        addObj: function(data, callback){
+
+            ajaxSend(
+                "/admin/service/add_service", 
+                data,
+                function(response){
+                    if(callback){
+                        callback(response);
+                    }
+                }
+            );
+        }
+
+    });
+
+    // listView
+    var ListView = Backbone.View.extend({
+        el: '#obj_list',
+
+        pagination: new $.Global.Pagination.PaginationView(),
+
+        template: _.template($('#obj_template').html()),
+
+        initialize: function(){
+            this.listenTo(this.collection, 'reset', this.render);
+        },
+
+        events: {
+            'click .search': 'search',
+            'click .pointer': 'modifyObj'
+        },
+
+        // 渲染函数
+        render: function(){
+            var data = this.collection.toJSON();
+
+            this.showPanel();
+
+            this.$('tbody').html(this.template({'objs': data}));
+
+            this.pagination.render(
+                this.collection.pageIndex,
+                this.collection.pageCount,
+                'search/' + this.collection.name + '/' + this.collection.state
+            );
+        },
+
+        // 显示面板
+        showPanel: function(){
+            $('.orange-nav-pills a[href="#obj_list"]').tab('show');
+        },
+
+        search: function(){
+            var name = this.$('.name').val(),
+                state = this.$('.state').val();
+
+            router.navigate(String.format('/search/{0}/{1}/1', name, state), {trigger: true});
+        },
+
+        modifyObj: function(sender){
+            var target = $(sender.currentTarget),
+                objId = target.data('obj_id');
+
+            router.navigate('/modify/' + objId, {trigger: true});
+        }
+    });
+
+    // modifyView
+    var ModifyView = Backbone.View.extend({
+        
+        el: '#modify_obj',
+
+        template: _.template($('#modify_obj_template').html()),
+
+        events: {
+            'click .save': 'save'
+        },
+
+        // 显示面板
+        showPanel: function(){
+            $('.orange-nav-pills a[href="#modify_obj"]').tab('show');
+        },
+
+        kindTextBox: null,
+        initKindTextBox: function(name, value){
+            var me = this;
+
+            this.kindTextBox = $.Global.TextboxList.create('#kind_modify', {
+                max: 1,
+                placeholder: '选择所属类别',
+                url: '/admin/kind/get_kinds_by_name',
+                param: 'name',
+                loadPlaceholder: '正在加载...'
+            });
+
+            if(value){
+                this.kindTextBox.add(name, value);
+            }
+        },
+
+        cityTextBox: null,
+        initCityTextBox: function(name, value){
+            var me = this;
+
+            this.cityTextBox = $.Global.TextboxList.create('#city_modify', {
+                max: 1,
+                placeholder: '选择所属城市',
+                url: '/admin/city/get_citys_by_name',
+                param: 'name',
+                loadPlaceholder: '正在加载...'
+            });
+
+            if(value){
+                this.cityTextBox.add(name, value);
+            }
+            
+        },
+
+        recommendTextBox: null,
+        initRecommendTextBox: function(name, value){
+            var me = this;
+
+            this.recommendTextBox = $.Global.TextboxList.create('#recomend_modify', {
+                max: 1,
+                placeholder: '选择推荐人',
+                url: '/admin/user/get_user_by_nick',
+                param: 'name',
+                loadPlaceholder: '正在加载...'
+            });
+
+            if(value){
+                this.recommendTextBox.add(name, value);
+            }
+            
+        },
+
+        initDate: function(){
+            $('#join_time_modify').datetimepicker({
+                format: 'yyyy-mm-dd',
+                language: 'zh-CN',
+                minView: 2,
+                autoclose: true
+            });
+        },
+
+        // 渲染
+        render: function(data){
+            this.$el.html(this.template(data));
+            this.initKindTextBox(data.kindName, data.kindId);
+            this.initCityTextBox(data.cityName, data.cityId);
+            this.initRecommendTextBox(data.recommendUserNick, data.recommendUserId);
+            this.initDate();
+            createEditor('#cover_editor_modify');
+        },
+
+        // 显示提问信息
+        modifyObj: function(objId){
+            var me = this;
+
+            this.collection.getOne(objId, function(data){
+                if(data){
+                    me.render(data);
+                    me.showPanel();
+                } else {
+                    setTimeout(function(){history.go(-1);}, 3000);
+                    $.Global.Notice.ErrorTopNotice("没有找到对应的类别!");
+                }
+            });
+        },
+
+        // 保存
+        save: function(sender){
+            // var objId = this.$('form').data('obj_id'),
+            //     target = $(sender.currentTarget),
+            //     me = this;
+
+            // g_ajax_processing_obj_id = target.setUUID().attr('id');
+            // me.collection.modifyObj($.Global.Utils.formToDict(this.$('form')), function(data){
+            //     if(data.errcode == "0"){
+            //         $.Global.Notice.SuccessTopNotice('操作成功!');
+            //         router.navigate('modify/' + objId, {'trigger': true});
+            //     } else {
+            //         $.Global.Notice.ErrorTopNotice(data.errmsg);
+            //     }
+            // });
+
+            if(!this.$('form').valid()){
+                return;
+            }
+            
+            this.$('form').submit();
+            
+        }
+
+    });
+
+    var AddView = Backbone.View.extend({
+        el: 'body',
+
+        template: _.template($('#add_obj_template').html()),
+
+        showPanel: function(){
+            var me = this;
+
+            me.render();
+        },
+
+        kindTextBox: null,
+        initKindTextBox: function(name, value){
+            var me = this;
+
+            this.kindTextBox = $.Global.TextboxList.create('#kind_add', {
+                max: 1,
+                placeholder: '选择所属类别',
+                url: '/admin/kind/get_kinds_by_name',
+                param: 'name',
+                loadPlaceholder: '正在加载...'
+            });
+
+            if(value){
+                this.kindTextBox.add(name, value);
+            }
+        },
+
+        cityTextBox: null,
+        initCityTextBox: function(name, value){
+            var me = this;
+
+            this.cityTextBox = $.Global.TextboxList.create('#city_add', {
+                max: 1,
+                placeholder: '选择所属城市',
+                url: '/admin/city/get_citys_by_name',
+                param: 'name',
+                loadPlaceholder: '正在加载...'
+            });
+
+            if(value){
+                this.cityTextBox.add(name, value);
+            }
+            
+        },
+
+        recommendTextBox: null,
+        initRecommendTextBox: function(name, value){
+            var me = this;
+
+            this.recommendTextBox = $.Global.TextboxList.create('#recomend_add', {
+                max: 1,
+                placeholder: '选择推荐人',
+                url: '/admin/user/get_user_by_nick',
+                param: 'name',
+                loadPlaceholder: '正在加载...'
+            });
+
+            if(value){
+                this.recommendTextBox.add(name, value);
+            }
+            
+        },
+
+        initDate: function(){
+            $('#join_time_add').datetimepicker({
+                format: 'yyyy-mm-dd',
+                language: 'zh-CN',
+                minView: 2,
+                autoclose: true
+            });
+        },
+
+        render: function(){
+            var me = this;
+
+            $('#add_obj_modal').remove();
+            
+            $('body').append(this.template());
+
+            // 绑定事件
+            $('#add_obj_modal .cancel').bind('click', function(){
+                history.go(-1);
+            });
+            $('#add_obj_modal .ok').bind('click', function(){
+                me.addObj();
+            });
+            
+            $('#add_obj_modal').modal({'show': true, 'backdrop': 'static'});
+
+            this.initKindTextBox();
+            this.initCityTextBox();
+            this.initRecommendTextBox();
+            this.initDate();
+            createEditor('#cover_editor_add');
+        },
+
+        addObj: function(){
+            // var me = this;
+            
+            // if(!$('#add_obj_modal form').valid()){
+            //     return;
+            // }
+
+            // g_ajax_processing_obj_id = $("#add_obj_modal .ok").setUUID().attr('id');
+            // kinds.addObj($.Global.Utils.formToDict($('#add_obj_modal form')), function(data){
+            //     if(data.errcode == "0"){
+            //         router.navigate('modify/' + data.errmsg, {trigger: true});
+            //         $('#add_obj_modal').modal('hide');
+            //         $.Global.Notice.SuccessTopNotice("操作成功");
+            //     } else {
+            //         $.Global.Notice.ErrorTopNotice(data.errmsg);
+            //     }
+            // })
+
+            if(!$('#add_obj_modal form').valid()){
+                return;
+            }
+
+            $('#add_obj_modal form').submit();
+
+        }
+
+    });
+
+    var Router = Backbone.Router.extend({
+
+        routes: {
+            "":                                     "search",
+            "modify/:objId":                        "modify",
+            "search/(:name)/(:state)/:pageIndex":   "search",
+            "add":                                  "add"
+        },
+
+        // 查询
+        search: function(name, state, pageIndex){
+            services.search(name, state, pageIndex);
+        },
+
+        // 显示修改界面
+        modify: function(objId){
+            modifyView.modifyObj(objId);
+        },
+
+        add: function(){
+            addView.showPanel();
+        }
+
+    });
+
+    var services = new Services(),
+        listView = new ListView({'collection': services}),
+        modifyView = new ModifyView({'collection': services}),
+        addView = new AddView(),
+        router = new Router();
+ 
+    Backbone.history.start();
+
+    if(window.location.href.indexOf('?') > -1){
+        $.Global.Notice.ErrorTopNotice(decodeURI(window.location.search).substring(1));
+    }
+ });
+</script>
+{% endblock %}
+
+{% block admin_main %}
+<ul class="nav nav-pills orange-nav-pills">
+    <li class="active">
+        <a href="#obj_list" data-toggle="pill">
+            <i class="fa fa-list-ol pr-5"></i>
+            <span class="hidden-sm hidden-md hidden-lg">列表</span>
+            <span class="hidden-xs">服务商列表</span>
+        </a>
+    </li>
+    <li>
+        <a href="#modify_obj" data-toggle="pill">
+            <i class="fa fa-pencil-square-o pr-5"></i>
+            <span class="hidden-sm hidden-md hidden-lg">修改</span>
+            <span class="hidden-xs">修改服务商信息</span>
+        </a>
+    </li>
+    <li class="pull-right">
+        <a href="#add">
+            <i class="fa fa-plus-circle pr-5"></i>
+            <span class="hidden-sm hidden-md hidden-lg">添加</span>
+            <span class="hidden-xs">添加服务商</span>
+        </a>
+    </li>
+</ul>
+
+<div class="tab-content">
+
+    <div class="tab-pane fade pt-15 in active" id="obj_list">
+        <form action="." class="form-inline" onsubmit="javascript: return false;">
+            <div class="input-group input-group-sm pb-10">
+                <span class="input-group-addon">状态</span>
+                <select class="form-control state">
+                    {% for state in all_states %}
+                    <option value="{{state.value}}" {% if state.value == 1 %}selected{% endif %} >{{state.name}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="input-group input-group-sm pb-10">
+                <span class="input-group-addon">服务商名称</span>
+                <input type="text" class="form-control name" placeholder="" />
+                <span class="input-group-btn">
+                    <button class="btn btn-default search bgc-eeeeee" type="submit">查询</button>
+                </span>
+            </div>
+        </form>
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>图片</th>
+                    <th>名称</th>
+                    <th>供应商等级</th>
+                    <th>所属类别</th>
+                    <th>所属城市</th>
+                    <th>点赞次数</th>
+                    <th>预订次数</th>
+                    <th>状态</th>
+                </tr>
+            </thead>
+            <tbody>
+                
+            </tbody>
+        </table>
+
+        <div class="text-center">
+            <ul class="pagination pagination-sm qx-pagination">
+                
+            </ul>
+        </div>
+    </div>
+
+    <div class="tab-pane fade pt-15" id="modify_obj">
+        
+    </div>
+</div>
+
+<!-- 列表 -->
+<script type="text/template" id="obj_template">
+    <% _.each(objs, function(obj){ %>
+        <tr class="pointer" data-obj_id="<%= obj.id %>">
+            <td><%= obj.num %></td>
+            <td><img src="<%= obj.logo %>" class="w35"></td>
+            <td><%= obj.name %></td>
+            <td><%= obj.levelStr %></td>
+            <td><%= obj.kindName %></td>
+            <td><%= obj.cityName %></td>
+            <td><%= obj.zanCount %></td>
+            <td><%= obj.orderCount %></td>
+            <td>
+                <% if(obj.state){ %>
+                    <span class="fa fa-check co-3B99FC"></span>
+                <% } else { %>
+                    <span class="fa fa-times co-C33333"></span>
+                <% } %>
+            </td>
+        </tr>
+    <% }) %>
+</script>
+
+<!-- 修改 -->
+<script type="text/template" id="modify_obj_template">
+    <form class="form-horizontal" data-obj_id="<%= id %>" role="form" method="post" action="/admin/service/modify_service" enctype="multipart/form-data">
+        <input type="hidden" name="obj_id" value="<%= id %>" />
+        <div class="form-group pt-20 pb-20 mb-0 border-bottom-1 bdc-e4e4e4">
+            <label class="col-sm-2 control-label">logo</label>
+            <div class="col-sm-3 mb-5">
+                <img class="mb-10 w100p" src="<%= logo %>" />
+                <input name="logo" class="pb-10" type="file" />图片格式为png，尺寸为 124(宽) X 124(长)
+            </div>
+            <label class="col-sm-2 control-label">名称</label>
+            <div class="col-sm-3 mb-5">
+                <input type="text" class="form-control" required name="name" value='<%= name %>'>
+            </div>
+        </div>
+        <div class="form-group pt-20 pb-20 mb-0 border-bottom-1 bdc-e4e4e4">
+            <label class="col-sm-2 control-label">所属类别</label>
+            <div class="col-sm-3 mb-5">
+                <input type="text" class="form-control" id="kind_modify" required name="kind" value=''>
+            </div>
+            <label class="col-sm-2 control-label">所属城市</label>
+            <div class="col-sm-3">
+                <input type="text" class="form-control" id="city_modify" required name="city" value=''>
+            </div>
+        </div>
+        <div class="form-group pt-20 pb-20 mb-0 border-bottom-1 bdc-e4e4e4">
+            <label class="col-sm-2 control-label">服务范围</label>
+            <div class="col-sm-3 mb-5">
+                <input type="text" class="form-control" required name="service_area" value='<%= serviceArea %>'>
+            </div>
+            <label class="col-sm-2 control-label">电话</label>
+            <div class="col-sm-3">
+                <input type="text" class="form-control" required name="tel" value='<%= tel %>'>
+            </div>
+        </div>
+        <div class="form-group pt-20 pb-20 mb-0 border-bottom-1 bdc-e4e4e4">
+            <label class="col-sm-2 control-label">经度</label>
+            <div class="col-sm-3 mb-5">
+                <input type="text" class="form-control" required name="longitude" value='<%= longitude %>'>
+            </div>
+            <label class="col-sm-2 control-label">纬度</label>
+            <div class="col-sm-3">
+                <input type="text" class="form-control" required name="latitude" value='<%= latitude %>'>
+            </div>
+        </div>
+        <div class="form-group pt-20 pb-20 mb-0 border-bottom-1 bdc-e4e4e4">
+            <label class="col-sm-2 control-label">地址</label>
+            <div class="col-sm-3 mb-5">
+                <input type="text" class="form-control" required name="addr" value='<%= addr %>'>
+            </div>
+            <label class="col-sm-2 control-label">入驻时间</label>
+            <div class="col-sm-3">
+                <input type="text" class="form-control" required id="join_time_modify" name="join_time" value='<%= joinTime %>'>
+            </div>
+        </div>
+        <div class="form-group pt-20 pb-20 mb-0 border-bottom-1 bdc-e4e4e4">
+            <label class="col-sm-2 control-label">推荐人</label>
+            <div class="col-sm-3 mb-5">
+                <input type="text" class="form-control" id="recomend_modify" required name="recommend_user_id" value=''>
+            </div>
+            <label class="col-sm-2 control-label">推荐语</label>
+            <div class="col-sm-3">
+                <input type="text" class="form-control" required name="recommend_des" value='<%= recommendDes %>'>
+            </div>
+        </div>
+        <div class="form-group pt-20 pb-20 mb-0 border-bottom-1 bdc-e4e4e4">
+            <label class="col-sm-2 control-label">点赞次数</label>
+            <div class="col-sm-3 mb-5">
+                <input type="text" class="form-control" required name="zan_count" value='<%= zanCount %>'>
+            </div>
+            <label class="col-sm-2 control-label">预定次数</label>
+            <div class="col-sm-3">
+                <input type="text" class="form-control" required name="order_count" value='<%= orderCount %>'>
+            </div>
+        </div>
+        <div class="form-group pt-20 pb-20 mb-0 border-bottom-1 bdc-e4e4e4">
+            <label class="col-sm-2 control-label">供应商等级</label>
+            <div class="col-sm-3 mb-5">
+                {% for choice in level_choices %}
+                <label class="radio-inline">
+                    <input type="radio" name="level" value="{{choice.value}}" <% if(level == {{choice.value}}){ %>checked<% } %> > {{choice.name}}
+                </label>
+                {% endfor %}
+            </div>
+            <label class="col-sm-2 control-label">列表页显示</label>
+            <div class="col-sm-3">
+                <label class="radio-inline">
+                    <input type="radio" name="is_show" value="1" <% if(isShow == 1){ %>checked<% } %> > 是
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" name="is_show" value="0" <% if(isShow == 0){ %>checked<% } %> > 否
+                </label>
+            </div>
+        </div>
+        <div class="form-group pt-20 pb-20 mb-0 border-bottom-1 bdc-e4e4e4">
+            <label class="col-sm-2 control-label">状态</label>
+            <div class="col-sm-3 mb-5">
+                <label class="radio-inline">
+                    <input type="radio" name="state" value="1" <% if(state == 1){ %>checked<% } %> > 有效
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" name="state" value="0" <% if(state == 0){ %>checked<% } %> > 无效
+                </label>
+            </div>
+            <label class="col-sm-2 control-label">排序</label>
+            <div class="col-sm-3">
+                <input type="text" class="form-control" required name="sort" value='<%= sort %>'>
+            </div>
+        </div>
+        <div class="form-group pt-20 pb-20 mb-0 border-bottom-1 bdc-e4e4e4">
+            <label class="col-sm-2 control-label">创建时间</label>
+            <div class="col-sm-3 mb-5">
+                <p class="form-control-static"><%= createTime %></p>
+            </div>
+        </div>
+        <div class="form-group pt-20 pb-20 mb-0 border-bottom-1 bdc-e4e4e4">
+            <label class="col-sm-2 control-label">摘要</label>
+            <div class="col-sm-8">
+                <textarea name="summary" rows="6" class="form-control" placeholder=""><%= summary %></textarea>
+            </div>
+        </div>
+        <div class="form-group pt-20 pb-20 mb-0 border-bottom-1 bdc-e4e4e4">
+            <label class="col-sm-2 control-label">简介</label>
+            <div class="col-sm-8">
+                <textarea name="des" rows="6" class="form-control" placeholder=""><%= des %></textarea>
+            </div>
+        </div>
+        <div class="form-group pt-20 pb-20 mb-0 border-bottom-1 bdc-e4e4e4">
+            <label class="col-sm-2 control-label">轮播图</label>
+            <div class="col-sm-8">
+                <textarea style="height: 400px;" name="imgs" rows="6" id="cover_editor_modify" class="form-control"><%= imgs %></textarea>
+            </div>
+        </div>
+        <div class="form-group pt-20 pb-20 mb-0 border-bottom-1 bdc-e4e4e4">
+            <div class="col-sm-12">
+                <button type="button" class="btn btn-primary save">提交你的修改</button>
+            </div>
+        </div>
+    </form>
+</script>
+
+<!-- 添加 -->
+<script type="text/template" id="add_obj_template">
+<div class="modal fade" id="add_obj_modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header pb-5">
+                <h4 class="modal-title">添加类别</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" role="form" method="post" action="/admin/service/add_service" enctype="multipart/form-data">
+                    <div class="form-group pt-20 pb-20 mb-0 border-bottom-1 bdc-e4e4e4">
+                        <label class="col-sm-3 control-label">logo</label>
+                        <div class="col-sm-5 mb-5">
+                            <img class="mb-10 w100p" src="" />
+                            <input name="logo" class="pb-10" type="file" />图片格式为png，尺寸为 124(宽) X 124(长)
+                        </div>
+                    </div>
+                    <div class="form-group pt-20 pb-20 mb-0 border-bottom-1 bdc-e4e4e4">
+                        <label class="col-sm-3 control-label">名称</label>
+                        <div class="col-sm-5 mb-5">
+                            <input type="text" class="form-control" required name="name" value=''>
+                        </div>
+                    </div>
+                    <div class="form-group pt-20 pb-20 mb-0 border-bottom-1 bdc-e4e4e4">
+                        <label class="col-sm-3 control-label">所属类别</label>
+                        <div class="col-sm-5 mb-5">
+                            <input type="text" class="form-control" id="kind_add" required name="kind" value=''>
+                        </div>
+                    </div>
+                    <div class="form-group pt-20 pb-20 mb-0 border-bottom-1 bdc-e4e4e4">
+                        <label class="col-sm-3 control-label">所属城市</label>
+                        <div class="col-sm-5">
+                            <input type="text" class="form-control" id="city_add" required name="city" value=''>
+                        </div>
+                    </div>
+                    <div class="form-group pt-20 pb-20 mb-0 border-bottom-1 bdc-e4e4e4">
+                        <label class="col-sm-3 control-label">服务范围</label>
+                        <div class="col-sm-9 mb-5">
+                            <input type="text" class="form-control" required name="service_area" value=''>
+                        </div>
+                    </div>
+                    <div class="form-group pt-20 pb-20 mb-0 border-bottom-1 bdc-e4e4e4">
+                        <label class="col-sm-3 control-label">电话</label>
+                        <div class="col-sm-5">
+                            <input type="text" class="form-control" required name="tel" value=''>
+                        </div>
+                    </div>
+                    <div class="form-group pt-20 pb-20 mb-0 border-bottom-1 bdc-e4e4e4">
+                        <label class="col-sm-3 control-label">经度</label>
+                        <div class="col-sm-5 mb-5">
+                            <input type="text" class="form-control" required name="longitude" value=''>
+                        </div>
+                    </div>
+                    <div class="form-group pt-20 pb-20 mb-0 border-bottom-1 bdc-e4e4e4">
+                        <label class="col-sm-3 control-label">纬度</label>
+                        <div class="col-sm-5">
+                            <input type="text" class="form-control" required name="latitude" value=''>
+                        </div>
+                    </div>
+                    <div class="form-group pt-20 pb-20 mb-0 border-bottom-1 bdc-e4e4e4">
+                        <label class="col-sm-3 control-label">地址</label>
+                        <div class="col-sm-9 mb-5">
+                            <input type="text" class="form-control" required name="addr" value=''>
+                        </div>
+                    </div>
+                    <div class="form-group pt-20 pb-20 mb-0 border-bottom-1 bdc-e4e4e4">
+                        <label class="col-sm-3 control-label">入驻时间</label>
+                        <div class="col-sm-5">
+                            <input type="text" class="form-control" id="join_time_add" required name="join_time" value=''>
+                        </div>
+                    </div>
+                    <div class="form-group pt-20 pb-20 mb-0 border-bottom-1 bdc-e4e4e4">
+                        <label class="col-sm-3 control-label">推荐人</label>
+                        <div class="col-sm-5 mb-5">
+                            <input type="text" class="form-control" id="recomend_add" required name="recommend_user_id" value=''>
+                        </div>
+                    </div>
+                    <div class="form-group pt-20 pb-20 mb-0 border-bottom-1 bdc-e4e4e4">
+                        <label class="col-sm-3 control-label">推荐语</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" required name="recommend_des" value=''>
+                        </div>
+                    </div>
+                    <div class="form-group pt-20 pb-20 mb-0 border-bottom-1 bdc-e4e4e4">
+                        <label class="col-sm-3 control-label">点赞次数</label>
+                        <div class="col-sm-3 mb-5">
+                            <input type="text" class="form-control" required name="zan_count" value='0'>
+                        </div>
+                    </div>
+                    <div class="form-group pt-20 pb-20 mb-0 border-bottom-1 bdc-e4e4e4">
+                        <label class="col-sm-3 control-label">预定次数</label>
+                        <div class="col-sm-3">
+                            <input type="text" class="form-control" required name="order_count" value='0'>
+                        </div>
+                    </div>
+                    <div class="form-group pt-20 pb-20 mb-0 border-bottom-1 bdc-e4e4e4">
+                        <label class="col-sm-3 control-label">供应商等级</label>
+                        <div class="col-sm-9 mb-5">
+                            {% for choice in level_choices %}
+                            <label class="radio-inline">
+                                <input type="radio" name="level" value="{{choice.value}}"> {{choice.name}}
+                            </label>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="form-group pt-20 pb-20 mb-0 border-bottom-1 bdc-e4e4e4">
+                        <label class="col-sm-3 control-label">列表页显示</label>
+                        <div class="col-sm-9">
+                            <label class="radio-inline">
+                                <input type="radio" name="is_show" value="1" checked="checked"> 是
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" name="is_show" value="0"> 否
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group pt-20 pb-20 mb-0 border-bottom-1 bdc-e4e4e4">
+                        <label class="col-sm-3 control-label">状态</label>
+                        <div class="col-sm-4 mb-5">
+                            <label class="radio-inline">
+                                <input type="radio" name="state" value="1" checked="checked"> 有效
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" name="state" value="0"> 无效
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group pt-20 pb-20 mb-0 border-bottom-1 bdc-e4e4e4">
+                        <label class="col-sm-3 control-label">排序</label>
+                        <div class="col-sm-3">
+                            <input type="text" class="form-control" required name="sort" value='0'>
+                        </div>
+                    </div>
+                    <div class="form-group pt-20 pb-20 mb-0 border-bottom-1 bdc-e4e4e4">
+                        <label class="col-sm-3 control-label">摘要</label>
+                        <div class="col-sm-9">
+                            <textarea name="summary" rows="6" class="form-control" placeholder=""></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group pt-20 pb-20 mb-0 border-bottom-1 bdc-e4e4e4">
+                        <label class="col-sm-3 control-label">简介</label>
+                        <div class="col-sm-9">
+                            <textarea name="des" rows="6" class="form-control" placeholder=""></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group pt-20 pb-20 mb-0 border-bottom-1 bdc-e4e4e4">
+                        <label class="col-sm-3 control-label">轮播图</label>
+                        <div class="col-sm-9">
+                            <textarea style="height: 400px;" name="imgs" rows="6" id="cover_editor_add" class="form-control"></textarea>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default cancel" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary ok">确定</button>
+            </div>
+        </div>
+    </div>
+</div>
+</script>
+{% endblock %}
