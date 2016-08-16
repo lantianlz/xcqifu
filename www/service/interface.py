@@ -22,6 +22,9 @@ dict_err = {
     20101: u'该类别下已有同名供应商',
     20102: u'赞一次就可以了，多了会骄傲',
     20103: u'没有找到对应的供应商',
+
+    20201: u'没有找到对应的产品',
+    20202: u'已存在同名的产品',
 }
 dict_err.update(consts.G_DICT_ERROR)
 
@@ -242,7 +245,7 @@ class ServiceBase(object):
                 order_count = order_count,
                 level = level,
                 is_show = is_show,
-                state = state,
+                state = int(state),
                 sort = sort
             )
         except Exception, e:
@@ -265,7 +268,7 @@ class ServiceBase(object):
         if obj.name != name and Service.objects.filter(name=name):
             return 20201, dict_err.get(20201)
 
-        import re
+        # import re
         # imgs_str = ''.join(re.compile('<img .*?src=[\"\'](.+?)[\"\']').findall(imgs))
         
         try:
@@ -297,6 +300,13 @@ class ServiceBase(object):
 
         return 0, dict_err.get(0)
 
+    def get_services_by_name(self, name):
+        objs = self.get_all_services()
+
+        if name:
+            objs = objs.filter(name__icontains=name)
+
+        return objs[:10]
 
 
 class ProductBase(object):
@@ -328,6 +338,80 @@ class ProductBase(object):
             return Product.objects.select_related("service").get(id=product_id)
         except Service.DoesNotExist:
             return None
+
+    def get_all_products(self, state=True):
+        objs = Product.objects.all()
+
+        if state is not None:
+            objs = objs.filter(state=state)
+
+        return objs
+
+    def search_products_for_admin(self, name, state):
+        objs = self.get_all_products(state)
+
+        if name:
+            objs = objs.filter(name__icontains=name)
+
+        return objs
+
+    def modify_product(self, obj_id, name, service, cover, summary, des, price, 
+        params='', state=True, sort=0):
+
+        if not (obj_id and name and service and cover and summary and des and price):
+            return 99800, dict_err.get(99800)
+
+        obj = self.get_product_by_id(obj_id)
+        if not obj:
+            return 20201, dict_err.get(20201)
+
+        if obj.name != name and Product.objects.filter(name=name):
+            return 20202, dict_err.get(20202)
+
+        try:
+            obj.name = name
+            obj.service_id = service
+            obj.cover = cover
+            obj.summary = summary
+            obj.des = des
+            obj.price = price
+            obj.params = params
+            obj.state = int(state)
+            obj.sort = sort
+            obj.save()
+        except Exception, e:
+            debug.get_debug_detail_and_send_email(e)
+            return 99900, dict_err.get(99900)
+
+        return 0, dict_err.get(0)
+
+    def add_product(self, name, service, cover, summary, des, price, 
+        params='', state=True, sort=0):
+
+        print name, service, cover, summary, des, price
+        if not (name and service and cover and summary and des and price):
+            return 99800, dict_err.get(99800)
+
+        if Product.objects.filter(name=name):
+            return 20202, dict_err.get(20202)
+
+        try:
+            obj = Product.objects.create(
+                name = name,
+                service_id = service,
+                cover = cover,
+                summary = summary,
+                des = des,
+                price = price,
+                params = params,
+                state = int(state),
+                sort = sort
+            )
+        except Exception, e:
+            debug.get_debug_detail_and_send_email(e)
+            return 99900, dict_err.get(99900)
+
+        return 0, obj
 
 
 class ZanBase(object):

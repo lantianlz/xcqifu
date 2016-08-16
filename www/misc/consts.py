@@ -34,6 +34,11 @@ PERMISSIONS = [
     {'code': 'query_service', 'name': u'查询服务商', 'parent': 'service_manage'},
     {'code': 'modify_service', 'name': u'修改服务商', 'parent': 'service_manage'},
 
+    {'code': 'product_manage', 'name': u'产品管理', 'parent': None},
+    {'code': 'add_product', 'name': u'添加产品', 'parent': 'product_manage'},
+    {'code': 'query_product', 'name': u'查询产品', 'parent': 'product_manage'},
+    {'code': 'modify_product', 'name': u'修改产品', 'parent': 'product_manage'},
+
     {'code': 'city_manage', 'name': u'城市管理', 'parent': None},
     #{'code': 'add_city', 'name': u'添加城市', 'parent': 'city_manage'},
     {'code': 'query_city', 'name': u'查询城市', 'parent': 'city_manage'},

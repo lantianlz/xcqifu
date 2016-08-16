@@ -37,8 +37,19 @@ urlpatterns += patterns('www.admin.views_service',
     url(r'^service/add_service$', 'add_service'),
     url(r'^service/modify_service$', 'modify_service'),
     url(r'^service/get_service_by_id$', 'get_service_by_id'),
+    url(r'^service/get_services_by_name$', 'get_services_by_name'),
     url(r'^service/search$', 'search'),
     url(r'^service$', 'service'),
+)
+
+# 产品管理
+urlpatterns += patterns('www.admin.views_product',
+
+    url(r'^product/add_product$', 'add_product'),
+    url(r'^product/modify_product$', 'modify_product'),
+    url(r'^product/get_product_by_id$', 'get_product_by_id'),
+    url(r'^product/search$', 'search'),
+    url(r'^product$', 'product'),
 )
 
 

@@ -70,7 +70,7 @@ def format_service(objs, num):
     return data
 
 
-@verify_permission('query_kind')
+@verify_permission('query_service')
 def search(request):
     data = []
 
@@ -94,7 +94,7 @@ def search(request):
     )
 
 
-@verify_permission('query_kind')
+@verify_permission('query_service')
 def get_service_by_id(request):
     service_id = request.REQUEST.get('service_id')
 
@@ -103,7 +103,7 @@ def get_service_by_id(request):
     return HttpResponse(json.dumps(data), mimetype='application/json')
 
 
-@verify_permission('modify_kind')
+@verify_permission('modify_service')
 @common_ajax_response
 def modify_service(request):
     obj_id = request.POST.get('obj_id')
@@ -149,7 +149,7 @@ def modify_service(request):
 
     return HttpResponseRedirect(url)
 
-@verify_permission('add_kind')
+@verify_permission('add_service')
 @common_ajax_response
 def add_service(request):
     name = request.POST.get('name')
@@ -191,3 +191,27 @@ def add_service(request):
         url = "/admin/service?%s" % (msg)
 
     return HttpResponseRedirect(url)
+
+
+@member_required
+def get_services_by_name(request):
+    '''
+    根据名字查询类别
+    '''
+    name = request.REQUEST.get('name')
+
+    result = []
+
+    objs = ServiceBase().get_services_by_name(name)
+
+    if objs:
+        for x in objs:
+            result.append([x.id, x.name, None, x.name])
+
+    return HttpResponse(json.dumps(result), mimetype='application/json')
+
+
+
+
+
+    
