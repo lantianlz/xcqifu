@@ -159,7 +159,9 @@ def verify_permission(permission):
             # 如果是空，说明不是管理员
             if user_permissions == []:
                 # return HttpResponse(u'需要管理员权限')
-                raise Http404
+                # raise Http404
+                err_msg = u'需要管理员权限进行操作'
+                return render_to_response('error.html', locals(), context_instance=RequestContext(request))
 
             # 如果没有对应的权限
             if permission and permission not in user_permissions:

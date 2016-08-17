@@ -82,6 +82,10 @@ class Service(models.Model):
     def get_url(self):
         return u'/service/%s' % self.id
 
+    def get_covers(self):
+        import re
+        return re.compile('<img .*?src=[\"\'](.+?)[\"\']').findall(self.imgs)
+
 
 class Product(models.Model):
     '''

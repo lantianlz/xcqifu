@@ -46,24 +46,16 @@ $(document).ready(function(){
     <div class="col-xs-12 pl-0 pr-0 pr">
         <div id="carousel-service" class="carousel slide" data-ride="carousel">
             <ol class="carousel-indicators">
-                <li data-target="#carousel-service" data-slide-to="0" class="active"></li>
-                <li data-target="#carousel-service" data-slide-to="1" class=""></li>
-                <li data-target="#carousel-service" data-slide-to="2" class=""></li>
-                <li data-target="#carousel-service" data-slide-to="3" class=""></li>
+                {% for cover in service.get_covers %}
+                <li data-target="#carousel-service" data-slide-to="{{forloop.counter}}" {% if forloop.first %} class="active">{% endif %}</li>
+                {% endfor %}
             </ol>
             <div class="carousel-inner" role="listbox">
-                <div class="item active">
-                    <img class="slide-img" src="{{MEDIA_URL}}img/service/detail-1.jpg">
+                {% for cover in service.get_covers %}
+                <div class="item {% if forloop.first %}active{% endif %}">
+                    <img class="slide-img" src="{{cover}}">
                 </div>
-                <div class="item">
-                    <img class="slide-img" src="{{MEDIA_URL}}img/service/detail-2.jpg">
-                </div>
-                <div class="item">
-                    <img class="slide-img" src="{{MEDIA_URL}}img/service/detail-1.jpg">
-                </div>
-                <div class="item">
-                    <img class="slide-img" src="{{MEDIA_URL}}img/service/detail-2.jpg">
-                </div>
+                {% endfor %}
             </div>
             <a class="left carousel-control" href="#carousel-service" role="button" data-slide="prev">
                 <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
@@ -91,12 +83,12 @@ $(document).ready(function(){
             </span>
         </div>
     </div>
-    <div class="col-xs-12 f12 pl-20 pr-20 co-dddddd pt-15">
+    <div class="col-xs-12 f12 pl-20 pr-20 co-dddddd pt-15 hide">
         <div class="col-xs-12 pl-5 pr-5 border-bottom-1 bdc-eeeeee pb-5">
             入驻时间：{{service.join_time|date:'Y-m-d'}}
         </div>
     </div>
-    <div class="col-xs-12 pl-20 pr-20 pt-15 pb-10">
+    <div class="col-xs-12 pl-20 pr-20 pt-20 pb-10">
         <div class="col-xs-4 col-xs-offset-2 text-center pr-0 pl-0">
             <span class="tab active">产品</span>
         </div>

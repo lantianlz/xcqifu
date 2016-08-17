@@ -755,16 +755,16 @@ $(document).ready(function(){
                             <input type="text" class="form-control" required name="tel" value=''>
                         </div>
                     </div>
-                    <div class="form-group pt-20 pb-20 mb-0 border-bottom-1 bdc-e4e4e4">
+                    <div class="form-group pt-20 pb-20 mb-0 border-bottom-1 bdc-e4e4e4 hide">
                         <label class="col-sm-3 control-label">经度</label>
-                        <div class="col-sm-5 mb-5">
-                            <input type="text" class="form-control" required name="longitude" value=''>
+                        <div class="col-sm-4 mb-5">
+                            <input type="text" class="form-control" name="longitude" value=''>
                         </div>
                     </div>
-                    <div class="form-group pt-20 pb-20 mb-0 border-bottom-1 bdc-e4e4e4">
+                    <div class="form-group pt-20 pb-20 mb-0 border-bottom-1 bdc-e4e4e4 hide">
                         <label class="col-sm-3 control-label">纬度</label>
-                        <div class="col-sm-5">
-                            <input type="text" class="form-control" required name="latitude" value=''>
+                        <div class="col-sm-4">
+                            <input type="text" class="form-control" name="latitude" value=''>
                         </div>
                     </div>
                     <div class="form-group pt-20 pb-20 mb-0 border-bottom-1 bdc-e4e4e4">
@@ -782,38 +782,38 @@ $(document).ready(function(){
                     <div class="form-group pt-20 pb-20 mb-0 border-bottom-1 bdc-e4e4e4">
                         <label class="col-sm-3 control-label">推荐人</label>
                         <div class="col-sm-5 mb-5">
-                            <input type="text" class="form-control" id="recomend_add" required name="recommend_user_id" value=''>
+                            <input type="text" class="form-control" id="recomend_add" name="recommend_user_id" value=''>
                         </div>
                     </div>
                     <div class="form-group pt-20 pb-20 mb-0 border-bottom-1 bdc-e4e4e4">
                         <label class="col-sm-3 control-label">推荐语</label>
                         <div class="col-sm-9">
-                            <input type="text" class="form-control" required name="recommend_des" value=''>
+                            <input type="text" class="form-control" name="recommend_des" value=''>
                         </div>
                     </div>
-                    <div class="form-group pt-20 pb-20 mb-0 border-bottom-1 bdc-e4e4e4">
+                    <div class="form-group pt-20 pb-20 mb-0 border-bottom-1 bdc-e4e4e4 hide">
                         <label class="col-sm-3 control-label">点赞次数</label>
                         <div class="col-sm-3 mb-5">
-                            <input type="text" class="form-control" required name="zan_count" value='0'>
+                            <input type="text" class="form-control" name="zan_count" value='0'>
                         </div>
                     </div>
-                    <div class="form-group pt-20 pb-20 mb-0 border-bottom-1 bdc-e4e4e4">
+                    <div class="form-group pt-20 pb-20 mb-0 border-bottom-1 bdc-e4e4e4 hide">
                         <label class="col-sm-3 control-label">预定次数</label>
                         <div class="col-sm-3">
-                            <input type="text" class="form-control" required name="order_count" value='0'>
+                            <input type="text" class="form-control" name="order_count" value='0'>
                         </div>
                     </div>
-                    <div class="form-group pt-20 pb-20 mb-0 border-bottom-1 bdc-e4e4e4">
+                    <div class="form-group pt-20 pb-20 mb-0 border-bottom-1 bdc-e4e4e4 hide">
                         <label class="col-sm-3 control-label">供应商等级</label>
                         <div class="col-sm-9 mb-5">
                             {% for choice in level_choices %}
                             <label class="radio-inline">
-                                <input type="radio" name="level" value="{{choice.value}}"> {{choice.name}}
+                                <input type="radio" name="level" value="{{choice.value}}" {% if choice.value == 0 %}checked="checked"{% endif %} > {{choice.name}}
                             </label>
                             {% endfor %}
                         </div>
                     </div>
-                    <div class="form-group pt-20 pb-20 mb-0 border-bottom-1 bdc-e4e4e4">
+                    <div class="form-group pt-20 pb-20 mb-0 border-bottom-1 bdc-e4e4e4 hide">
                         <label class="col-sm-3 control-label">列表页显示</label>
                         <div class="col-sm-9">
                             <label class="radio-inline">
@@ -824,7 +824,7 @@ $(document).ready(function(){
                             </label>
                         </div>
                     </div>
-                    <div class="form-group pt-20 pb-20 mb-0 border-bottom-1 bdc-e4e4e4">
+                    <div class="form-group pt-20 pb-20 mb-0 border-bottom-1 bdc-e4e4e4 hide">
                         <label class="col-sm-3 control-label">状态</label>
                         <div class="col-sm-4 mb-5">
                             <label class="radio-inline">
@@ -835,10 +835,10 @@ $(document).ready(function(){
                             </label>
                         </div>
                     </div>
-                    <div class="form-group pt-20 pb-20 mb-0 border-bottom-1 bdc-e4e4e4">
+                    <div class="form-group pt-20 pb-20 mb-0 border-bottom-1 bdc-e4e4e4 hide">
                         <label class="col-sm-3 control-label">排序</label>
                         <div class="col-sm-3">
-                            <input type="text" class="form-control" required name="sort" value='0'>
+                            <input type="text" class="form-control" name="sort" value='0'>
                         </div>
                     </div>
                     <div class="form-group pt-20 pb-20 mb-0 border-bottom-1 bdc-e4e4e4">
