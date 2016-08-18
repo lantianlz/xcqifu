@@ -385,33 +385,6 @@ class ProductBase(object):
 
         return 0, dict_err.get(0)
 
-    def add_product(self, name, service, cover, summary, des, price,
-                    params='', state=True, sort=0):
-
-        if not (name and service and cover and summary and des and price):
-            return 99800, dict_err.get(99800)
-
-        if Product.objects.filter(name=name):
-            return 20202, dict_err.get(20202)
-
-        try:
-            obj = Product.objects.create(
-                name=name,
-                service_id=service,
-                cover=cover,
-                summary=summary,
-                des=des,
-                price=price,
-                params=params,
-                state=int(state),
-                sort=sort
-            )
-        except Exception, e:
-            debug.get_debug_detail_and_send_email(e)
-            return 99900, dict_err.get(99900)
-
-        return 0, obj
-
 
 class ZanBase(object):
 
