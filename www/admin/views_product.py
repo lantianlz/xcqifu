@@ -135,7 +135,7 @@ def add_product(request):
         cover_name = '%s/%s' % (settings.IMG0_DOMAIN, cover_name)
     
     flag, msg = ProductBase().add_product(
-        name, service, cover_name, summary, des, price, params, state, sort
+        name, service, des, price, cover_name, summary
     )
 
     if flag == 0:

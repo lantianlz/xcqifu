@@ -714,13 +714,13 @@ $(document).ready(function(){
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header pb-5">
-                <h4 class="modal-title">添加类别</h4>
+                <h4 class="modal-title">添加服务商</h4>
             </div>
             <div class="modal-body">
                 <form class="form-horizontal" role="form" method="post" action="/admin/service/add_service" enctype="multipart/form-data">
                     <div class="form-group pt-20 pb-20 mb-0 border-bottom-1 bdc-e4e4e4">
                         <label class="col-sm-3 control-label">logo</label>
-                        <div class="col-sm-5 mb-5">
+                        <div class="col-sm-9 mb-5">
                             <img class="mb-10 w100p" src="" />
                             <input name="logo" class="pb-10" type="file" />图片格式为png，尺寸为 124(宽) X 124(长)
                         </div>
@@ -844,19 +844,20 @@ $(document).ready(function(){
                     <div class="form-group pt-20 pb-20 mb-0 border-bottom-1 bdc-e4e4e4">
                         <label class="col-sm-3 control-label">摘要</label>
                         <div class="col-sm-9">
-                            <textarea name="summary" rows="6" class="form-control" placeholder=""></textarea>
+                            <textarea name="summary" rows="6" required class="form-control" placeholder=""></textarea>
                         </div>
                     </div>
                     <div class="form-group pt-20 pb-20 mb-0 border-bottom-1 bdc-e4e4e4">
                         <label class="col-sm-3 control-label">简介</label>
                         <div class="col-sm-9">
-                            <textarea name="des" rows="6" class="form-control" placeholder=""></textarea>
+                            <textarea name="des" rows="6" required class="form-control" placeholder=""></textarea>
                         </div>
                     </div>
                     <div class="form-group pt-20 pb-20 mb-0">
                         <label class="col-sm-3 control-label">轮播图</label>
                         <div class="col-sm-9">
                             <textarea style="height: 400px;" name="imgs" rows="6" id="cover_editor_add" class="form-control"></textarea>
+                            <p class="help-block">图片大小：1300长 X 700宽，或者13：7的比例</p>
                         </div>
                     </div>
                 </form>

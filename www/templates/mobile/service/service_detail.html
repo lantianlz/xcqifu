@@ -126,7 +126,9 @@ $(document).ready(function(){
             </div>
             <div class="col-xs-12 pl-25 pr-0 pt-10 border-bottom-1 bdc-eeeeee pb-10 pr">
                 <i class="fa fa-phone flag" style="left: 6px;"></i>
-                <div class="col-xs-12 f15 co-6f7075 pr-0 pt-5">{{service.get_tel}}</div>
+                <div class="col-xs-12 f15 co-6f7075 pr-0 pt-5">
+                    <a href="tel:{{service.get_tel}}">{{service.get_tel}}</a>
+                </div>
             </div>
             <div class="col-xs-12 pl-25 pr-0 pt-10 border-bottom-1 bdc-eeeeee pb-10 pr">
                 <i class="fa fa-truck flag"></i>
@@ -140,8 +142,8 @@ $(document).ready(function(){
             </div>
 
             <div class="booking">
-                <button class="btn-booking" value="">在线预约</button>&nbsp;&nbsp;&nbsp;或&nbsp;&nbsp;
-                <button class="btn-booking" value="">电话咨询</button>
+                <a class="btn-booking" href="tel:{{service.get_tel}}">在线预约</a>
+                <a class="ml-15 btn-booking" href="tel:{{service.get_tel}}">电话咨询</a>
             </div>
         </div>
         
