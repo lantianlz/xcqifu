@@ -125,12 +125,12 @@ class KindBase(object):
 
         try:
             obj = Kind.objects.create(
-                name = name,
-                kind_type = kind_type,
-                hot = hot,
-                sort = sort,
-                state = int(state),
-                slogan = slogan
+                name=name,
+                kind_type=kind_type,
+                hot=hot,
+                sort=sort,
+                state=int(state),
+                slogan=slogan
             )
         except Exception, e:
             debug.get_debug_detail_and_send_email(e)
@@ -214,9 +214,9 @@ class ServiceBase(object):
 
         return objs
 
-    def add_service(self, name, kind, logo, city, summary, des, imgs, 
-        service_area, tel='', addr='', longitude='', latitude='', join_time='', recommend_user_id='', 
-        recommend_des='', zan_count=0, order_count=0, level=0, is_show=True, state=True, sort=0):
+    def add_service(self, name, kind, logo, city, summary, des, imgs,
+                    service_area, tel='', addr='', longitude='', latitude='', join_time='', recommend_user_id='',
+                    recommend_des='', zan_count=0, order_count=0, level=0, is_show=True, state=True, sort=0):
 
         if not (name and kind and logo and city and summary and des and imgs):
             return 99800, dict_err.get(99800)
@@ -226,27 +226,27 @@ class ServiceBase(object):
 
         try:
             obj = Service.objects.create(
-                name = name,
-                kind_id = kind,
-                logo = logo,
-                city_id = city,
-                summary = summary,
-                des = des,
-                imgs = imgs,
-                service_area = service_area,
-                tel = tel,
-                addr = addr,
-                longitude = longitude,
-                latitude = latitude,
-                join_time = join_time,
-                recommend_user_id = recommend_user_id,
-                recommend_des = recommend_des,
-                zan_count = zan_count,
-                order_count = order_count,
-                level = level,
-                is_show = is_show,
-                state = int(state),
-                sort = sort
+                name=name,
+                kind_id=kind,
+                logo=logo,
+                city_id=city,
+                summary=summary,
+                des=des,
+                imgs=imgs,
+                service_area=service_area,
+                tel=tel,
+                addr=addr,
+                longitude=longitude,
+                latitude=latitude,
+                join_time=join_time,
+                recommend_user_id=recommend_user_id,
+                recommend_des=recommend_des,
+                zan_count=zan_count,
+                order_count=order_count,
+                level=level,
+                is_show=is_show,
+                state=int(state),
+                sort=sort
             )
         except Exception, e:
             debug.get_debug_detail_and_send_email(e)
@@ -254,9 +254,9 @@ class ServiceBase(object):
 
         return 0, obj
 
-    def modify_service(self, obj_id, name, kind, logo, city, summary, des, imgs, 
-        service_area, tel='', addr='', longitude='', latitude='', join_time='', recommend_user_id='', 
-        recommend_des='', zan_count=0, order_count=0, level=0, is_show=True, state=True, sort=0):
+    def modify_service(self, obj_id, name, kind, logo, city, summary, des, imgs,
+                       service_area, tel='', addr='', longitude='', latitude='', join_time='', recommend_user_id='',
+                       recommend_des='', zan_count=0, order_count=0, level=0, is_show=True, state=True, sort=0):
 
         if not (obj_id and name and kind and logo and city and summary and des and imgs):
             return 99800, dict_err.get(99800)
@@ -270,7 +270,7 @@ class ServiceBase(object):
 
         # import re
         # imgs_str = ''.join(re.compile('<img .*?src=[\"\'](.+?)[\"\']').findall(imgs))
-        
+
         try:
             obj.name = name
             obj.kind_id = kind
@@ -281,7 +281,7 @@ class ServiceBase(object):
             obj.imgs = imgs
             obj.service_area = service_area
             obj.tel = tel
-            obj.addr = addr 
+            obj.addr = addr
             obj.longitude = longitude
             obj.latitude = latitude
             obj.join_time = join_time
@@ -355,8 +355,8 @@ class ProductBase(object):
 
         return objs
 
-    def modify_product(self, obj_id, name, service, cover, summary, des, price, 
-        params='', state=True, sort=0):
+    def modify_product(self, obj_id, name, service, cover, summary, des, price,
+                       params='', state=True, sort=0):
 
         if not (obj_id and name and service and cover and summary and des and price):
             return 99800, dict_err.get(99800)
@@ -385,10 +385,9 @@ class ProductBase(object):
 
         return 0, dict_err.get(0)
 
-    def add_product(self, name, service, cover, summary, des, price, 
-        params='', state=True, sort=0):
+    def add_product(self, name, service, cover, summary, des, price,
+                    params='', state=True, sort=0):
 
-        print name, service, cover, summary, des, price
         if not (name and service and cover and summary and des and price):
             return 99800, dict_err.get(99800)
 
@@ -397,15 +396,15 @@ class ProductBase(object):
 
         try:
             obj = Product.objects.create(
-                name = name,
-                service_id = service,
-                cover = cover,
-                summary = summary,
-                des = des,
-                price = price,
-                params = params,
-                state = int(state),
-                sort = sort
+                name=name,
+                service_id=service,
+                cover=cover,
+                summary=summary,
+                des=des,
+                price=price,
+                params=params,
+                state=int(state),
+                sort=sort
             )
         except Exception, e:
             debug.get_debug_detail_and_send_email(e)
