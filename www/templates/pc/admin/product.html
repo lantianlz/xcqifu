@@ -196,6 +196,7 @@ $(document).ready(function(){
         render: function(data){
             this.$el.html(this.template(data));
             this.initServiceTextBox(data.serviceName, data.serviceId);
+            createEditor('#des_modify');
         },
 
         // 显示提问信息
@@ -285,6 +286,7 @@ $(document).ready(function(){
             $('#add_obj_modal').modal({'show': true, 'backdrop': 'static'});
 
             me.initServiceTextBox();
+            createEditor('#des_add');
         },
 
         addObj: function(){
@@ -467,7 +469,7 @@ $(document).ready(function(){
             </div>
             <label class="col-sm-2 control-label">价格</label>
             <div class="col-sm-3">
-                <input type="text" class="form-control" required name="price" value='<%= price %>'>
+                <input type="text" class="form-control number" required name="price" value='<%= price %>'>
             </div>
         </div>
         <div class="form-group pt-20 pb-20 mb-0 border-bottom-1 bdc-e4e4e4">
@@ -510,7 +512,7 @@ $(document).ready(function(){
         <div class="form-group pt-20 pb-20 mb-0 border-bottom-1 bdc-e4e4e4">
             <label class="col-sm-2 control-label">简介</label>
             <div class="col-sm-8">
-                <textarea name="des" rows="6" class="form-control" placeholder=""><%= des %></textarea>
+                <textarea name="des" rows="6" id="des_modify" class="form-control" placeholder=""><%= des %></textarea>
             </div>
         </div>
         <div class="form-group pt-20 pb-20 mb-0 border-bottom-1 bdc-e4e4e4">
@@ -546,7 +548,7 @@ $(document).ready(function(){
                     <div class="form-group pt-20 pb-20 mb-0 border-bottom-1 bdc-e4e4e4">
                         <label class="col-sm-3 control-label">价格</label>
                         <div class="col-sm-3">
-                            <input type="text" class="form-control" required name="price" value='0'>
+                            <input type="text" class="form-control number" required name="price" value='0'>
                         </div>
                     </div>
                     <div class="form-group pt-20 pb-20 mb-0 border-bottom-1 bdc-e4e4e4 hide">
@@ -587,7 +589,7 @@ $(document).ready(function(){
                     <div class="form-group pt-20 pb-20 mb-0">
                         <label class="col-sm-3 control-label">简介</label>
                         <div class="col-sm-8">
-                            <textarea name="des" rows="6" class="form-control" placeholder=""></textarea>
+                            <textarea name="des" rows="6" id="des_add" class="form-control" placeholder=""></textarea>
                         </div>
                     </div>
                 </form>

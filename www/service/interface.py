@@ -326,7 +326,14 @@ class ProductBase(object):
         if Product.objects.filter(name=name, service=service_id):
             return 99802, dict_err.get(99802)
 
-        product = Product.objects.create(name=name, service_id=service_id, des=des, price=price, cover=cover, summary=summary)
+        product = Product.objects.create(
+            name=name, 
+            service_id=service_id, 
+            des=des, 
+            price=price, 
+            cover=cover, 
+            summary=summary
+        )
 
         return 0, product
 
