@@ -31,6 +31,16 @@ urlpatterns += patterns('www.admin.views_kind',
     url(r'^kind$', 'kind'),
 )
 
+# 类别开放信息
+urlpatterns += patterns('www.admin.views_kind_open_info',
+
+    url(r'^kind_open_info/add_info$', 'add_info'),
+    url(r'^kind_open_info/remove_info$', 'remove_info'),
+    url(r'^kind_open_info/get_info_by_id$', 'get_info_by_id'),
+    url(r'^kind_open_info/search$', 'search'),
+    url(r'^kind_open_info$', 'kind_open_info'),
+)
+
 # 服务商管理
 urlpatterns += patterns('www.admin.views_service',
 

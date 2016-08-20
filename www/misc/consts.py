@@ -29,6 +29,11 @@ PERMISSIONS = [
     {'code': 'query_kind', 'name': u'查询类别', 'parent': 'kind_manage'},
     {'code': 'modify_kind', 'name': u'修改类别', 'parent': 'kind_manage'},
 
+    {'code': 'kind_open_info_manage', 'name': u'类别开放信息管理', 'parent': None},
+    {'code': 'add_kind_open_info', 'name': u'添加类别开放信息', 'parent': 'kind_open_info_manage'},
+    {'code': 'query_kind_open_info', 'name': u'查询类别开放信息', 'parent': 'kind_open_info_manage'},
+    {'code': 'remove_kind_open_info', 'name': u'删除类别开放信息', 'parent': 'kind_open_info_manage'},
+
     {'code': 'service_manage', 'name': u'服务商管理', 'parent': None},
     {'code': 'add_service', 'name': u'添加服务商', 'parent': 'service_manage'},
     {'code': 'query_service', 'name': u'查询服务商', 'parent': 'service_manage'},

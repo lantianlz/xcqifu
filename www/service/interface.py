@@ -447,3 +447,65 @@ class ZanBase(object):
 
     def get_zan_by_user_id(self, user_id):
         return Zan.objects.select_related("Service").filter(user_id=user_id)
+
+
+class KindOpenInfoBase(object):
+    def __init__(self):
+        pass
+
+    def __del__(self):
+        pass
+
+    def get_info_by_id(self, info_id):
+        try:
+            return KindOpenInfo.objects.get(id=info_id)
+        except KindOpenInfo.DoesNotExist:
+            return None
+
+    def search_infos_for_admin(self, name, city_name=''):
+        objs = KindOpenInfo.objects.all()
+
+        if name:
+            objs = objs.filter(kind__name__icontains=name)
+
+        if city_name:
+            from city.interface import CityBase
+            city = CityBase().get_city_by_name(city_name)
+
+            if city:
+                objs = objs.filter(city_id=city.id)
+
+        return objs
+
+    def add_info(self, kind, city_id, open_time):
+        if not (kind and city_id and open_time):
+            return 99800, dict_err.get(99800)
+
+        try:
+            obj = KindOpenInfo.objects.create(
+                kind_id=kind, 
+                city_id=city_id, 
+                open_time=open_time
+            )
+        except Exception, e:
+            debug.get_debug_detail(e)
+            return 99900, dict_err.get(99900)
+
+        return 0, obj
+
+    def remove_info(self, info_id):
+
+        if not info_id:
+            return 99800, dict_err.get(99800)
+
+        KindOpenInfo.objects.filter(id=info_id).delete()
+
+        return 0, dict_err.get(0)
+
+
+
+
+
+
+
+

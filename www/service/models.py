@@ -39,6 +39,7 @@ class KindOpenInfo(models.Model):
 
     class Meta:
         unique_together = [("kind", "city_id"), ]
+        ordering = ["-open_time"]
 
 
 class Service(models.Model):
