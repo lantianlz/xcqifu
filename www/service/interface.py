@@ -416,8 +416,10 @@ class ZanBase(object):
         try:
             zan = Zan.objects.create(user_id=user_id, service_id=service_id)
             ServiceBase().add_zan_count(service_id)
+            zan_count = zan.service.zan_count
             transaction.commit()
-            return 0, zan
+            # return 0, dict_err.get(0)
+            return 0, zan_count
         except Exception, e:
             debug.get_debug_detail(e)
             transaction.rollback()
@@ -438,8 +440,10 @@ class ZanBase(object):
         try:
             Zan.objects.filter(user_id=user_id, service=service_id).delete()
             ServiceBase().minus_zan_count(service_id)
+            zan_count = ServiceBase().get_service_by_id(service_id).zan_count
             transaction.commit()
-            return 0, dict_err.get(0)
+            # return 0, dict_err.get(0)
+            return 0, zan_count
         except Exception, e:
             debug.get_debug_detail(e)
             transaction.rollback()
@@ -447,6 +451,12 @@ class ZanBase(object):
 
     def get_zan_by_user_id(self, user_id):
         return Zan.objects.select_related("Service").filter(user_id=user_id)
+
+    def is_zan(self, service_id, user_id):
+        if not (service_id and user_id):
+            return 99800, dict_err.get(99800)
+
+        return Zan.objects.filter(service_id=service_id, user_id=user_id).count() > 0
 
 
 class KindOpenInfoBase(object):

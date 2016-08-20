@@ -9,6 +9,8 @@ urlpatterns = patterns('www.service.views',
                        url(r'^product/(?P<product_id>\d+)$', 'product_detail'),
                        url(r'^my_order$', 'my_order'),
                        url(r'^my_zan$', 'my_zan'),
+                       url(r'^add_zan$', 'add_zan'),
+                       url(r'^cancel_zan$', 'cancel_zan'),
 
 
                        url(r'^success$', 'success'),

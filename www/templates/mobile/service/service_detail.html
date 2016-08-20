@@ -29,6 +29,29 @@ $(document).ready(function(){
         $('.tab-content').eq(index).addClass('active');
     });
 
+    $('.heart-bg').on('click', function(){
+        var me = $(this), url = "add_zan";
+        if(me.hasClass('active')){
+            url = 'cancel_zan';
+        }
+        
+        ajaxSend(
+            "/service/" + url, 
+            {'service_id': '{{service.id}}'},
+            function(response){
+                if(response.errcode == "0"){
+                    me.toggleClass('active');
+                    $('#heart-count').text(response.errmsg);
+                }
+                else{
+                    $.Global.Notice.InfoTopNotice(response.errmsg);
+                }
+            }
+        );
+
+        
+    });
+
     new countUp("heart-count", 0, {{service.zan_count}}, 0, 1).start();
 
 });
@@ -77,8 +100,9 @@ $(document).ready(function(){
             
         </div>
         <div class="col-xs-3 pr h50">
-            <span class="heart-bg text-center">
-                <span class="fa fa-heart heart"></span>
+            <span class="heart-bg text-center {% if is_zan %}active{% endif %}">
+                <span class="fa fa-heart-o"></span>
+                <span class="fa fa-heart"></span>
                 <span class="pt-5 f12 pt-10 display-inline co-f07925 w30" id="heart-count">0</span>
             </span>
         </div>
@@ -116,7 +140,7 @@ $(document).ready(function(){
             <div class="col-xs-12 pl-50 pr-0 pt-10 border-bottom-1 bdc-eeeeee pb-10 pr">
                 <img class="avatar" src="{{recommend_user_info.avatar}}">
                 <div class="col-xs-12 f14 co-f07925 pr-0">{{recommend_user_info.name}}
-                &nbsp;&nbsp;{{recommend_user_info.company_name}}{{recommend_user_info.title}}</div>
+                {{recommend_user_info.company_name}}{{recommend_user_info.title}}</div>
                 <div class="col-xs-12 f12 co-95989d pr-0 pt-5">{{service.recommend_des}}</div>
             </div>
             {% endif %}

@@ -64,6 +64,8 @@ def service_detail(request, service_id, template_name='mobile/service/service_de
             recommend_user_info.update(name=verify_info.name, title=verify_info.title, company_name=verify_info.get_short_name())
     products = ProductBase().get_products_by_service(service)
 
+    is_zan = ZanBase().is_zan(service_id, request.user.id)
+
     return render_to_response(template_name, locals(), context_instance=RequestContext(request))
 
 
@@ -89,12 +91,14 @@ def my_zan(request, template_name='mobile/service/my_zan.html'):
 # ===================================================ajax部分=================================================================#
 
 @member_required
+@common_ajax_response
 def add_zan(request):
     service_id = request.REQUEST.get('service_id')
     return zb.add_zan(request.user.id, service_id)
 
 
 @member_required
+@common_ajax_response
 def cancel_zan(request):
     service_id = request.REQUEST.get('service_id')
     return zb.cancel_zan(request.user.id, service_id)

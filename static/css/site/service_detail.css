@@ -44,14 +44,29 @@
     width: 35px;
     border-radius: 50%;
     box-shadow: #c7a0a0 1px 1px 2px;
+}
+.heart-bg .fa-heart-o{
+    font-size: 20px;
+    padding-top: 8px;
+    display: inline-block;
+    color: #fe7800;
+}
+.heart-bg .fa-heart{
+    font-size: 20px;
+    padding-top: 8px;
+    color: #fff;
+    display: none;
+}
+.heart-bg.active{
     background: -webkit-gradient(linear, 0 0, 100% 100%, from(#fb59cb), to(#fd7262));
 }
-.heart{
-    font-size: 20px;
-    color: #fff;
-    /*padding-left: 8px;*/
-    padding-top: 8px;
+.heart-bg.active .fa-heart-o{
+    display: none;
 }
+.heart-bg.active .fa-heart{
+    display: inline-block;
+}
+
 .carousel-indicators{
     bottom: 0;
 }

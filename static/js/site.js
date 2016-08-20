@@ -33,32 +33,6 @@ if (!String.format) {
 
     $.Global = {};
 
-    /*
-        去掉所有的html标签
-        target: 要操作的字符串
-        用例:
-        $.Global.Utils.clearHtmlTags('<div>1</div>');
-    */
-    $.Global.Utils.clearHtmlTags = function(target){
-        if(!target){
-            return '';
-        }
-        return target.replace(/<[^>].*?>/g,"");
-    };
-
-    /*
-        去掉所有的转义字符
-        target: 要操作的字符串
-        用例:
-        $.Global.Utils.clearEscapeCharacters('<div>1</div>');
-    */
-    $.Global.Utils.clearEscapeCharacters = function(target){
-        if(!target){
-            return '';
-        }
-        return target.replace(/&[^;].*?;/g, '');
-    };
-
     /* 
         网站提示插件
     */
