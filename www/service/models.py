@@ -74,7 +74,7 @@ class Service(models.Model):
     create_time = models.DateTimeField(verbose_name=u"创建时间", auto_now_add=True, db_index=True)
 
     class Meta:
-        ordering = ["sort", "-create_time"]
+        ordering = ["sort", "create_time"]
         unique_together = [("kind", "name"), ]
 
     def get_tel(self):
