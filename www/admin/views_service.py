@@ -53,7 +53,7 @@ def format_service(objs, num):
             'addr': x.addr,
             'longitude': x.longitude,
             'latitude': x.latitude,
-            'join_time': str(x.join_time),
+            'join_time': str(x.join_time)[:10],
             'recommend_user_id': user.id if user else '',
             'recommend_user_nick': user.nick if user else '',
             'recommend_des': x.recommend_des,

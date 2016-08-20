@@ -254,12 +254,23 @@ $(document).ready(function(){
 
         // 渲染
         render: function(data){
-            this.$el.html(this.template(data));
-            this.initKindTextBox(data.kindName, data.kindId);
-            this.initCityTextBox(data.cityName, data.cityId);
-            this.initRecommendTextBox(data.recommendUserNick, data.recommendUserId);
-            this.initDate();
-            createEditor('#cover_editor_modify');
+            var me = this;
+            me.$el.html(me.template(data));
+            me.initKindTextBox(data.kindName, data.kindId);
+            me.initCityTextBox(data.cityName, data.cityId);
+            me.initRecommendTextBox(data.recommendUserNick, data.recommendUserId);
+            me.initDate();
+
+            var coverEditor = createEditor('#cover_editor_modify');
+
+            me.$('form').validate({
+                submitHandler: function(form){
+                    if(!/<img .*?src=[\"\'](.+?)[\"\']/.test(coverEditor.html())){
+                        $(coverEditor.srcElement[0]).after('<label class="error">请插入封面!</label>');
+                    }
+                    form.submit();
+                }
+            });
         },
 
         // 显示提问信息
@@ -279,19 +290,18 @@ $(document).ready(function(){
 
         // 保存
         save: function(sender){
-            // var objId = this.$('form').data('obj_id'),
-            //     target = $(sender.currentTarget),
-            //     me = this;
 
-            // g_ajax_processing_obj_id = target.setUUID().attr('id');
-            // me.collection.modifyObj($.Global.Utils.formToDict(this.$('form')), function(data){
-            //     if(data.errcode == "0"){
-            //         $.Global.Notice.SuccessTopNotice('操作成功!');
-            //         router.navigate('modify/' + objId, {'trigger': true});
-            //     } else {
-            //         $.Global.Notice.ErrorTopNotice(data.errmsg);
-            //     }
-            // });
+            if(!$('#kind_modify').val()){
+                $.Global.Notice.InfoTopNotice('请选择所属类别!');
+                $('#kind_modify').focus();
+                return;
+            }
+
+            if(!$('#city_modify').val()){
+                $.Global.Notice.InfoTopNotice('请选择所属城市!');
+                $('#city_modify').focus();
+                return;
+            }
 
             if(!this.$('form').valid()){
                 return;
@@ -393,30 +403,35 @@ $(document).ready(function(){
             
             $('#add_obj_modal').modal({'show': true, 'backdrop': 'static'});
 
-            this.initKindTextBox();
-            this.initCityTextBox();
-            this.initRecommendTextBox();
-            this.initDate();
-            createEditor('#cover_editor_add');
+            me.initKindTextBox();
+            me.initCityTextBox();
+            me.initRecommendTextBox();
+            me.initDate();
+            var coverEditor = createEditor('#cover_editor_add');
+
+            me.$('form').validate({
+                submitHandler: function(form){
+                    if(!/<img .*?src=[\"\'](.+?)[\"\']/.test(coverEditor.html())){
+                        $(coverEditor.srcElement[0]).after('<label class="error">请插入封面!</label>');
+                    }
+                    form.submit();
+                }
+            });
         },
 
         addObj: function(){
-            // var me = this;
-            
-            // if(!$('#add_obj_modal form').valid()){
-            //     return;
-            // }
 
-            // g_ajax_processing_obj_id = $("#add_obj_modal .ok").setUUID().attr('id');
-            // kinds.addObj($.Global.Utils.formToDict($('#add_obj_modal form')), function(data){
-            //     if(data.errcode == "0"){
-            //         router.navigate('modify/' + data.errmsg, {trigger: true});
-            //         $('#add_obj_modal').modal('hide');
-            //         $.Global.Notice.SuccessTopNotice("操作成功");
-            //     } else {
-            //         $.Global.Notice.ErrorTopNotice(data.errmsg);
-            //     }
-            // })
+            if(!$('#kind_add').val()){
+                $.Global.Notice.InfoTopNotice('请选择所属类别!');
+                $('#kind_add').focus();
+                return;
+            }
+
+            if(!$('#city_add').val()){
+                $.Global.Notice.InfoTopNotice('请选择所属城市!');
+                $('#city_add').focus();
+                return;
+            }
 
             if(!$('#add_obj_modal form').valid()){
                 return;
@@ -605,31 +620,27 @@ $(document).ready(function(){
         <div class="form-group pt-20 pb-20 mb-0 border-bottom-1 bdc-e4e4e4">
             <label class="col-sm-2 control-label">经度</label>
             <div class="col-sm-3 mb-5">
-                <input type="text" class="form-control" required name="longitude" value='<%= longitude %>'>
+                <input type="text" class="form-control" name="longitude" value='<%= longitude %>'>
             </div>
             <label class="col-sm-2 control-label">纬度</label>
             <div class="col-sm-3">
-                <input type="text" class="form-control" required name="latitude" value='<%= latitude %>'>
+                <input type="text" class="form-control" name="latitude" value='<%= latitude %>'>
             </div>
         </div>
         <div class="form-group pt-20 pb-20 mb-0 border-bottom-1 bdc-e4e4e4">
             <label class="col-sm-2 control-label">地址</label>
-            <div class="col-sm-3 mb-5">
+            <div class="col-sm-8 mb-5">
                 <input type="text" class="form-control" required name="addr" value='<%= addr %>'>
-            </div>
-            <label class="col-sm-2 control-label">入驻时间</label>
-            <div class="col-sm-3">
-                <input type="text" class="form-control" required id="join_time_modify" name="join_time" value='<%= joinTime %>'>
             </div>
         </div>
         <div class="form-group pt-20 pb-20 mb-0 border-bottom-1 bdc-e4e4e4">
             <label class="col-sm-2 control-label">推荐人</label>
             <div class="col-sm-3 mb-5">
-                <input type="text" class="form-control" id="recomend_modify" required name="recommend_user_id" value=''>
+                <input type="text" class="form-control" id="recomend_modify" name="recommend_user_id" value=''>
             </div>
             <label class="col-sm-2 control-label">推荐语</label>
             <div class="col-sm-3">
-                <input type="text" class="form-control" required name="recommend_des" value='<%= recommendDes %>'>
+                <input type="text" class="form-control" name="recommend_des" value='<%= recommendDes %>'>
             </div>
         </div>
         <div class="form-group pt-20 pb-20 mb-0 border-bottom-1 bdc-e4e4e4">
@@ -677,6 +688,10 @@ $(document).ready(function(){
             </div>
         </div>
         <div class="form-group pt-20 pb-20 mb-0 border-bottom-1 bdc-e4e4e4">
+            <label class="col-sm-2 control-label">入驻时间</label>
+            <div class="col-sm-3">
+                <input type="text" class="form-control" required id="join_time_modify" name="join_time" value='<%= joinTime %>'>
+            </div>
             <label class="col-sm-2 control-label">创建时间</label>
             <div class="col-sm-3 mb-5">
                 <p class="form-control-static"><%= createTime %></p>
@@ -722,7 +737,7 @@ $(document).ready(function(){
                         <label class="col-sm-3 control-label">logo</label>
                         <div class="col-sm-9 mb-5">
                             <img class="mb-10 w100p" src="" />
-                            <input name="logo" class="pb-10" type="file" />图片格式为png，尺寸为 124(宽) X 124(长)
+                            <input name="logo" required class="pb-10" type="file" />图片格式为png，尺寸为 124(宽) X 124(长)
                         </div>
                     </div>
                     <div class="form-group pt-20 pb-20 mb-0 border-bottom-1 bdc-e4e4e4">
