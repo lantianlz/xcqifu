@@ -87,6 +87,10 @@ class Service(models.Model):
         import re
         return re.compile('<img .*?src=[\"\'](.+?)[\"\']').findall(self.imgs)
 
+    def get_format_des(self):
+        print repr(self.des)
+        return self.des.replace('\r\n', '<br/>')
+
 
 class Product(models.Model):
     '''

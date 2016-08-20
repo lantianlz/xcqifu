@@ -56,13 +56,14 @@
     bottom: 0;
 }
 .carousel-indicators li{
-    width: 5px;
-    height: 5px;
+    width: 6px;
+    height: 6px;
     background-color: #eee;
 }
 .carousel-indicators .active{
     width: 6px;
     height: 6px;
+    margin: 1px;
     background-color: #f07925;
     border-color: #f07925;
 }

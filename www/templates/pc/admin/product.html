@@ -194,9 +194,25 @@ $(document).ready(function(){
 
         // 渲染
         render: function(data){
-            this.$el.html(this.template(data));
-            this.initServiceTextBox(data.serviceName, data.serviceId);
-            createEditor('#des_modify');
+            var me = this;
+            me.$el.html(this.template(data));
+            me.initServiceTextBox(data.serviceName, data.serviceId);
+
+            var desEditor = createEditor('#des_modify');
+            me.$('form').validate({
+                submitHandler: function(form){
+                    // 去掉空格 去掉html标签之后的文本
+                    var content = $.Global.Utils.clearEscapeCharacters(
+                            $.Global.Utils.clearHtmlTags(desEditor.html())
+                        );
+                    // 大于2个字才提交
+                    if($.trim(content).length >= 10){
+                        form.submit();
+                    } else {
+                        $(desEditor.srcElement[0]).after('<label class="error">至少需要输入10个字</label>');
+                    }
+                }
+            });
         },
 
         // 显示提问信息
@@ -209,26 +225,19 @@ $(document).ready(function(){
                     me.showPanel();
                 } else {
                     setTimeout(function(){history.go(-1);}, 3000);
-                    $.Global.Notice.ErrorTopNotice("没有找到对应的类别!");
+                    $.Global.Notice.ErrorTopNotice("没有找到对应的服务商!");
                 }
             });
         },
 
         // 保存
         save: function(sender){
-            // var objId = this.$('form').data('obj_id'),
-            //     target = $(sender.currentTarget),
-            //     me = this;
 
-            // g_ajax_processing_obj_id = target.setUUID().attr('id');
-            // me.collection.modifyObj($.Global.Utils.formToDict(this.$('form')), function(data){
-            //     if(data.errcode == "0"){
-            //         $.Global.Notice.SuccessTopNotice('操作成功!');
-            //         router.navigate('modify/' + objId, {'trigger': true});
-            //     } else {
-            //         $.Global.Notice.ErrorTopNotice(data.errmsg);
-            //     }
-            // });
+            if(!$('#service_modify').val()){
+                $.Global.Notice.InfoTopNotice('请选择所属服务商!');
+                $('#service_modify').focus();
+                return;
+            }
 
             if(!this.$('form').valid()){
                 return;
@@ -286,26 +295,32 @@ $(document).ready(function(){
             $('#add_obj_modal').modal({'show': true, 'backdrop': 'static'});
 
             me.initServiceTextBox();
-            createEditor('#des_add');
+
+            var desEditor = createEditor('#des_add');
+            me.$('form').validate({
+                submitHandler: function(form){
+                    // 去掉空格 去掉html标签之后的文本
+                    var content = $.Global.Utils.clearEscapeCharacters(
+                            $.Global.Utils.clearHtmlTags(desEditor.html())
+                        );
+                    // 大于2个字才提交
+                    if($.trim(content).length >= 10){
+                        form.submit();
+                    } else {
+                        $(desEditor.srcElement[0]).after('<label class="error">至少需要输入10个字</label>');
+                    }
+                }
+            });
+
         },
 
         addObj: function(){
-            // var me = this;
-            
-            // if(!$('#add_obj_modal form').valid()){
-            //     return;
-            // }
 
-            // g_ajax_processing_obj_id = $("#add_obj_modal .ok").setUUID().attr('id');
-            // kinds.addObj($.Global.Utils.formToDict($('#add_obj_modal form')), function(data){
-            //     if(data.errcode == "0"){
-            //         router.navigate('modify/' + data.errmsg, {trigger: true});
-            //         $('#add_obj_modal').modal('hide');
-            //         $.Global.Notice.SuccessTopNotice("操作成功");
-            //     } else {
-            //         $.Global.Notice.ErrorTopNotice(data.errmsg);
-            //     }
-            // });
+            if(!$('#service_add').val()){
+                $.Global.Notice.InfoTopNotice('请选择所属服务商!');
+                $('#service_add').focus();
+                return;
+            }
 
             if(!$('#add_obj_modal form').valid()){
                 return;
@@ -512,7 +527,7 @@ $(document).ready(function(){
         <div class="form-group pt-20 pb-20 mb-0 border-bottom-1 bdc-e4e4e4">
             <label class="col-sm-2 control-label">简介</label>
             <div class="col-sm-8">
-                <textarea name="des" rows="6" id="des_modify" class="form-control" placeholder=""><%= des %></textarea>
+                <textarea style="height: 400px;" name="des" rows="6" id="des_modify" class="form-control" placeholder=""><%= des %></textarea>
             </div>
         </div>
         <div class="form-group pt-20 pb-20 mb-0 border-bottom-1 bdc-e4e4e4">
@@ -536,7 +551,7 @@ $(document).ready(function(){
                     <div class="form-group pt-20 pb-20 mb-0 border-bottom-1 bdc-e4e4e4">
                         <label class="col-sm-3 control-label">封面</label>
                         <div class="col-sm-8 mb-5">
-                            <input name="cover" class="pb-10" type="file" />图片格式为png，尺寸为 124(宽) X 124(长)
+                            <input name="cover" required class="pb-10" type="file" />图片格式为png，尺寸为 124(宽) X 124(长)
                         </div>
                     </div>
                     <div class="form-group pt-20 pb-20 mb-0 border-bottom-1 bdc-e4e4e4">
@@ -589,7 +604,7 @@ $(document).ready(function(){
                     <div class="form-group pt-20 pb-20 mb-0">
                         <label class="col-sm-3 control-label">简介</label>
                         <div class="col-sm-8">
-                            <textarea name="des" rows="6" id="des_add" class="form-control" placeholder=""></textarea>
+                            <textarea style="height: 400px;" name="des" rows="6" id="des_add" class="form-control" placeholder=""></textarea>
                         </div>
                     </div>
                 </form>
