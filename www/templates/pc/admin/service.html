@@ -267,6 +267,7 @@ $(document).ready(function(){
                 submitHandler: function(form){
                     if(!/<img .*?src=[\"\'](.+?)[\"\']/.test(coverEditor.html())){
                         $(coverEditor.srcElement[0]).after('<label class="error">请插入封面!</label>');
+                        return;
                     }
                     form.submit();
                 }
@@ -409,10 +410,11 @@ $(document).ready(function(){
             me.initDate();
             var coverEditor = createEditor('#cover_editor_add');
 
-            me.$('form').validate({
+            $('#add_obj_modal form').validate({
                 submitHandler: function(form){
                     if(!/<img .*?src=[\"\'](.+?)[\"\']/.test(coverEditor.html())){
                         $(coverEditor.srcElement[0]).after('<label class="error">请插入封面!</label>');
+                        return;
                     }
                     form.submit();
                 }
