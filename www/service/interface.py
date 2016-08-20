@@ -58,7 +58,7 @@ class KindBase(object):
         for kt in Kind.kind_type_choices:
             is_new_total = False
             ks = []
-            kinds = Kind.objects.filter(kind_type=kt[0])
+            kinds = Kind.objects.filter(kind_type=kt[0], state=True)
             lst_kind_name = []
             for kind in kinds:
                 koi = _get_kind_open(kind)
@@ -327,11 +327,11 @@ class ProductBase(object):
             return 99802, dict_err.get(99802)
 
         product = Product.objects.create(
-            name=name, 
-            service_id=service_id, 
-            des=des, 
-            price=price, 
-            cover=cover, 
+            name=name,
+            service_id=service_id,
+            des=des,
+            price=price,
+            cover=cover,
             summary=summary
         )
 
@@ -460,6 +460,7 @@ class ZanBase(object):
 
 
 class KindOpenInfoBase(object):
+
     def __init__(self):
         pass
 
@@ -493,8 +494,8 @@ class KindOpenInfoBase(object):
 
         try:
             obj = KindOpenInfo.objects.create(
-                kind_id=kind, 
-                city_id=city_id, 
+                kind_id=kind,
+                city_id=city_id,
                 open_time=open_time
             )
         except Exception, e:
@@ -511,11 +512,3 @@ class KindOpenInfoBase(object):
         KindOpenInfo.objects.filter(id=info_id).delete()
 
         return 0, dict_err.get(0)
-
-
-
-
-
-
-
-
