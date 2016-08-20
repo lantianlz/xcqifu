@@ -56,7 +56,7 @@ class Service(models.Model):
     des = models.TextField(verbose_name=u"简介")
     imgs = models.TextField(verbose_name=u"轮播图集中存放")
 
-    service_area = models.CharField(verbose_name=u"服务范围", max_length=256)
+    service_area = models.CharField(verbose_name=u"覆盖区域", max_length=256)
     tel = models.CharField(verbose_name=u"联系电话", max_length=256, null=True)
     addr = models.CharField(verbose_name=u"地址", max_length=256, null=True)
     longitude = models.CharField(verbose_name=u"经度", max_length=32, null=True)
