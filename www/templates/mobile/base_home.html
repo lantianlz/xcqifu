@@ -24,16 +24,34 @@
         color: #f07925;
     }
     .nav-img{
+        width: 20px;
+        height: 20px;
         display: inline-block;
+        background-size: 118px;
     }
-    .nav-img-active{
-        display: none;
+    .nav-img-1{
+        background: url({{MEDIA_URL}}img/nav.png) no-repeat -16px -44px;
+        background-size: 118px;
     }
-    .nav.active .nav-img{
-        display: none;
+    .nav.active .nav-img-1{
+        background: url({{MEDIA_URL}}img/nav.png) no-repeat -16px -15px;
+        background-size: 118px;
     }
-    .nav.active .nav-img-active{
-        display: inline-block;
+    .nav-img-2{
+        background: url({{MEDIA_URL}}img/nav.png) no-repeat -49px -44px;
+        background-size: 118px;
+    }
+    .nav.active .nav-img-2{
+        background: url({{MEDIA_URL}}img/nav.png) no-repeat -49px -15px;
+        background-size: 118px;
+    }
+    .nav-img-3{
+        background: url({{MEDIA_URL}}img/nav.png) no-repeat -82px -44px;
+        background-size: 118px;
+    }
+    .nav.active .nav-img-3{
+        background: url({{MEDIA_URL}}img/nav.png) no-repeat -82px -15px;
+        background-size: 118px;
     }
 
     .back{
@@ -106,26 +124,23 @@
         <div class="col-xs-4 nav {% if request.path == "/" %}active{% endif %}">
             <a href="/">
                 <div class="col-xs-12 pr-0 pl-0">
-                    <img class="w20 nav-img" src="{{MEDIA_URL}}img/nav_1.png">
-                    <img class="w20 nav-img-active" src="{{MEDIA_URL}}img/nav_1_active.png">
+                    <span class="nav-img nav-img-1"></span>
                 </div>
                 <div class="col-xs-12 pr-0 pl-0 pt-5">即刻服务</div>
             </a>
         </div>
-        <div class="col-xs-4 nav">
-            <a href="#">
+        <div class="col-xs-4 nav {% if request.path == "/service/my_order" %}active{% endif %}">
+            <a href="/service/my_order">
                 <div class="col-xs-12 pr-0 pl-0 pt-2">
-                    <img class="w25 nav-img" src="{{MEDIA_URL}}img/nav_2.png">
-                    <img class="w25 nav-img-active" src="{{MEDIA_URL}}img/nav_2_active.png">
+                    <span class="nav-img nav-img-2"></span>
                 </div>
-                <div class="col-xs-12 pr-0 pl-0 pt-5">关于小橙</div>
+                <div class="col-xs-12 pr-0 pl-0 pt-5">我的预约</div>
             </a>
         </div>
         <div class="col-xs-4 nav {% if request.path == "/account/profile" %}active{% endif %}">
             <a href="/account/profile">
                 <div class="col-xs-12 pr-0 pl-0">
-                    <img class="w20 nav-img" src="{{MEDIA_URL}}img/nav_3.png">
-                    <img class="w20 nav-img-active" src="{{MEDIA_URL}}img/nav_3_active.png">
+                    <span class="nav-img nav-img-3"></span>
                 </div>
                 <div class="col-xs-12 pr-0 pl-0 pt-5">个人信息</div>
             </a>
