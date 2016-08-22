@@ -212,9 +212,9 @@ body,html{
 }
 .logo{
     position: absolute;
-    left: 0;
-    top: 2px;
-    width: 50px;
+    left: -3px;
+    top: -3px;
+    width: 55px;
     -webkit-transform: translateX(55px);
             transform: translateX(55px);
     -webkit-animation: logoLeft 1s both;
