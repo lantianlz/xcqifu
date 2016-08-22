@@ -880,6 +880,9 @@ class UserInviteBase(object):
     def get_user_invites(self, from_user_id):
         return UserInvite.objects.filter(from_user_id=from_user_id)
 
+    def get_user_invite_count(self, from_user_id):
+        return UserInvite.objects.filter(from_user_id=from_user_id).count()
+
 
 class VerifyInfoBase(object):
 
