@@ -7,17 +7,22 @@
         }, 
         {
             "type": "view", 
-            "name": "个人信息", 
-            "url": "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx849eb5bab8d7e9e0&redirect_uri=http%3A%2F%2Fwww.xcqifu.com%2Faccount%2Foauth%2Fweixin&response_type=code&scope=snsapi_base&state=profile#wechat_redirect"
+            "name": "我的预约", 
+            "url": "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx849eb5bab8d7e9e0&redirect_uri=http%3A%2F%2Fwww.xcqifu.com%2Faccount%2Foauth%2Fweixin&response_type=code&scope=snsapi_base&state=order#wechat_redirect"
         }, 
 
         {
-            "name": "关于小橙", 
+            "name": "个人中心", 
             "sub_button": [
                 {
                     "type": "view", 
-                    "name": "关于小橙", 
-                    "url": "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx849eb5bab8d7e9e0&redirect_uri=http%3A%2F%2Fwww.xcqifu.com%2Faccount%2Foauth%2Fweixin&response_type=code&scope=snsapi_base&state=about#wechat_redirect"
+                    "name": "认证信息", 
+                    "url": "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx849eb5bab8d7e9e0&redirect_uri=http%3A%2F%2Fwww.xcqifu.com%2Faccount%2Foauth%2Fweixin&response_type=code&scope=snsapi_base&state=verify#wechat_redirect"
+                },
+                {
+                    "type": "view", 
+                    "name": "推荐有奖", 
+                    "url": "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx849eb5bab8d7e9e0&redirect_uri=http%3A%2F%2Fwww.xcqifu.com%2Faccount%2Foauth%2Fweixin&response_type=code&scope=snsapi_base&state=recommendation#wechat_redirect"
                 },
                 {
                     "type": "click", 
@@ -29,6 +34,3 @@
 
     ]
 }
-
-
-

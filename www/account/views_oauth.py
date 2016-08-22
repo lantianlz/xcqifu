@@ -101,6 +101,10 @@ def oauth_weixin(request):
         else:
             dict_next = {
                 "index": "/",
+                "order": "/service/my_order",
+                "recommendation": "/account/recommendation",
+                "verify": "/account/verify",
+
                 "about": "/s/about",
                 "profile": "/account/profile",
                 "contact": "/s/contact_us_m",

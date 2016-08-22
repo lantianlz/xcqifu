@@ -338,7 +338,7 @@ class ProductBase(object):
         return 0, product
 
     def get_products_by_service(self, service):
-        return Product.objects.select_related("service").filter(service=service)
+        return Product.objects.select_related("service").filter(service=service, state=True)
 
     def get_product_by_id(self, product_id):
         try:
