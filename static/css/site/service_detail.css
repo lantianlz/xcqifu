@@ -106,16 +106,16 @@
     text-align: center;
 }
 .btn-booking{
-    color: #f07925;
-    padding: 3px 30px;
+    color: #fff;
+    padding: 4px 30px;
     border-radius: 18px;
-    background-color: #fff;
-    box-shadow: #ffd5b8 0 2px 4px;
+    background-color: #f07925;
+    /*box-shadow: #ffd5b8 0 2px 4px;*/
     border: 0;
     font-size: 16px;
 }
 .btn-booking:hover{
-    color: #f07925;
+    color: #fff;
     text-decoration: none;
 }
 .fa-bookmark-o{

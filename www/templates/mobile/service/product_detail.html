@@ -1,7 +1,6 @@
 {% extends "mobile/base_home.html" %}
 {% block title %}{{product.name}}{% endblock title %}
 {% block css %}
-<!-- <link rel="stylesheet" type="text/css" href="{{MEDIA_URL}}css/site/service_detail.css?v={{MEDIA_VERSION}}"> -->
 <style type="text/css">
 .img-des{
     width: 90px;
@@ -30,7 +29,7 @@
     font-size: 16px;
 }
 .des{
-    margin-bottom: 60px;
+    margin-bottom: 20px;
 }
 .des img{
     width: 100%;
@@ -62,9 +61,9 @@ $(document).ready(function(){
     <div class="col-xs-12 des">
         {{product.des|safe}}
     </div>
-    <div class="booking">
+    <!-- <div class="booking">
         <button class="btn-booking" value="">立即预定</button>
-    </div>
+    </div> -->
 </div>
 {% endblock %}
 

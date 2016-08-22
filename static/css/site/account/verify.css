@@ -36,15 +36,28 @@
     padding-bottom: 5px;
     width: 100%;
     border: 0;
+    border-radius: 0;
     border-bottom: 1px #e1e1e1 solid;
     transition: all 0.3s;
     font-size: 16px;
+    background-color: transparent;
+    z-index: 2;
 }
 .text-input:focus{
     outline: 0;
     border-bottom: 1px #f07925 solid;
 }
-
+.lable-text{
+    -webkit-transform: translateY(30px);
+            transform: translateY(30px);
+    -webkit-transition: all 0.3s;
+            transition: all 0.3s;
+    z-index: 1;
+}
+.lable-text.focus{
+    -webkit-transform: translateY(0px);
+            transform: translateY(0px);
+}
 .btn-verify{
     border-radius: 20px;
     background-color: #f07925;
