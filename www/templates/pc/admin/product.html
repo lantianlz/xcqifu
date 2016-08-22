@@ -297,7 +297,7 @@ $(document).ready(function(){
             me.initServiceTextBox();
 
             var desEditor = createEditor('#des_add');
-            me.$('form').validate({
+            $('#add_obj_modal form').validate({
                 submitHandler: function(form){
                     // 去掉空格 去掉html标签之后的文本
                     var content = $.Global.Utils.clearEscapeCharacters(
