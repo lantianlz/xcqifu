@@ -11,6 +11,7 @@
     var title = '小橙企服';
     var desc = '你的老朋友「{{request.user.nick}}」热情的邀请你来体验小橙企服，一站搞定行政事务，更省心！';
     var link = 'http://www.xcqifu.com/account/recommend/{{qrcode.id}}';
+    var imgUrl = 'http://static.xcqifu.com/img/logo.jpg'
 
 
     $(document).ready(function(){
@@ -40,7 +41,7 @@
                 title: title,
                 desc: desc,
                 link: link,
-                imgUrl: 'http://static.3-10.cc/img/logo.jpg',
+                imgUrl: imgUrl,
                 trigger: function (res) {
                     // alert('用户点击发送给朋友');
                 },
@@ -59,7 +60,7 @@
                 title: desc,
                 desc: "",
                 link: link,
-                imgUrl: 'http://static.3-10.cc/img/logo.jpg',
+                imgUrl: imgUrl,
                 trigger: function (res) {
                     // alert('用户点击分享到朋友圈');
                 },
