@@ -212,6 +212,8 @@ def logout(request):
 
 @member_required
 def profile(request, template_name='mobile/account/profile.html'):
+    from account.interface import VerifyInfoBase
+    info = VerifyInfoBase().get_info_by_user_id(request.user.id)
     return render_to_response(template_name, locals(), context_instance=RequestContext(request))
 
 

@@ -31,7 +31,7 @@
         <ul class="list-group text-center">
             <a href="/account/verify" class="list-group-item f16 pt-20 pb-20">
                 <img class="profile-icon" src="{{MEDIA_URL}}img/profile/profile-icon-1.png">
-                <span class="display-inline pl-20 pr">认证信息<i class="new-msg"></i></span>
+                <span class="display-inline pl-20 pr">认证信息{% if not info or info.state == 0 %}<i class="new-msg">{% endif %}</i></span>
             </a>
             <a href="/service/my_order" class="list-group-item f16 pt-20 pb-20">
                 <img class="profile-icon" src="{{MEDIA_URL}}img/profile/profile-icon-2.png">

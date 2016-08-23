@@ -88,8 +88,8 @@
 </div>
 <div class="row ml-0 mr-0 pt-20 pr">
     <div class="col-xs-10 col-xs-offset-1 pr pt-5">
-        <img class="logo" src="{{MEDIA_URL}}/img/profile/logo.png">
-        <span class="fb f20 pl-10">小橙企服</span>
+        <img class="logo" src="{{MEDIA_URL}}img/logo.png">
+        <span class="fb f20 pl-15">小橙企服</span>
         <img class="slogan" src="{{MEDIA_URL}}/img/profile/slogan.png">
     </div>
     <div class="col-xs-10 col-xs-offset-1 pt-20 pb-30 pl-0 pr-0">
@@ -110,7 +110,7 @@
                 <span class="circle-left"></span>
                 <span class="circle-right"></span>
                 <div class="col-xs-8 pl-0 pr-0 friend-txt f12">我推荐的朋友</div>
-                <div class="col-xs-4 pl-0 pr-0 friend-txt f12 text-right">共{{user_invite_count}}人</div>
+                <div class="col-xs-4 pl-0 pr-0 friend-txt f12 text-right">共 {{user_invite_count}} 人</div>
                 {% if user_invites %}
                 <ul class="list-group col-xs-12 pr-0 f13">
                     {% for ui in user_invites %}

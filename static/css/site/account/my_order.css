@@ -17,7 +17,6 @@ body{
     padding-bottom: 18px;
 }
 .list-group-item:last-child{
-
     border-bottom-right-radius: 2px;
     border-bottom-left-radius: 2px;
 }
@@ -39,7 +38,7 @@ body{
     width: 120px;
     border-radius: 50%;
     position: absolute;
-    left: -68px;
+    left: -112px;
     top: -18px;
 }
 .service{

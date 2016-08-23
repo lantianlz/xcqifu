@@ -7,15 +7,15 @@ body{
     left: 0;
 }
 .logo{
-    width: 20px;
+    width: 25px;
     position: absolute;
     left: 0;
-    top: 3px;
+    top: 6px;
 }
 .slogan{
     width: 65px;
     position: absolute;
-    left: 116px;
+    left: 120px;
     top: 15px;
 }
 .card{
