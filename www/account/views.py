@@ -9,7 +9,7 @@ from django.shortcuts import render_to_response
 
 from common import utils, page
 from www.misc import qiniu_client
-from www.misc.decorators import member_required, weixin_js_required
+from www.misc.decorators import member_required, weixin_js_required, common_ajax_response
 from www.account import interface
 
 ub = interface.UserBase()
@@ -328,3 +328,20 @@ def get_weixin_login_state(request):
         # cache_obj.delete(key)
 
     return HttpResponse(json.dumps(dict(errcode=errcode, errmsg=errmsg, next_url=next_url)), mimetype='application/json')
+
+@member_required
+@common_ajax_response
+def verify_user(request):
+    from account.interface import VerifyInfoBase
+    vib = VerifyInfoBase()
+
+    # 提交审核
+    code, msg = vib.add_verfy_info(
+        request.user.id, 
+        request.POST.get('name'),
+        request.POST.get('mobile'), 
+        request.POST.get('title'), 
+        request.POST.get('company')
+    )
+    return code, '' if code == 0 else msg
+

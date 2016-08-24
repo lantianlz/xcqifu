@@ -892,11 +892,6 @@ class VerifyInfoBase(object):
         except Exception, e:
             return 99800, dict_err.get(99800)
 
-        # if VerifyInfo.objects.filter(user_id=user_id):
-        #     return 99802, dict_err.get(99802)
-
-        # verfy_info = VerifyInfo.objects.create(user_id=user_id, name=name, mobile=mobile, title=title, company_name=company_name)
-
         try:
             verfy_info, is_created = VerifyInfo.objects.get_or_create(user_id=user_id)
 

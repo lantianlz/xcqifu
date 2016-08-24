@@ -118,7 +118,8 @@ body{
     padding: 8px 55px;
     position: relative;
 }
-.btn-booking:focus{
+.btn-booking:focus, 
+.btn-booking:hover{
     outline: 0;
     background-color: #d4681b;
     border-color: #d4681b;

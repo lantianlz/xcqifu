@@ -96,7 +96,7 @@
     left: 5px;
     font-size: 20px;
 }
-.booking{
+.booking-bg{
     position: fixed;
     left: 0;
     bottom: 0;
@@ -107,7 +107,7 @@
 }
 .btn-booking{
     color: #fff;
-    padding: 4px 30px;
+    padding: 6px 30px;
     border-radius: 18px;
     background-color: #f07925;
     /*box-shadow: #ffd5b8 0 2px 4px;*/
@@ -123,4 +123,59 @@
     left: 0;
     top: 10px;
     font-size: 16px;
+}
+
+.btn-verify{
+    border-radius: 20px;
+    background-color: #f07925;
+    color: #fff;
+    border-color: #f07925;
+    box-shadow: #FFAE73 0px 3px 10px;
+    outline: 0;
+}
+.btn-verify:focus,
+.btn-verify:hover{
+    outline: 0;
+    background-color: #d4681b;
+    border-color: #d4681b;
+    color: #fff;
+}
+
+.profile-icon{
+    width: 15px;
+    position: absolute;
+    left: -12px;
+    top: 40px;
+}
+.text-input{
+    padding-top: 5px;
+    padding-left: 5px;
+    padding-right: 5px;
+    padding-bottom: 5px;
+    width: 100%;
+    border: 0;
+    border-radius: 0;
+    border-bottom: 1px #e1e1e1 solid;
+    transition: all 0.3s;
+    font-size: 16px;
+    background-color: transparent;
+    z-index: 2;
+}
+.text-input:focus{
+    outline: 0;
+    border-bottom: 1px #f07925 solid;
+}
+.lable-text{
+    -webkit-transform: translateY(30px);
+            transform: translateY(30px);
+    -webkit-transition: all 0.3s;
+            transition: all 0.3s;
+    z-index: 1;
+}
+.lable-text.focus{
+    -webkit-transform: translateY(0px);
+            transform: translateY(0px);
+}
+.verify-modal .list-group-item{
+    border: 0;
 }

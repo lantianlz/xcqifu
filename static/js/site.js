@@ -32,6 +32,39 @@ if (!String.format) {
     }
 
     $.Global = {};
+    $.Global.Utils = {};
+    /*
+        将表单数据转换成字典，用于ajax
+
+        用例:
+        $.Global.Utils.formToDict('myform');
+    */
+    $.Global.Utils.formToDict = function(selector){
+        var postData = {};
+
+        // 转换
+        _.map($(selector).serializeArray(), function(i){
+            // 是否有值
+            if(i.value){
+                
+                // 是否已经存在此name的值，主要用于name相同的控件
+                if(!$.isEmptyObject(postData[i.name])){
+                    
+                    // 是否第一次添加
+                    if(!(postData[i.name] instanceof Array)){
+                        postData[i.name] = [postData[i.name]];
+                    }
+                        
+                    postData[i.name].push(i.value);
+                    
+                } else {
+                    postData[i.name] = i.value;
+                }
+            }
+        });
+
+        return postData;
+    };
 
     /* 
         网站提示插件
