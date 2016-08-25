@@ -51,6 +51,11 @@ $(document).ready(function(){
             function(response){
                 if(response.errcode == "0"){
                     me.toggleClass('active');
+
+                    me.removeClass('animate')
+                    if(me.hasClass('active')){
+                        me.addClass('animate');
+                    }
                     $('#heart-count').text(response.errmsg);
                 }
                 else{
@@ -226,6 +231,12 @@ $(document).ready(function(){
                 <span class="fa fa-heart-o"></span>
                 <span class="fa fa-heart"></span>
                 <span class="pt-5 f12 pt-10 display-inline co-f07925 w30" id="heart-count">0</span>
+
+                <span class="heart-line-1"></span>
+                <span class="heart-line-2"></span>
+                <span class="heart-line-3"></span>
+                <span class="heart-line-4"></span>
+                <span class="heart-line-5"></span>
             </span>
         </div>
     </div>

@@ -72,7 +72,7 @@ def service_detail(request, service_id, template_name='mobile/service/service_de
 
     # 是否验证用户
     verify_user = VerifyInfoBase().get_info_by_user_id(request.user.id)
-    is_verify = '1' if not verify_user else '0'
+    is_verify = '0' if not verify_user else '1'
 
     return render_to_response(template_name, locals(), context_instance=RequestContext(request))
 
