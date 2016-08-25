@@ -112,19 +112,18 @@ $(document).ready(function(){
         '</div>'
     ].join(''),
     booking = function(){
-        $.Global.Notice.SuccessTopNotice('预约成功！');
-        // ajaxSend(
-        //     "/admin/kind/add_kind", 
-        //     {},
-        //     function(data){
-        //         if(data.errcode == "0"){
-        //             $.Global.Notice.SuccessTopNotice('预约成功！');
-        //         }
-        //         else{
-        //             $.Global.Notice.ErrorTopNotice(data.errmsg);
-        //         }
-        //     }
-        // );
+        ajaxSend(
+            "/service/create_order", 
+            {'service_id': '{{service.id}}'},
+            function(data){
+                if(data.errcode == "0"){
+                    $.Global.Notice.SuccessTopNotice('预约成功！');
+                }
+                else{
+                    $.Global.Notice.ErrorTopNotice(data.errmsg);
+                }
+            }
+        );
     };
 
     // 预约
@@ -151,7 +150,6 @@ $(document).ready(function(){
             $.Global.Utils.formToDict($('.verify-modal form')),
             function(data){
                 if(data.errcode == "0"){
-                    // $.Global.Notice.SuccessTopNotice('预约成功！');
                     $('.verify-modal').modal('hide');
                     booking();
                 }

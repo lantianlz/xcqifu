@@ -11,7 +11,7 @@ urlpatterns = patterns('www.service.views',
                        url(r'^my_zan$', 'my_zan'),
                        url(r'^add_zan$', 'add_zan'),
                        url(r'^cancel_zan$', 'cancel_zan'),
-
+                       url(r'^create_order$', 'create_order'),
 
                        url(r'^success$', 'success'),
                        url(r'^error$', 'error'),

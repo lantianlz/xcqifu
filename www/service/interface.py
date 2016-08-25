@@ -25,6 +25,8 @@ dict_err = {
 
     20201: u'没有找到对应的产品',
     20202: u'已存在同名的产品',
+
+    20301: u'正在预约供应商，无需多次提交',
 }
 dict_err.update(consts.G_DICT_ERROR)
 
@@ -512,3 +514,40 @@ class KindOpenInfoBase(object):
         KindOpenInfo.objects.filter(id=info_id).delete()
 
         return 0, dict_err.get(0)
+
+
+class OrderBase(object):
+
+    def create_order(self, user_id, service_id, product_id=None, price=0):
+
+        if not (user_id and service_id):
+            return 99800, dict_err.get(99800)
+
+        service = ServiceBase().get_service_by_id(service_id)
+        if not service:
+            return 20103, dict_err.get(20103)
+
+        # 是否已经预约中
+        if Order.objects.filter(
+            state__in=(0, 1), 
+            user_id=user_id, 
+            service_id=service_id
+            ).count() > 0:
+            return 20301, dict_err.get(20301)
+
+        try:
+            obj = Order.objects.create(
+                user_id=user_id,
+                service_id=service_id,
+                product_id=product_id,
+                price=price
+            )
+        except Exception, e:
+            debug.get_debug_detail(e)
+            return 99900, dict_err.get(99900)
+
+        return 0, obj
+
+
+
+

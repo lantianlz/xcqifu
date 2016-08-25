@@ -12,7 +12,7 @@ from common import utils, page
 from misc.decorators import common_ajax_response, member_required, request_limit_by_ip, auto_select_template
 
 from www.account.interface import UserBase, VerifyInfoBase
-from www.service.interface import KindBase, ServiceBase, ProductBase, ZanBase
+from www.service.interface import KindBase, ServiceBase, ProductBase, ZanBase, OrderBase
 from www.weixin.interface import WeixinBase, Sign
 
 
@@ -72,7 +72,7 @@ def service_detail(request, service_id, template_name='mobile/service/service_de
 
     # 是否验证用户
     verify_user = VerifyInfoBase().get_info_by_user_id(request.user.id)
-    is_verify = '1' if verify_user and verify_user.state == 1 else '0'
+    is_verify = '1' if not verify_user else '0'
 
     return render_to_response(template_name, locals(), context_instance=RequestContext(request))
 
@@ -110,3 +110,21 @@ def add_zan(request):
 def cancel_zan(request):
     service_id = request.REQUEST.get('service_id')
     return zb.cancel_zan(request.user.id, service_id)
+
+@member_required
+@common_ajax_response
+def create_order(request):
+
+    service_id = request.REQUEST.get('service_id')
+
+    code, msg = OrderBase().create_order(request.user.id, service_id)
+
+    return code, '' if code == 0 else msg
+
+
+
+
+
+
+
+
