@@ -365,8 +365,16 @@ $(document).ready(function(){
             <span class="f18 pl-65">小橙企服 后台管理</span>
         </div>
         <ul class="list-group p-nav">
-            <li class="list-group-item {% if '/user' in request.path %}active{% endif %}">
-                <a href="/admin/user"><i class="fa fa-user pr-3"></i>用户管理</a>
+            <li class="list-group-item">
+                <a><i class="fa fa-cubes pr-3" style="left: 27px;"></i>用户管理</a>
+                <ul class="list-group sub-nav">
+                    <a href="/admin/user" class="list-group-item {% if '/admin/user' == request.path %}active{% endif %}">
+                        <i class="point"></i>注册用户管理
+                    </a>
+                    <a href="/admin/user_verify" class="list-group-item {% if '/admin/user_verify' == request.path %}active{% endif %}">
+                        <i class="point"></i>用户验证管理
+                    </a>
+                </ul>
             </li>
             <li class="list-group-item">
                 <a><i class="fa fa-cubes pr-3" style="left: 27px;"></i>类别管理</a>
@@ -384,6 +392,9 @@ $(document).ready(function(){
             </li>
             <li class="list-group-item {% if '/product' in request.path %}active{% endif %}">
                 <a href="/admin/product"><i class="fa fa-archive pr-3"></i>产品管理</a>
+            </li>
+            <li class="list-group-item {% if '/order' in request.path %}active{% endif %}">
+                <a href="/admin/order"><i class="fa fa-list-alt pr-3"></i>订单管理</a>
             </li>
             <li class="list-group-item">
                 <a><i class="fa fa-bar-chart pr-3"></i>统计管理</a>
