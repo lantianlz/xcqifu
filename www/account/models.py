@@ -206,6 +206,9 @@ class InviteQrcode(models.Model):
     def get_img(self):
         return "https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=%s" % self.ticket
 
+    class Meta:
+        ordering = ["-user_count"]
+
 
 class UserInvite(models.Model):
     """
