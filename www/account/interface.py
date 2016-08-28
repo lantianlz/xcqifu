@@ -921,3 +921,45 @@ class VerifyInfoBase(object):
             return VerifyInfo.objects.get(user_id=user_id)
         except VerifyInfo.DoesNotExist:
             return None
+
+    def get_info_by_id(self, info_id):
+        try:
+            return VerifyInfo.objects.get(id=info_id)
+        except VerifyInfo.DoesNotExist:
+            return None
+
+    def search_infos_for_admin(self, name, state=None):
+        objs = VerifyInfo.objects.all()
+
+        if state:
+            objs = objs.filter(state=state)
+
+        if name:
+            objs = objs.filter(name__icontains=name)
+
+        return objs
+
+    def modify_info(self, obj_id, name, mobile, title, company_name, company_short_name="",
+                       state=0):
+
+        if not (obj_id and name and mobile and title and company_name):
+            return 99800, dict_err.get(99800)
+
+        obj = self.get_info_by_id(obj_id)
+        if not obj:
+            return 20201, dict_err.get(20201)
+
+        try:
+            obj.name = name
+            obj.mobile = mobile
+            obj.title = title
+            obj.company_name = company_name
+            obj.company_short_name = company_short_name
+            obj.state = int(state)
+            obj.save()
+        except Exception, e:
+            debug.get_debug_detail_and_send_email(e)
+            return 99900, dict_err.get(99900)
+
+        return 0, dict_err.get(0)
+

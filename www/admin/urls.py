@@ -20,6 +20,15 @@ urlpatterns += patterns('www.admin.views_user',
     url(r'^user$', 'user'),
 )
 
+# 用户验证管理
+urlpatterns += patterns('www.admin.views_verify_info',
+
+    url(r'^verify_info/modify_info$', 'modify_info'),
+    url(r'^verify_info/get_info_by_id$', 'get_info_by_id'),
+    url(r'^verify_info/search$', 'search'),
+    url(r'^verify_info$', 'verify_info'),
+)
+
 # 类别管理
 urlpatterns += patterns('www.admin.views_kind',
 
@@ -60,6 +69,15 @@ urlpatterns += patterns('www.admin.views_product',
     url(r'^product/get_product_by_id$', 'get_product_by_id'),
     url(r'^product/search$', 'search'),
     url(r'^product$', 'product'),
+)
+
+# 订单管理
+urlpatterns += patterns('www.admin.views_order',
+
+    url(r'^order/modify_order$', 'modify_order'),
+    url(r'^order/get_order_by_id$', 'get_order_by_id'),
+    url(r'^order/search$', 'search'),
+    url(r'^order$', 'order'),
 )
 
 

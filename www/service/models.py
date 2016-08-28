@@ -132,7 +132,7 @@ class Order(models.Model):
     product = models.ForeignKey("Product", null=True)   # 产品字段为空表示直接预约供应商
 
     price = models.DecimalField(verbose_name=u"价格", max_digits=20, decimal_places=2, db_index=True)
-    state = models.BooleanField(verbose_name=u"状态是否正常", default=0, choices=state_choices)
+    state = models.IntegerField(verbose_name=u"状态是否正常", default=0, choices=state_choices)
     sort = models.IntegerField(verbose_name=u"排序", default=0)
     create_time = models.DateTimeField(verbose_name=u"创建时间", auto_now_add=True, db_index=True)
 

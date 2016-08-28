@@ -1,0 +1,394 @@
+{% extends "pc/admin/home.html" %}
+{% load custom_tags %}
+{% load custom_filters %}
+{% block title %}用户验证管理{% endblock %}
+{% block admin_title %}用户验证管理{% endblock %}
+{% block admin_title_m %}用户验证管理{% endblock %}
+
+{% block css %}
+<style type="text/css">
+
+</style>
+{% endblock %}
+
+{% block javascript %}
+<script type="text/javascript">
+$(document).ready(function(){
+    // models
+    var Info = Backbone.Model.extend({
+
+        // 默认值
+        defaults: {
+            'num': ''
+        }
+
+    });
+
+    // collections
+    var Infos = Backbone.Collection.extend({
+        model: Info,
+
+        _modelMaps: {
+            'num': 'num',
+            'id': 'id',
+            'userId': 'user_id',
+            'userName': 'user_name',
+            'userAvatar': 'user_avatar',
+            'name': 'name',
+            'mobile': 'mobile',
+            'title': 'title',
+            'companyName': 'company_name',
+            'companyShortName': 'company_short_name',
+            'state': 'state',
+            'createTime': 'create_time',
+            'updateTime': 'update_time'
+        },
+
+        search: function(name, state, pageIndex){
+            var me = this,
+                name = name||'',
+                state = state||'-1',
+                pageIndex = pageIndex||1;
+
+            ajaxSend(
+                "/admin/verify_info/search", 
+                {'name': name, 'state': state, 'page_index': pageIndex}, 
+                function(data){
+                    me.pageIndex = pageIndex;
+                    me.pageCount = data.page_count;
+                    me.name = name;
+                    me.state = state;
+
+                    me.reset($.Global.Utils.dictMapParse(data.data, me._modelMaps));
+                }
+            );
+        },
+
+        getOne: function(objId, callback){
+            var me = this;
+
+            ajaxSend(
+                "/admin/verify_info/get_info_by_id", 
+                {'info_id': objId},
+                function(data){
+                    if(callback){
+                        callback($.Global.Utils.dictMap(data, me._modelMaps));
+                    }
+                }
+            );
+        },
+
+        //
+        modifyObj: function(data, callback){
+
+            ajaxSend(
+                "/admin/verify_info/modify_info", 
+                data,
+                function(response){
+                    if(callback){
+                        callback(response);
+                    }
+                }
+            );
+        }
+
+    });
+
+    // listView
+    var ListView = Backbone.View.extend({
+        el: '#obj_list',
+
+        pagination: new $.Global.Pagination.PaginationView(),
+
+        template: _.template($('#obj_template').html()),
+
+        initialize: function(){
+            this.listenTo(this.collection, 'reset', this.render);
+        },
+
+        events: {
+            'click .search': 'search',
+            'click .pointer': 'modifyObj'
+        },
+
+        // 渲染函数
+        render: function(){
+            var data = this.collection.toJSON();
+            
+            this.showPanel();
+
+            this.$('tbody').html(this.template({'objs': data}));
+
+            this.pagination.render(
+                this.collection.pageIndex,
+                this.collection.pageCount,
+                'search/' + this.collection.name + '/' + this.collection.state
+            );
+        },
+
+        // 显示面板
+        showPanel: function(){
+            $('.orange-nav-pills a[href="#obj_list"]').tab('show');
+        },
+
+        search: function(){
+            var name = this.$('.name').val(),
+                state = this.$('.state').val();
+
+            router.navigate(String.format('/search/{0}/{1}/1', name, state), {trigger: true});
+        },
+
+        modifyObj: function(sender){
+            var target = $(sender.currentTarget),
+                objId = target.data('obj_id');
+
+            router.navigate('/modify/' + objId, {trigger: true});
+        }
+    });
+
+    // modifyView
+    var ModifyView = Backbone.View.extend({
+        
+        el: '#modify_obj',
+
+        template: _.template($('#modify_obj_template').html()),
+
+        events: {
+            'click .save': 'save'
+        },
+
+        // 显示面板
+        showPanel: function(){
+            $('.orange-nav-pills a[href="#modify_obj"]').tab('show');
+        },
+
+        // 渲染
+        render: function(data){
+            this.$el.html(this.template(data));
+        },
+
+        // 显示提问信息
+        modifyObj: function(objId){
+            var me = this;
+
+            this.collection.getOne(objId, function(data){
+                if(data){
+                    me.render(data);
+                    me.showPanel();
+                } else {
+                    setTimeout(function(){history.go(-1);}, 3000);
+                    $.Global.Notice.ErrorTopNotice("没有找到对应的类别!");
+                }
+            });
+        },
+
+        // 保存
+        save: function(sender){
+            var objId = this.$('form').data('obj_id'),
+                target = $(sender.currentTarget),
+                me = this;
+
+            g_ajax_processing_obj_id = target.setUUID().attr('id');
+            me.collection.modifyObj($.Global.Utils.formToDict(this.$('form')), function(data){
+                if(data.errcode == "0"){
+                    $.Global.Notice.SuccessTopNotice('操作成功!');
+                    router.navigate('modify/' + objId, {'trigger': true});
+                } else {
+                    $.Global.Notice.ErrorTopNotice(data.errmsg);
+                }
+            });
+            
+        }
+
+    });
+
+
+    var Router = Backbone.Router.extend({
+
+        routes: {
+            "":                                     "search",
+            "modify/:objId":                        "modify",
+            "search/(:name)/(:state)/:pageIndex":   "search",
+        },
+
+        // 查询
+        search: function(name, state, pageIndex){
+            infos.search(name, state, pageIndex);
+        },
+
+        // 显示修改界面
+        modify: function(objId){
+            modifyView.modifyObj(objId);
+        }
+
+    });
+
+    var infos = new Infos(),
+        listView = new ListView({'collection': infos}),
+        modifyView = new ModifyView({'collection': infos}),
+        router = new Router();
+ 
+    Backbone.history.start();
+
+ });
+</script>
+{% endblock %}
+
+{% block admin_main %}
+<ul class="nav nav-pills orange-nav-pills">
+    <li class="active">
+        <a href="#obj_list" data-toggle="pill">
+            <i class="fa fa-list-ol pr-5"></i>
+            <span class="hidden-sm hidden-md hidden-lg">列表</span>
+            <span class="hidden-xs">验证列表</span>
+        </a>
+    </li>
+    <li>
+        <a href="#modify_obj" data-toggle="pill">
+            <i class="fa fa-pencil-square-o pr-5"></i>
+            <span class="hidden-sm hidden-md hidden-lg">修改</span>
+            <span class="hidden-xs">修改验证信息</span>
+        </a>
+    </li>
+</ul>
+
+<div class="tab-content">
+
+    <div class="tab-pane fade pt-15 in active" id="obj_list">
+        <form action="." class="form-inline" onsubmit="javascript: return false;">
+            <div class="input-group input-group-sm pb-10">
+                <span class="input-group-addon">状态</span>
+                <select class="form-control state">
+                    {% for state in all_states %}
+                    <option value="{{state.value}}" {% if state.value == -1 %}selected{% endif %} >{{state.name}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="input-group input-group-sm pb-10">
+                <span class="input-group-addon">名称</span>
+                <input type="text" class="form-control name" placeholder="" />
+                <span class="input-group-btn">
+                    <button class="btn btn-default search bgc-eeeeee" type="submit">查询</button>
+                </span>
+            </div>
+        </form>
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>头像</th>
+                    <th>用户名</th>
+                    <th>认证名</th>
+                    <th>手机号</th>
+                    <th>职位</th>
+                    <th>公司简称</th>
+                    <th>更新时间</th>
+                    <th>是否验证</th>
+                </tr>
+            </thead>
+            <tbody>
+                
+            </tbody>
+        </table>
+
+        <div class="text-center">
+            <ul class="pagination pagination-sm qx-pagination">
+                
+            </ul>
+        </div>
+    </div>
+
+    <div class="tab-pane fade pt-15" id="modify_obj">
+        
+    </div>
+</div>
+
+<!-- 列表 -->
+<script type="text/template" id="obj_template">
+    <% _.each(objs, function(obj){ %>
+        <tr class="pointer" data-obj_id="<%= obj.id %>">
+            <td><%= obj.num %></td>
+            <td>
+                <img class="w35" src="<%= obj.userAvatar %>">
+            </td>
+            <td><%= obj.userName %></td>
+            <td><%= obj.name %></td>
+            <td><%= obj.mobile %></td>
+            <td><%= obj.title %></td>
+            <td><%= obj.companyShortName %></td>
+            <td class="hidden-xs"><%= obj.createTime %></td>
+            <td>
+                <% if(obj.state){ %>
+                    <span class="fa fa-check co-3B99FC"></span>
+                <% } else { %>
+                    <span class="fa fa-times co-C33333"></span>
+                <% } %>
+            </td>
+        </tr>
+    <% }) %>
+</script>
+
+<!-- 修改 -->
+<script type="text/template" id="modify_obj_template">
+    <form class="form-horizontal" data-obj_id="<%= id %>" role="form" method="post" action="">
+        <input type="hidden" name="obj_id" value="<%= id %>" />
+        <div class="form-group pt-20 pb-20 mb-0 border-bottom-1 bdc-e4e4e4">
+            <label class="col-sm-2 control-label">头像</label>
+            <div class="col-sm-3 mb-5">
+                <img class="w60" src="<%= userAvatar %>">
+            </div>
+            <label class="col-sm-2 control-label">用户</label>
+            <div class="col-sm-3">
+                <p class="form-control-static"><%= userName %></p>
+            </div>
+        </div>
+        <div class="form-group pt-20 pb-20 mb-0 border-bottom-1 bdc-e4e4e4">
+            <label class="col-sm-2 control-label">认证名</label>
+            <div class="col-sm-3 mb-5">
+                <input type="text" class="form-control" required name="name" value='<%= name %>'>
+            </div>
+            <label class="col-sm-2 control-label">手机</label>
+            <div class="col-sm-3">
+                <input type="text" class="form-control" required name="mobile" value='<%= mobile %>'>
+            </div>
+        </div>
+        <div class="form-group pt-20 pb-20 mb-0 border-bottom-1 bdc-e4e4e4">
+            <label class="col-sm-2 control-label">职位</label>
+            <div class="col-sm-3 mb-5">
+                <input type="text" class="form-control" required name="title" value='<%= title %>'>
+            </div>
+            <label class="col-sm-2 control-label">公司简称</label>
+            <div class="col-sm-3">
+                <input type="text" class="form-control" required name="company_short_name" value='<%= companyShortName %>'>
+            </div>
+        </div>
+        <div class="form-group pt-20 pb-20 mb-0 border-bottom-1 bdc-e4e4e4">
+            <label class="col-sm-2 control-label">公司全称</label>
+            <div class="col-sm-8">
+                <input type="text" class="form-control" required name="company_name" value='<%= companyName %>'>
+            </div>
+        </div>
+        <div class="form-group pt-20 pb-20 mb-0 border-bottom-1 bdc-e4e4e4">
+            <label class="col-sm-2 control-label">状态</label>
+            <div class="col-sm-3 mb-5">
+                <label class="radio-inline">
+                    <input type="radio" name="state" value="0" <% if(state == 0){ %>checked<% } %> > 未验证
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" name="state" value="1" <% if(state == 1){ %>checked<% } %> > 已验证
+                </label>
+            </div>
+            <label class="col-sm-2 control-label">修改日期</label>
+            <div class="col-sm-3">
+                <p class="form-control-static"><%= updateTime %></p>
+            </div>
+        </div>
+        <div class="form-group pt-20 pb-20 mb-0">
+            <div class="col-sm-12">
+                <button type="button" class="btn btn-primary save">提交你的修改</button>
+            </div>
+        </div>
+    </form>
+</script>
+
+{% endblock %}

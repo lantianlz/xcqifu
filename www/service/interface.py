@@ -548,6 +548,42 @@ class OrderBase(object):
 
         return 0, obj
 
+    def get_order_by_id(self, order_id):
+        try:
+            return Order.objects.get(id=order_id)
+        except Order.DoesNotExist:
+            return None
+
+    def search_orders_for_admin(self, name, service_name="", state=None):
+        objs = Order.objects.all()
+
+        if state:
+            objs = objs.filter(state=state)
+
+        if service_name:
+            objs = objs.filter(service__name__icontains=service_name)
+            
+        return objs
+
+    def modify_order(self, obj_id, state=0, sort=0):
+
+        if not (obj_id):
+            return 99800, dict_err.get(99800)
+
+        obj = self.get_order_by_id(obj_id)
+        if not obj:
+            return 20201, dict_err.get(20201)
+
+        try:
+            obj.sort = sort
+            obj.state = state
+            obj.save()
+        except Exception, e:
+            debug.get_debug_detail_and_send_email(e)
+            return 99900, dict_err.get(99900)
+
+        return 0, dict_err.get(0)
+
 
 
 
