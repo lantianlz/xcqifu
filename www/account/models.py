@@ -171,7 +171,7 @@ class VerifyInfo(models.Model):
     """
     @note: 认证信息
     """
-    state_choices = ((0, u'未认证'), (1, u'已认证'))
+    state_choices = ((0, u'未认证'), (1, u'已认证'), (2, u"认证未通过"))
 
     user_id = models.CharField(max_length=32, unique=True)
     name = models.CharField(max_length=32, db_index=True)

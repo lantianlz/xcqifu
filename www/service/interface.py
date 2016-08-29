@@ -529,10 +529,10 @@ class OrderBase(object):
 
         # 是否已经预约中
         if Order.objects.filter(
-            state__in=(0, 1), 
-            user_id=user_id, 
+            state__in=(0, 1),
+            user_id=user_id,
             service_id=service_id
-            ).count() > 0:
+        ).count() > 0:
             return 20301, dict_err.get(20301)
 
         try:
@@ -562,7 +562,7 @@ class OrderBase(object):
 
         if service_name:
             objs = objs.filter(service__name__icontains=service_name)
-            
+
         return objs
 
     def modify_order(self, obj_id, state=0, sort=0):
@@ -583,7 +583,3 @@ class OrderBase(object):
             return 99900, dict_err.get(99900)
 
         return 0, dict_err.get(0)
-
-
-
-
