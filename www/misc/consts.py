@@ -24,10 +24,10 @@ PERMISSIONS = [
     {'code': 'remove_user', 'name': u'删除用户', 'parent': 'user_manage'},
     {'code': 'change_pwd', 'name': u'修改用户密码', 'parent': 'user_manage'},
 
-    {'code': 'verify_user_manage', 'name': u'用户验证管理', 'parent': None},
-    {'code': 'add_verify_user', 'name': u'添加用户验证', 'parent': 'verify_user_manage'},
-    {'code': 'query_verify_user', 'name': u'查询用户验证', 'parent': 'verify_user_manage'},
-    {'code': 'modify_verify_user', 'name': u'修改用户验证', 'parent': 'verify_user_manage'},
+    {'code': 'verify_user_manage', 'name': u'用户认证管理', 'parent': None},
+    {'code': 'add_verify_user', 'name': u'添加用户认证', 'parent': 'verify_user_manage'},
+    {'code': 'query_verify_user', 'name': u'查询用户认证', 'parent': 'verify_user_manage'},
+    {'code': 'modify_verify_user', 'name': u'修改用户认证', 'parent': 'verify_user_manage'},
 
     {'code': 'kind_manage', 'name': u'类别管理', 'parent': None},
     {'code': 'add_kind', 'name': u'添加类别', 'parent': 'kind_manage'},
@@ -49,10 +49,10 @@ PERMISSIONS = [
     {'code': 'query_product', 'name': u'查询产品', 'parent': 'product_manage'},
     {'code': 'modify_product', 'name': u'修改产品', 'parent': 'product_manage'},
 
-    {'code': 'order_manage', 'name': u'订单管理', 'parent': None},
-    {'code': 'add_order', 'name': u'添加订单', 'parent': 'order_manage'},
-    {'code': 'query_order', 'name': u'查询订单', 'parent': 'order_manage'},
-    {'code': 'modify_order', 'name': u'修改订单', 'parent': 'order_manage'},
+    {'code': 'order_manage', 'name': u'预约管理', 'parent': None},
+    {'code': 'add_order', 'name': u'添加预约', 'parent': 'order_manage'},
+    {'code': 'query_order', 'name': u'查询预约', 'parent': 'order_manage'},
+    {'code': 'modify_order', 'name': u'修改预约', 'parent': 'order_manage'},
 
     {'code': 'city_manage', 'name': u'城市管理', 'parent': None},
     #{'code': 'add_city', 'name': u'添加城市', 'parent': 'city_manage'},
