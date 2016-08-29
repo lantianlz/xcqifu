@@ -260,7 +260,10 @@ def recommend(request, qrcode_id, template_name='mobile/account/recommend.html')
 
     return render_to_response(template_name, locals(), context_instance=RequestContext(request))
 
-
+@member_required
+def neice(request, template_name='mobile/account/neice.html'):
+    qrcode = interface.InviteQrcodeBase().get_or_create_user_qrcode(request.user.id)
+    return render_to_response(template_name, locals(), context_instance=RequestContext(request))
 # ===================================================ajax部分=================================================================#
 
 

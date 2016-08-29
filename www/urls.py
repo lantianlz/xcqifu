@@ -12,6 +12,7 @@ urlpatterns = patterns('',
                        url(r'^logout$', 'www.account.views.logout'),
                        url(r'^qiniu_img_return$', 'www.misc.views.qiniu_img_return'),
                        url(r'^save_img$', 'www.misc.views.save_img'),
+                       url(r'^neice$', 'www.account.views.neice'),
 
                        url(r'^$', 'www.service.views.index'),
                        url(r'^admin/', include('www.admin.urls')),
