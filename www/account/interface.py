@@ -868,7 +868,7 @@ class InviteQrcodeBase(object):
             objs = objs.filter(name__icontains=name)
 
         if is_sort:
-            objs = objs.order_by('user_count')
+            objs = objs.order_by('-user_count')
 
         return objs
 
