@@ -80,6 +80,12 @@ urlpatterns += patterns('www.admin.views_order',
                         url(r'^order$', 'order'),
                         )
 
+# 个人二维码管理
+urlpatterns += patterns('www.admin.views_person_qrcode',
+
+                        url(r'^person_qrcode/search$', 'search'),
+                        url(r'^person_qrcode$', 'person_qrcode'),
+                        )
 
 # 城市
 urlpatterns += patterns('www.admin.views_city',

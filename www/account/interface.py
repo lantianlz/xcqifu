@@ -849,6 +849,29 @@ class InviteQrcodeBase(object):
             except:
                 return InviteQrcode.objects.get(user_id=user_id)    # 访问频率太快重新请求
 
+    def search_person_qrcodes_for_admin(self, name, is_sort=0):
+        '''
+        个人二维码
+        '''
+        return self.search_qrcodes_for_admin(name, is_sort, 0)
+
+    def search_channel_qrcodes_for_admin(self, name, is_sort=0):
+        '''
+        渠道二维码
+        '''
+        return self.search_qrcodes_for_admin(name, is_sort, 1)
+
+    def search_qrcodes_for_admin(self, name, is_sort=0, state=0):
+        objs = InviteQrcode.objects.filter(state=state)
+
+        if name:
+            objs = objs.filter(name__icontains=name)
+
+        if is_sort:
+            objs = objs.order_by('user_count')
+
+        return objs
+
 
 class UserInviteBase(object):
 
