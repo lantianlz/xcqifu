@@ -87,6 +87,13 @@ urlpatterns += patterns('www.admin.views_person_qrcode',
                         url(r'^person_qrcode$', 'person_qrcode'),
                         )
 
+# 邀请人管理
+urlpatterns += patterns('www.admin.views_invite',
+
+                        url(r'^invite/search$', 'search'),
+                        url(r'^invite$', 'invite'),
+                        )
+
 # 城市
 urlpatterns += patterns('www.admin.views_city',
 

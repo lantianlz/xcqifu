@@ -1,9 +1,9 @@
 {% extends "pc/admin/home.html" %}
 {% load custom_tags %}
 {% load custom_filters %}
-{% block title %}个人二维码管理{% endblock %}
-{% block admin_title %}个人二维码管理{% endblock %}
-{% block admin_title_m %}个人二维码管理{% endblock %}
+{% block title %}邀请人列表{% endblock %}
+{% block admin_title %}邀请人列表{% endblock %}
+{% block admin_title_m %}邀请人列表{% endblock %}
 
 {% block css %}
 <style type="text/css">
@@ -15,7 +15,7 @@
 <script type="text/javascript">
 $(document).ready(function(){
     // models
-    var Code = Backbone.Model.extend({
+    var Invite = Backbone.Model.extend({
 
         // 默认值
         defaults: {
@@ -25,8 +25,8 @@ $(document).ready(function(){
     });
 
     // collections
-    var Codes = Backbone.Collection.extend({
-        model: Code,
+    var Invites = Backbone.Collection.extend({
+        model: Invite,
 
         _modelMaps: {
             'num': 'num',
@@ -34,28 +34,25 @@ $(document).ready(function(){
             'userId': 'user_id',
             'userName': 'user_name',
             'userAvatar': 'user_avatar',
-            'name': 'name',
-            'uniqueCode': 'unique_code',
-            'ticket': 'ticket',
-            'userCount': 'user_count',
-            'state': 'state',
+            'toUserId': 'to_user_id',
+            'toUserName': 'to_user_name',
+            'toUserAvatar': 'to_user_avatar',
+            'toUserDes': 'to_user_des',
             'createTime': 'create_time'
         },
 
-        search: function(name, is_sort=0, pageIndex){
+        search: function(name, pageIndex){
             var me = this,
                 name = name||'',
-                is_sort = is_sort||0,
                 pageIndex = pageIndex||1;
 
             ajaxSend(
-                "/admin/person_qrcode/search", 
-                {'name': name, 'is_sort': is_sort, 'page_index': pageIndex}, 
+                "/admin/invite/search", 
+                {'name': name, 'page_index': pageIndex}, 
                 function(data){
                     me.pageIndex = pageIndex;
                     me.pageCount = data.page_count;
                     me.name = name;
-                    me.is_sort = is_sort;
 
                     me.reset($.Global.Utils.dictMapParse(data.data, me._modelMaps));
                 }
@@ -91,7 +88,7 @@ $(document).ready(function(){
             this.pagination.render(
                 this.collection.pageIndex,
                 this.collection.pageCount,
-                'search/' + this.collection.name + '/' + this.collection.is_sort
+                'search/' + this.collection.name
             );
         },
 
@@ -101,10 +98,9 @@ $(document).ready(function(){
         },
 
         search: function(){
-            var name = this.$('.name').val(),
-                is_sort = this.$('.is-sort').attr('checked') ? 1 : 0;
+            var name = this.$('.name').val();
 
-            router.navigate(String.format('/search/{0}/{1}/1', name, is_sort), {trigger: true});
+            router.navigate(String.format('/search/{0}/1', name), {trigger: true});
         }
         
     });
@@ -113,20 +109,20 @@ $(document).ready(function(){
     var Router = Backbone.Router.extend({
 
         routes: {
-            "":                                         "search",
-            "search/(:name)/(:is_sort)/:pageIndex":     "search",
+            "":                              "search",
+            "search/(:name)/:pageIndex":     "search",
         },
 
         // 查询
-        search: function(name, is_sort, pageIndex){
-            codes.search(name, is_sort, pageIndex);
+        search: function(name, pageIndex){
+            invites.search(name, pageIndex);
         }
 
         
     });
 
-    var codes = new Codes(),
-        listView = new ListView({'collection': codes}),
+    var invites = new Invites(),
+        listView = new ListView({'collection': invites}),
         router = new Router();
  
     Backbone.history.start();
@@ -151,14 +147,6 @@ $(document).ready(function(){
 
     <div class="tab-pane fade pt-15 in active" id="obj_list">
         <form action="." class="form-inline" onsubmit="javascript: return false;">
-            <div class="input-group input-group-sm pb-10 pr-10">
-                <div class="checkbox">
-                    <label>
-                        <input type="checkbox" class="is-sort" name="is_sort" value="1">
-                        按邀请数排序
-                    </label>
-                </div>
-            </div>
             <div class="input-group input-group-sm pb-10">
                 <span class="input-group-addon">名称</span>
                 <input type="text" class="form-control name" placeholder="" />
@@ -173,8 +161,9 @@ $(document).ready(function(){
                     <th>#</th>
                     <th>头像</th>
                     <th>用户名</th>
-                    <th>名称</th>
-                    <th>邀请用户总数</th>
+                    <th>邀请人头像</th>
+                    <th>邀请人</th>
+                    <th>邀请备注</th>
                     <th>创建时间</th>
                 </tr>
             </thead>
@@ -204,10 +193,11 @@ $(document).ready(function(){
                 <img class="w35" src="<%= obj.userAvatar %>">
             </td>
             <td><%= obj.userName %></td>
-            <td><%= obj.name %></td>
             <td>
-                <a target="_blank" href="/admin/invite#search/<%= obj.userName %>/1"><%= obj.userCount %></a>
+                <img class="w35" src="<%= obj.toUserAvatar %>">
             </td>
+            <td><%= obj.toUserName %></td>
+            <td><%= obj.toUserDes %></td>
             <td class="hidden-xs"><%= obj.createTime %></td>
         </tr>
     <% }) %>
