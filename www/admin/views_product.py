@@ -55,12 +55,13 @@ def search(request):
     data = []
 
     name = request.REQUEST.get('name')
+    service_name = request.REQUEST.get('service_name')
     state = request.REQUEST.get('state')
     state = {'-1': None, '1': True, '0': False}[state]
     page_index = int(request.REQUEST.get('page_index'))
     per_count = 15
 
-    objs = ProductBase().search_products_for_admin(name, state)
+    objs = ProductBase().search_products_for_admin(name, service_name, state)
 
     page_objs = page.Cpt(objs, count=per_count, page=page_index).info
 

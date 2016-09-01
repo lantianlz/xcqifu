@@ -44,19 +44,21 @@ $(document).ready(function(){
             'createTime': 'create_time'
         },
 
-        search: function(name, state, pageIndex){
+        search: function(name, serviceName, state, pageIndex){
             var me = this,
                 name = name||'',
+                serviceName = serviceName||'',
                 state = state||'1',
                 pageIndex = pageIndex||1;
 
             ajaxSend(
                 "/admin/product/search", 
-                {'name': name, 'state': state, 'page_index': pageIndex}, 
+                {'name': name, 'service_name': serviceName, 'state': state, 'page_index': pageIndex}, 
                 function(data){
                     me.pageIndex = pageIndex;
                     me.pageCount = data.page_count;
                     me.name = name;
+                    me.serviceName = serviceName;
                     me.state = state;
 
                     me.reset($.Global.Utils.dictMapParse(data.data, me._modelMaps));
@@ -146,9 +148,10 @@ $(document).ready(function(){
 
         search: function(){
             var name = this.$('.name').val(),
+                serviceName = this.$('.service-name').val(),
                 state = this.$('.state').val();
 
-            router.navigate(String.format('/search/{0}/{1}/1', name, state), {trigger: true});
+            router.navigate(String.format('/search/{0}/{1}/{2}/1', name, serviceName, state), {trigger: true});
         },
 
         modifyObj: function(sender){
@@ -337,13 +340,13 @@ $(document).ready(function(){
         routes: {
             "":                                     "search",
             "modify/:objId":                        "modify",
-            "search/(:name)/(:state)/:pageIndex":   "search",
+            "search/(:name)/(:serviceName)/(:state)/:pageIndex":   "search",
             "add":                                  "add"
         },
 
         // 查询
-        search: function(name, state, pageIndex){
-            products.search(name, state, pageIndex);
+        search: function(name, serviceName, state, pageIndex){
+            products.search(name, serviceName, state, pageIndex);
         },
 
         // 显示修改界面
@@ -409,6 +412,10 @@ $(document).ready(function(){
             <div class="input-group input-group-sm pb-10">
                 <span class="input-group-addon">产品名称</span>
                 <input type="text" class="form-control name" placeholder="" />
+            </div>
+            <div class="input-group input-group-sm pb-10">
+                <span class="input-group-addon">服务商名称</span>
+                <input type="text" class="form-control service-name" placeholder="" />
                 <span class="input-group-btn">
                     <button class="btn btn-default search bgc-eeeeee" type="submit">查询</button>
                 </span>

@@ -259,7 +259,7 @@ $(document).ready(function(){
             <div class="input-group input-group-sm pb-10">
                 <span class="input-group-addon">状态</span>
                 <select class="form-control state">
-                    {% for state in all_states %}
+                    {% for state in state_choices %}
                     <option value="{{state.value}}" {% if state.value == -1 %}selected{% endif %} >{{state.name}}</option>
                     {% endfor %}
                 </select>
@@ -318,7 +318,7 @@ $(document).ready(function(){
             <td><%= obj.companyShortName %></td>
             <td class="hidden-xs"><%= obj.createTime %></td>
             <td>
-                <% if(obj.state){ %>
+                <% if(obj.state == 1){ %>
                     <span class="fa fa-check co-3B99FC"></span>
                 <% } else { %>
                     <span class="fa fa-times co-C33333"></span>
@@ -371,16 +371,15 @@ $(document).ready(function(){
         <div class="form-group pt-20 pb-20 mb-0 border-bottom-1 bdc-e4e4e4">
             <label class="col-sm-2 control-label">状态</label>
             <div class="col-sm-3 mb-5">
-                <label class="radio-inline">
-                    <input type="radio" name="state" value="0" <% if(state == 0){ %>checked<% } %> > 未认证
-                </label>
-                <label class="radio-inline">
-                    <input type="radio" name="state" value="1" <% if(state == 1){ %>checked<% } %> > 已认证
-                </label>
+                <select class="form-control" name="state">
+                    {% for x in state_choices %}
+                    <option value="{{x.value}}" <% if(state == {{x.value}}){ %>selected<% } %> >{{x.name}}</option>
+                    {% endfor %}
+                </select>
             </div>
-            <label class="col-sm-2 control-label">修改日期</label>
-            <div class="col-sm-3">
-                <p class="form-control-static"><%= updateTime %></p>
+            <label class="col-sm-2 control-label">状态</label>
+            <div class="col-sm-3 mb-5">
+                <p class="form-control-static"><%= createTime %></p>
             </div>
         </div>
         <div class="form-group pt-20 pb-20 mb-0">

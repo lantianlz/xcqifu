@@ -356,11 +356,14 @@ class ProductBase(object):
 
         return objs
 
-    def search_products_for_admin(self, name, state):
+    def search_products_for_admin(self, name, service_name, state):
         objs = self.get_all_products(state)
 
         if name:
             objs = objs.filter(name__icontains=name)
+
+        if service_name:
+            objs = objs.filter(service__name__icontains=service_name)
 
         return objs
 
