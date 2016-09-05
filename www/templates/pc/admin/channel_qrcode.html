@@ -376,11 +376,7 @@ $(document).ready(function(){
             <td><%= obj.num %></td>
             <td><%= obj.name %></td>
             <td>
-                <% if(parseInt(obj.userCount) > 0){ %>
-                <a target="_blank" href="/admin/invite#search/<%= obj.userName %>/1"><%= obj.userCount %></a>
-                <% } else { %>
                 <%= obj.userCount %>
-                <% } %>
             </td>
             <td class="hidden-xs"><%= obj.createTime %></td>
         </tr>
