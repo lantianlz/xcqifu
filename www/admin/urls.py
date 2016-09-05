@@ -104,6 +104,13 @@ urlpatterns += patterns('www.admin.views_invite',
                         url(r'^invite$', 'invite'),
                         )
 
+# 邀请人管理
+urlpatterns += patterns('www.admin.views_statistics',
+
+                        url(r'^statistics_activity/get_active_user$', 'get_active_user'),
+                        url(r'^statistics_activity$', 'statistics_activity'),
+                        )
+
 # 城市
 urlpatterns += patterns('www.admin.views_city',
 

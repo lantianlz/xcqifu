@@ -1012,3 +1012,12 @@ class VerifyInfoBase(object):
 
         return 0, dict_err.get(0)
 
+
+class LastActiveBase(object):
+
+    def get_active_user(self, start_date, end_date):
+        return LastActive.objects.filter(last_active_time__range=(start_date, end_date))
+
+
+
+
