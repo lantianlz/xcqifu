@@ -1,0 +1,223 @@
+{% extends "pc/admin/home.html" %}
+{% load custom_tags %}
+{% load custom_filters %}
+{% block title %}活跃度统计{% endblock %}
+{% block admin_title %}活跃度统计{% endblock %}
+{% block admin_title_m %}活跃度统计{% endblock %}
+
+{% block css %}
+<style type="text/css">
+
+</style>
+{% endblock %}
+
+{% block javascript %}
+<script type="text/javascript">
+$(document).ready(function(){
+    // models
+    var User = Backbone.Model.extend({
+
+        // 默认值
+        defaults: {
+            'num': ''
+        }
+
+    });
+
+    // collections
+    var Users = Backbone.Collection.extend({
+        model: User,
+
+        _modelMaps: {
+            'num': 'num',
+            'id': 'id',
+            'name': 'name',
+            'avatar': 'avatar',
+            'gender': 'gender',
+            'des': 'des',
+            'ip': 'ip',
+            'lastActiveTime': 'last_active_time',
+            'lastActiveSource': 'last_active_source'
+        },
+
+        search: function(startDate, endDate, pageIndex){
+            var me = this,
+                startDate = startDate||'{{start_date}}',
+                endDate = endDate||'{{end_date}}',
+                pageIndex = pageIndex||1;
+
+            ajaxSend(
+                "/admin/statistics_activity/get_active_user", 
+                {'start_date': startDate, 'end_date': endDate, 'page_index': pageIndex}, 
+                function(data){
+                    me.pageIndex = pageIndex;
+                    me.pageCount = data.page_count;
+                    me.startDate = startDate;
+                    me.endDate = endDate;
+
+                    me.reset($.Global.Utils.dictMapParse(data.data, me._modelMaps));
+                }
+            );
+        }
+
+    });
+
+    // listView
+    var ListView = Backbone.View.extend({
+        el: '#obj_list',
+
+        pagination: new $.Global.Pagination.PaginationView(),
+
+        template: _.template($('#obj_template').html()),
+
+        initialize: function(){
+            this.listenTo(this.collection, 'reset', this.render);
+        },
+
+        events: {
+            'click .search': 'search',
+            'click .pointer': 'modifyObj'
+        },
+
+        // 渲染函数
+        render: function(){
+            var data = this.collection.toJSON();
+
+            this.showPanel();
+
+            this.$('tbody').html(this.template({'objs': data}));
+
+            this.pagination.render(
+                this.collection.pageIndex,
+                this.collection.pageCount,
+                'search/' + this.collection.startDate + '/' + this.collection.endDate
+            );
+        },
+
+        // 显示面板
+        showPanel: function(){
+            $('.orange-nav-pills a[href="#obj_list"]').tab('show');
+        },
+
+        search: function(){
+            var startDate = this.$('#start_date_search').val(),
+                endDate = this.$('#end_date_search').val();
+
+            router.navigate(String.format('/search/{0}/{1}/1', startDate, endDate), {trigger: true});
+        }
+    });
+
+
+    var Router = Backbone.Router.extend({
+
+        routes: {
+            "":                                     "search",
+            "search/(:name)/(:state)/:pageIndex":   "search"
+        },
+
+        // 查询
+        search: function(startDate, endDate, pageIndex){
+            users.search(startDate, endDate, pageIndex);
+        }
+
+    });
+
+    var users = new Users(),
+        listView = new ListView({'collection': users}),
+        router = new Router();
+ 
+    Backbone.history.start();
+
+    $('#start_date_search').datetimepicker({
+        format: 'yyyy-mm-dd',
+        language: 'zh-CN',
+        minView: 2,
+        autoclose: true
+    });
+    $('#end_date_search').datetimepicker({
+        format: 'yyyy-mm-dd',
+        language: 'zh-CN',
+        minView: 2,
+        autoclose: true
+    });
+
+ });
+</script>
+{% endblock %}
+
+{% block admin_main %}
+<ul class="nav nav-pills orange-nav-pills">
+    <li class="active">
+        <a href="#obj_list" data-toggle="pill">
+            <i class="fa fa-list-ol pr-5"></i>
+            <span class="hidden-sm hidden-md hidden-lg">列表</span>
+            <span class="hidden-xs">活跃用户列表</span>
+        </a>
+    </li>
+</ul>
+
+<div class="tab-content">
+
+    <div class="tab-pane fade pt-15 in active" id="obj_list">
+        <form action="." class="form-inline" onsubmit="javascript: return false;">
+            <div class="input-group input-group-sm pb-10">
+                <span class="input-group-addon">开始日期</span>
+                <input type="text" class="form-control" id="start_date_search" value="{{start_date}}"  />
+            </div>
+            <div class="input-group input-group-sm pb-10">
+                <span class="input-group-addon">结束日期</span>
+                <input type="text" class="form-control" id="end_date_search" value="{{end_date}}"  />
+                <span class="input-group-btn">
+                    <button class="btn btn-default search bgc-eeeeee" type="submit">查询</button>
+                </span>
+            </div>
+        </form>
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>头像</th>
+                    <th>名称</th>
+                    <th>性别</th>
+                    <th>备注</th>
+                    <th class="hidden-xs">上次登陆IP</th>
+                    <th class="hidden-xs">上次活跃时间</th>
+                    <th class="hidden-xs">上次登陆来源</th>
+                </tr>
+            </thead>
+            <tbody>
+                
+            </tbody>
+        </table>
+
+        <div class="text-center">
+            <ul class="pagination pagination-sm qx-pagination">
+                
+            </ul>
+        </div>
+    </div>
+
+    <div class="tab-pane fade pt-15" id="modify_obj">
+        
+    </div>
+</div>
+
+<!-- 列表 -->
+<script type="text/template" id="obj_template">
+    <% _.each(objs, function(obj){ %>
+        <tr class="pointer" data-obj_id="<%= obj.id %>">
+            <td><%= obj.num %></td>
+            <td>
+                <img class="w35" src="<%= obj.avatar %>" >
+            </td>
+            <td><%= obj.name %></td>
+            <td><%= obj.gender %></td>
+            <td><%= obj.des %></td>
+            <td><%= obj.ip %></td>
+            <td><%= obj.lastActiveTime %></td>
+            <td><%= obj.lastActiveSource %></td>
+        </tr>
+    <% }) %>
+</script>
+
+{% endblock %}

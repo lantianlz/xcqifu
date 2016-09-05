@@ -80,6 +80,36 @@ urlpatterns += patterns('www.admin.views_order',
                         url(r'^order$', 'order'),
                         )
 
+# 个人二维码管理
+urlpatterns += patterns('www.admin.views_person_qrcode',
+
+                        url(r'^person_qrcode/search$', 'search'),
+                        url(r'^person_qrcode$', 'person_qrcode'),
+                        )
+
+# 渠道二维码管理
+urlpatterns += patterns('www.admin.views_channel_qrcode',
+
+                        url(r'^channel_qrcode/add_code$', 'add_code'),
+                        url(r'^channel_qrcode/modify_code$', 'modify_code'),
+                        url(r'^channel_qrcode/get_code_by_id$', 'get_code_by_id'),
+                        url(r'^channel_qrcode/search$', 'search'),
+                        url(r'^channel_qrcode$', 'channel_qrcode'),
+                        )
+
+# 邀请人管理
+urlpatterns += patterns('www.admin.views_invite',
+
+                        url(r'^invite/search$', 'search'),
+                        url(r'^invite$', 'invite'),
+                        )
+
+# 邀请人管理
+urlpatterns += patterns('www.admin.views_statistics',
+
+                        url(r'^statistics_activity/get_active_user$', 'get_active_user'),
+                        url(r'^statistics_activity$', 'statistics_activity'),
+                        )
 
 # 城市
 urlpatterns += patterns('www.admin.views_city',

@@ -17,12 +17,12 @@ from www.service.interface import ProductBase
 
 @verify_permission('')
 def verify_info(request, template_name='pc/admin/verify_info.html'):
-    from www.service.models import Product
-    all_states = [
-        {'name': u'全部', 'value': -1},
-        {'name': u'已认证', 'value': 1}, 
-        {'name': u'未认证', 'value': 0}, 
-    ]
+    from www.account.models import VerifyInfo
+    state_choices = [{'name': x[1], 'value': x[0]} for x in VerifyInfo.state_choices]
+    all_state_choices = [{'name': x[1], 'value': x[0]} for x in VerifyInfo.state_choices]
+
+    all_state_choices.insert(0, {'name': u'全部', 'value': -1})
+    
     return render_to_response(template_name, locals(), context_instance=RequestContext(request))
 
 def format_info(objs, num):

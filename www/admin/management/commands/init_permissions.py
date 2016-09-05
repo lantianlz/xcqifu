@@ -31,14 +31,21 @@ class Command(BaseCommand):
 
         for p in consts.PERMISSIONS:
 
-            obj, created = Permission.objects.get_or_create(name=p['name'], code=p['code'])
+            # obj, created = Permission.objects.get_or_create(name=p['name'], code=p['code'])
+            obj = Permission.objects.filter(code=p['code'])
+            if not obj:
+                obj = Permission.objects.create(name=p['code'], code=p['code'])
+            else:
+                obj = obj[0]
+
 
             cache[obj.code] = obj.id
 
             # 设置父节点
             if p['parent']:
                 obj.parent_id = cache[p['parent']]
-                obj.save()
+            obj.name = p['name']
+            obj.save()
 
         print u'==================初始化权限数据完成'
         print

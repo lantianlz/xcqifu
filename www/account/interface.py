@@ -849,6 +849,47 @@ class InviteQrcodeBase(object):
             except:
                 return InviteQrcode.objects.get(user_id=user_id)    # 访问频率太快重新请求
 
+    def search_person_qrcodes_for_admin(self, name, is_sort=0):
+        '''
+        个人二维码
+        '''
+        return self.search_qrcodes_for_admin(name, is_sort, 0)
+
+    def search_channel_qrcodes_for_admin(self, name, is_sort=0):
+        '''
+        渠道二维码
+        '''
+        return self.search_qrcodes_for_admin(name, is_sort, 1)
+
+    def search_qrcodes_for_admin(self, name, is_sort=0, state=0):
+        objs = InviteQrcode.objects.filter(state=state)
+
+        if name:
+            objs = objs.filter(name__icontains=name)
+
+        if is_sort:
+            objs = objs.order_by('-user_count')
+
+        return objs
+
+    def modify_qrcode(self, qrcode_id, name):
+        try:
+            assert all([name, ])
+        except Exception, e:
+            return 99800, dict_err.get(99800)
+
+        obj = self.get_qrcode_by_id(qrcode_id)
+        if not obj:
+            return 99800, dict_err.get(99800)
+
+        try:
+            obj.name = name
+            obj.save()
+        except Exception, e:
+            return 99800, dict_err.get(99800)
+
+        return 0, dict_err.get(0)
+
 
 class UserInviteBase(object):
 
@@ -883,6 +924,14 @@ class UserInviteBase(object):
     def get_user_invite_count(self, from_user_id):
         return UserInvite.objects.filter(from_user_id=from_user_id).count()
 
+    def search_invite_for_admin(self, user_name):
+        objs = UserInvite.objects.all()
+
+        user = UserBase().get_user_by_nick(user_name)
+        if user:
+            objs = objs.filter(from_user_id=user.id)
+
+        return objs
 
 class VerifyInfoBase(object):
 
@@ -962,4 +1011,13 @@ class VerifyInfoBase(object):
             return 99900, dict_err.get(99900)
 
         return 0, dict_err.get(0)
+
+
+class LastActiveBase(object):
+
+    def get_active_user(self, start_date, end_date):
+        return LastActive.objects.filter(last_active_time__range=(start_date, end_date))
+
+
+
 

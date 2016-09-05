@@ -210,7 +210,7 @@ class InviteQrcode(models.Model):
         return "https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=%s" % self.ticket
 
     class Meta:
-        ordering = ["-user_count"]
+        ordering = ["-create_time"]
 
 
 class UserInvite(models.Model):
