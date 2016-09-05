@@ -17,7 +17,7 @@
 
 {% block container %}
 <div class="row ml-0 mr-0 pt-20">
-    <!-- 没有预约样式 -->
+    {% if not orders %}
     <div class="col-xs-12 pr">
         <div class="col-xs-12 rectangle-1 pt-3">
             <span class="circle-1"></span>
@@ -31,35 +31,17 @@
         </div>
         <div class="col-xs-12 rectangle-2"></div>
         <div class="col-xs-12 text-center pt-50">
-            <a class="btn btn-default btn-booking" value="">
+            <a class="btn btn-default btn-booking" value="" href="/">
                 <span>立即预约</span>
                 <img class="person" src="{{MEDIA_URL}}img/profile/person.png">
                 <span class="txt">还没有预约服务?</span>
             </a>
         </div>
     </div>
-    <!-- 有预约样式 -->
-    <div class="col-xs-12 pl-20 pr-20 hide">
+    {% else %}
+    <div class="col-xs-12 pl-20 pr-20">
+        {% for order in orders %}
         <ul class="list-group col-xs-12 pl-15 pr-15">
-            <li class="list-group-item col-xs-12 pr-0 pl-0">
-                <div class="col-xs-12 pl-0 pr-0 f15">
-                    <div class="col-xs-10 pl-0 pr-0">
-                        <i class="fa fa-bookmark-o"></i>
-                        <span class="pl-10">铜版纸覆膜彩色名片200张</span>
-                    </div>
-                    <div class="col-xs-2 text-right pl-0 pr-0 pt-2 co-f07925 f13">已下单</div>
-                </div>
-            </li>
-            <li class="list-group-item col-xs-12 pr-0 pl-0">
-                <div class="col-xs-12 pl-0 pr-0 f15">
-                    <div class="col-xs-10 pl-0 pr-0">
-                        <i class="fa fa-bookmark-o"></i>
-                        <span class="pl-10">铜版纸覆膜彩色名片200张</span>
-                    </div>
-                    <div class="col-xs-2 text-right pl-0 pr-0 pt-2 co-f07925 f13">已下单</div>
-                </div>
-            </li>
-
             <div class="col-xs-12 service">
                 <span class="bg-curtain bg-curtain-0"></span>
                 <img class="avatar" src="{{MEDIA_URL}}img/service/avatar-1.jpg">
@@ -70,6 +52,7 @@
                 </div>
             </div>
         </ul>
+        {% endfor %}
 
         <ul class="list-group col-xs-12 pl-15 pr-15">
             <li class="list-group-item col-xs-12 pr-0 pl-0">
@@ -102,6 +85,7 @@
             </div>
         </ul>
     </div>
+    {% endif %}
 </div>
 {% endblock %}
 

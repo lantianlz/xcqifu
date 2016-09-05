@@ -187,6 +187,9 @@ class VerifyInfo(models.Model):
     def get_short_name(self):
         return self.company_short_name or self.company_name
 
+    class Meta:
+        ordering = ["-id"]
+
 
 class InviteQrcode(models.Model):
     """

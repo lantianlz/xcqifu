@@ -554,6 +554,9 @@ class OrderBase(object):
         except Order.DoesNotExist:
             return None
 
+    def get_order_by_user_id(self, user_id):
+        return Order.objects.select_related("service").filter(user_id=user_id)
+
     def search_orders_for_admin(self, name, service_name="", state=None):
         objs = Order.objects.all()
 

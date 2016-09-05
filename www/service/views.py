@@ -63,7 +63,7 @@ def service_detail(request, service_id, template_name='mobile/service/service_de
         verify_info = VerifyInfoBase().get_info_by_user_id(recommend_user.id)
         if verify_info:
             recommend_user_info.update(name=verify_info.name, title=verify_info.title, company_name=verify_info.get_short_name())
-    
+
     # 产品列表
     products = ProductBase().get_products_by_service(service)
 
@@ -87,6 +87,8 @@ def product_detail(request, product_id, template_name='mobile/service/product_de
 
 @member_required
 def my_order(request, template_name='mobile/service/my_order.html'):
+    orders = OrderBase().get_order_by_user_id(request.user.id)
+
     return render_to_response(template_name, locals(), context_instance=RequestContext(request))
 
 
@@ -111,6 +113,7 @@ def cancel_zan(request):
     service_id = request.REQUEST.get('service_id')
     return zb.cancel_zan(request.user.id, service_id)
 
+
 @member_required
 @common_ajax_response
 def create_order(request):
@@ -120,11 +123,3 @@ def create_order(request):
     code, msg = OrderBase().create_order(request.user.id, service_id)
 
     return code, '' if code == 0 else msg
-
-
-
-
-
-
-
-
