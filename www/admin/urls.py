@@ -87,6 +87,16 @@ urlpatterns += patterns('www.admin.views_person_qrcode',
                         url(r'^person_qrcode$', 'person_qrcode'),
                         )
 
+# 渠道二维码管理
+urlpatterns += patterns('www.admin.views_channel_qrcode',
+
+                        url(r'^channel_qrcode/add_code$', 'add_code'),
+                        url(r'^channel_qrcode/modify_code$', 'modify_code'),
+                        url(r'^channel_qrcode/get_code_by_id$', 'get_code_by_id'),
+                        url(r'^channel_qrcode/search$', 'search'),
+                        url(r'^channel_qrcode$', 'channel_qrcode'),
+                        )
+
 # 邀请人管理
 urlpatterns += patterns('www.admin.views_invite',
 

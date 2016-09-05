@@ -1,0 +1,457 @@
+{% extends "pc/admin/home.html" %}
+{% load custom_tags %}
+{% load custom_filters %}
+{% block title %}渠道二维码管理{% endblock %}
+{% block admin_title %}渠道二维码管理{% endblock %}
+{% block admin_title_m %}渠道二维码管理{% endblock %}
+
+{% block css %}
+<style type="text/css">
+
+</style>
+{% endblock %}
+
+{% block javascript %}
+<script type="text/javascript">
+$(document).ready(function(){
+    // models
+    var Code = Backbone.Model.extend({
+
+        // 默认值
+        defaults: {
+            'num': ''
+        }
+
+    });
+
+    // collections
+    var Codes = Backbone.Collection.extend({
+        model: Code,
+
+        _modelMaps: {
+            'num': 'num',
+            'id': 'id',
+            'name': 'name',
+            'uniqueCode': 'unique_code',
+            'ticket': 'ticket',
+            'userCount': 'user_count',
+            'state': 'state',
+            'createTime': 'create_time'
+        },
+
+        search: function(name, is_sort=0, pageIndex){
+            var me = this,
+                name = name||'',
+                is_sort = is_sort||0,
+                pageIndex = pageIndex||1;
+
+            ajaxSend(
+                "/admin/channel_qrcode/search", 
+                {'name': name, 'is_sort': is_sort, 'page_index': pageIndex}, 
+                function(data){
+                    me.pageIndex = pageIndex;
+                    me.pageCount = data.page_count;
+                    me.name = name;
+                    me.is_sort = is_sort;
+
+                    me.reset($.Global.Utils.dictMapParse(data.data, me._modelMaps));
+                }
+            );
+        },
+
+        getOne: function(objId, callback){
+            var me = this;
+
+            ajaxSend(
+                "/admin/channel_qrcode/get_code_by_id", 
+                {'code_id': objId},
+                function(data){
+                    if(callback){
+                        callback($.Global.Utils.dictMap(data, me._modelMaps));
+                    }
+                }
+            );
+        },
+
+        //
+        modifyObj: function(data, callback){
+
+            ajaxSend(
+                "/admin/channel_qrcode/modify_code", 
+                data,
+                function(response){
+                    if(callback){
+                        callback(response);
+                    }
+                }
+            );
+        },
+
+        addObj: function(data, callback){
+
+            ajaxSend(
+                "/admin/channel_qrcode/add_code", 
+                data,
+                function(response){
+                    if(callback){
+                        callback(response);
+                    }
+                }
+            );
+        }
+
+    });
+
+    // listView
+    var ListView = Backbone.View.extend({
+        el: '#obj_list',
+
+        pagination: new $.Global.Pagination.PaginationView(),
+
+        template: _.template($('#obj_template').html()),
+
+        initialize: function(){
+            this.listenTo(this.collection, 'reset', this.render);
+        },
+
+        events: {
+            'click .search': 'search',
+            'click .pointer': 'modifyObj'
+        },
+
+        // 渲染函数
+        render: function(){
+            var data = this.collection.toJSON();
+            
+            this.showPanel();
+
+            this.$('tbody').html(this.template({'objs': data}));
+
+            this.pagination.render(
+                this.collection.pageIndex,
+                this.collection.pageCount,
+                'search/' + this.collection.name + '/' + this.collection.is_sort
+            );
+        },
+
+        // 显示面板
+        showPanel: function(){
+            $('.orange-nav-pills a[href="#obj_list"]').tab('show');
+        },
+
+        search: function(){
+            var name = this.$('.name').val(),
+                is_sort = this.$('.is-sort').attr('checked') ? 1 : 0;
+
+            router.navigate(String.format('/search/{0}/{1}/1', name, is_sort), {trigger: true});
+        },
+
+        modifyObj: function(sender){
+            var target = $(sender.currentTarget),
+                objId = target.data('obj_id');
+
+            router.navigate('/modify/' + objId, {trigger: true});
+        }
+        
+    });
+
+    var ModifyView = Backbone.View.extend({
+        
+        el: '#modify_obj',
+
+        template: _.template($('#modify_obj_template').html()),
+
+        events: {
+            'click .save': 'save'
+        },
+
+        // 显示面板
+        showPanel: function(){
+            $('.orange-nav-pills a[href="#modify_obj"]').tab('show');
+        },
+
+        // 渲染
+        render: function(data){
+            this.$el.html(this.template(data));
+        },
+
+        // 显示提问信息
+        modifyObj: function(objId){
+            var me = this;
+
+            this.collection.getOne(objId, function(data){
+                if(data){
+                    me.render(data);
+                    me.showPanel();
+                } else {
+                    setTimeout(function(){history.go(-1);}, 3000);
+                    $.Global.Notice.ErrorTopNotice("没有找到对应的类别!");
+                }
+            });
+        },
+
+        // 保存
+        save: function(sender){
+            var objId = this.$('form').data('obj_id'),
+                target = $(sender.currentTarget),
+                me = this;
+
+            g_ajax_processing_obj_id = target.setUUID().attr('id');
+            me.collection.modifyObj($.Global.Utils.formToDict(this.$('form')), function(data){
+                if(data.errcode == "0"){
+                    $.Global.Notice.SuccessTopNotice('操作成功!');
+                    router.navigate('modify/' + objId, {'trigger': true});
+                } else {
+                    $.Global.Notice.ErrorTopNotice(data.errmsg);
+                }
+            });
+            
+        }
+
+    });
+
+    var AddView = Backbone.View.extend({
+        el: 'body',
+
+        template: _.template($('#add_obj_template').html()),
+
+        showPanel: function(){
+            var me = this;
+
+            me.render();
+        },
+
+        render: function(){
+            var me = this;
+
+            $('#add_obj_modal').remove();
+            
+            $('body').append(this.template());
+
+            // 绑定事件
+            $('#add_obj_modal .cancel').bind('click', function(){
+                history.go(-1);
+            });
+            $('#add_obj_modal .ok').bind('click', function(){
+                me.addObj();
+            });
+            
+            $('#add_obj_modal').modal({'show': true, 'backdrop': 'static'});
+        },
+
+        addObj: function(){
+            var me = this;
+            
+            if(!$('#add_obj_modal form').valid()){
+                return;
+            }
+
+            g_ajax_processing_obj_id = $("#add_obj_modal .ok").setUUID().attr('id');
+            codes.addObj($.Global.Utils.formToDict($('#add_obj_modal form')), function(data){
+                if(data.errcode == "0"){
+                    router.navigate('modify/' + data.errmsg, {trigger: true});
+                    $('#add_obj_modal').modal('hide');
+                    $.Global.Notice.SuccessTopNotice("操作成功");
+                } else {
+                    $.Global.Notice.ErrorTopNotice(data.errmsg);
+                }
+            })
+
+        }
+
+    });
+
+
+    var Router = Backbone.Router.extend({
+
+        routes: {
+            "":                                         "search",
+            "modify/:objId":                            "modify",
+            "search/(:name)/(:is_sort)/:pageIndex":     "search",
+            "add":                                      "add"
+        },
+
+        // 查询
+        search: function(name, is_sort, pageIndex){
+            codes.search(name, is_sort, pageIndex);
+        },
+
+        modify: function(objId){
+            modifyView.modifyObj(objId);
+        },
+
+        add: function(){
+            addView.showPanel();
+        }
+        
+    });
+
+    var codes = new Codes(),
+        listView = new ListView({'collection': codes}),
+        modifyView = new ModifyView({'collection': codes}),
+        addView = new AddView(),
+        router = new Router();
+ 
+    Backbone.history.start();
+
+ });
+</script>
+{% endblock %}
+
+{% block admin_main %}
+<ul class="nav nav-pills orange-nav-pills">
+    <li class="active">
+        <a href="#obj_list" data-toggle="pill">
+            <i class="fa fa-list-ol pr-5"></i>
+            <span class="hidden-sm hidden-md hidden-lg">列表</span>
+            <span class="hidden-xs">二维码列表</span>
+        </a>
+    </li>
+    <li>
+        <a href="#modify_obj" data-toggle="pill">
+            <i class="fa fa-pencil-square-o pr-5"></i>
+            <span class="hidden-sm hidden-md hidden-lg">修改</span>
+            <span class="hidden-xs">修改二维码信息</span>
+        </a>
+    </li>
+    <li class="pull-right">
+        <a href="#add">
+            <i class="fa fa-plus-circle pr-5"></i>
+            <span class="hidden-sm hidden-md hidden-lg">添加</span>
+            <span class="hidden-xs">添加二维码</span>
+        </a>
+    </li>
+</ul>
+
+<div class="tab-content">
+
+    <div class="tab-pane fade pt-15 in active" id="obj_list">
+        <form action="." class="form-inline" onsubmit="javascript: return false;">
+            <div class="input-group input-group-sm pb-10 pr-10">
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" class="is-sort" name="is_sort" value="1">
+                        按邀请数排序
+                    </label>
+                </div>
+            </div>
+            <div class="input-group input-group-sm pb-10">
+                <span class="input-group-addon">名称</span>
+                <input type="text" class="form-control name" placeholder="" />
+                <span class="input-group-btn">
+                    <button class="btn btn-default search bgc-eeeeee" type="submit">查询</button>
+                </span>
+            </div>
+        </form>
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>名称</th>
+                    <th>邀请用户总数</th>
+                    <th>创建时间</th>
+                </tr>
+            </thead>
+            <tbody>
+                
+            </tbody>
+        </table>
+
+        <div class="text-center">
+            <ul class="pagination pagination-sm qx-pagination">
+                
+            </ul>
+        </div>
+    </div>
+
+    <div class="tab-pane fade pt-15" id="modify_obj">
+        
+    </div>
+</div>
+
+<!-- 列表 -->
+<script type="text/template" id="obj_template">
+    <% _.each(objs, function(obj){ %>
+        <tr class="pointer" data-obj_id="<%= obj.id %>">
+            <td><%= obj.num %></td>
+            <td><%= obj.name %></td>
+            <td>
+                <% if(parseInt(obj.userCount) > 0){ %>
+                <a target="_blank" href="/admin/invite#search/<%= obj.userName %>/1"><%= obj.userCount %></a>
+                <% } else { %>
+                <%= obj.userCount %>
+                <% } %>
+            </td>
+            <td class="hidden-xs"><%= obj.createTime %></td>
+        </tr>
+    <% }) %>
+</script>
+
+<script type="text/template" id="modify_obj_template">
+    <form class="form-horizontal" data-obj_id="<%= id %>" role="form" method="post" action="">
+        <input type="hidden" name="obj_id" value="<%= id %>" />
+        <div class="form-group pt-20 pb-20 mb-0 border-bottom-1 bdc-e4e4e4">
+            <label class="col-sm-2 control-label">名称</label>
+            <div class="col-sm-3 mb-5">
+                <input type="text" class="form-control" required name="name" value='<%= name %>'>
+            </div>
+        </div>
+        <div class="form-group pt-20 pb-20 mb-0 border-bottom-1 bdc-e4e4e4">
+            <label class="col-sm-2 control-label">邀请用户数</label>
+            <div class="col-sm-3 mb-5">
+                <p class="form-control-static"><%= userCount %></p>
+            </div>
+        </div>
+        <div class="form-group pt-20 pb-20 mb-0 border-bottom-1 bdc-e4e4e4">
+            <label class="col-sm-2 control-label">unique_code</label>
+            <div class="col-sm-3 mb-5">
+                <p class="form-control-static"><%= uniqueCode %></p>
+            </div>
+        </div>
+        <div class="form-group pt-20 pb-20 mb-0 border-bottom-1 bdc-e4e4e4">
+            <label class="col-sm-2 control-label">ticket</label>
+            <div class="col-sm-3 mb-5">
+                <p class="form-control-static"><%= ticket %></p>
+            </div>
+        </div>
+        <div class="form-group pt-20 pb-20 mb-0 border-bottom-1 bdc-e4e4e4">
+            <label class="col-sm-2 control-label">创建日期</label>
+            <div class="col-sm-3">
+                <p class="form-control-static"><%= createTime %></p>
+            </div>
+        </div>
+        <div class="form-group pt-20 pb-20 mb-0 border-bottom-1 bdc-e4e4e4">
+            <div class="col-sm-12">
+                <button type="button" class="btn btn-primary save">提交你的修改</button>
+            </div>
+        </div>
+    </form>
+</script>
+
+<!-- 添加 -->
+<script type="text/template" id="add_obj_template">
+<div class="modal fade" id="add_obj_modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header pb-5">
+                <h4 class="modal-title">添加类别</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" role="form" method="post" action="">
+                    <div class="form-group pt-20 pb-20 mb-0">
+                        <label class="col-sm-2 control-label">名称</label>
+                        <div class="col-sm-4">
+                            <input type="text" class="form-control" required name="name" value=''>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default cancel" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary ok">确定</button>
+            </div>
+        </div>
+    </div>
+</div>
+</script>
+{% endblock %}

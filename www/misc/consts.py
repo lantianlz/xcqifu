@@ -57,6 +57,8 @@ PERMISSIONS = [
     {'code': 'invite_manage', 'name': u'邀请管理', 'parent': None},
     {'code': 'query_person_qrcode', 'name': u'查询个人二维码', 'parent': 'invite_manage'},
     {'code': 'query_channel_qrcode', 'name': u'查询渠道二维码', 'parent': 'invite_manage'},
+    {'code': 'add_channel_qrcode', 'name': u'添加渠道二维码', 'parent': 'invite_manage'},
+    {'code': 'modify_channel_qrcode', 'name': u'修改渠道二维码', 'parent': 'invite_manage'},
     {'code': 'query_invite', 'name': u'查询邀请人', 'parent': 'invite_manage'},
 
     {'code': 'city_manage', 'name': u'城市管理', 'parent': None},

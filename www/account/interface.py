@@ -872,6 +872,24 @@ class InviteQrcodeBase(object):
 
         return objs
 
+    def modify_qrcode(self, qrcode_id, name):
+        try:
+            assert all([name, ])
+        except Exception, e:
+            return 99800, dict_err.get(99800)
+
+        obj = self.get_qrcode_by_id(qrcode_id)
+        if not obj:
+            return 99800, dict_err.get(99800)
+
+        try:
+            obj.name = name
+            obj.save()
+        except Exception, e:
+            return 99800, dict_err.get(99800)
+
+        return 0, dict_err.get(0)
+
 
 class UserInviteBase(object):
 
