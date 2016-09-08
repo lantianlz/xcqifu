@@ -957,7 +957,7 @@ class VerifyInfoBase(object):
             verfy_info.save()
 
             # 发送模板消息通知给内部成员
-            for www.weixin.weixin_config import staff_open_ids
+            from www.weixin.weixin_config import staff_open_ids
             create_time = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
             for openid in staff_open_ids:
                 async_send_verfy_info_notification_template_msg.delay(openid=openid, name=name, mobile=mobile,
