@@ -38,3 +38,9 @@ def async_send_invite_success_template_msg(openid, name, gender, regist_time):
 def async_send_verfy_info_notification_template_msg(openid, name, mobile, create_time, info):
     from www.weixin.interface import WeixinBase
     WeixinBase().send_verfy_info_notification_template_msg(openid, name, mobile, create_time, info)
+
+
+@task(queue='www_xcqifu_worker', name='www_xcqifu_worker.async_send_verfy_result_template_msg')
+def async_send_verfy_result_template_msg(openid, des, result, reason, remark):
+    from www.weixin.interface import WeixinBase
+    WeixinBase().send_verfy_result_template_msg(openid, des, result, reason, remark)

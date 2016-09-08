@@ -346,7 +346,7 @@ class WeixinBase(object):
 
     def send_verfy_info_notification_template_msg(self, openid, name, mobile, create_time, info, app_key=None):
         """
-        @note: 发送邀请注册成功提醒消息
+        @note: 发送收到用户认证提醒消息
         """
         template_id = "bndKEpuiu3ngmTFl2-2yORtuftGSSIvxqZmOKO8cLL4"
         app_key = app_key or self.init_app_key()
@@ -380,6 +380,36 @@ class WeixinBase(object):
         ''' % dict(name=name, mobile=mobile, create_time=create_time, info=info)
 
         jump_url = "%s/admin/verify_info" % settings.MAIN_DOMAIN
+        return self.send_template_msg(app_key, openid, content, template_id, jump_url=jump_url)
+
+    def send_verfy_result_template_msg(self, openid, des, result, reason, remark, app_key=None):
+        """
+        @note: 发送认证通过和未通过信息
+        """
+        template_id = "bndKEpuiu3ngmTFl2-2yORtuftGSSIvxqZmOKO8cLL4"
+        app_key = app_key or self.init_app_key()
+        content = u'''
+         {
+            "first": {
+                "value":"%(des)s",
+                "color":"#EF8A55"
+            },
+            "keyword1": {
+                "value":"%(result)s",
+                "color":"#999999"
+            },
+            "keyword2":{
+                "value":"%(reason)s",
+                "color":"#999999"
+            },
+            "remark":{
+                "value":"%(remark)s",
+                "color":"#999999"
+            }
+         }
+        ''' % dict(des=des, result=result, reason=reason, remark=remark)
+
+        jump_url = "%s/account/verify" % settings.MAIN_DOMAIN
         return self.send_template_msg(app_key, openid, content, template_id, jump_url=jump_url)
 
     def get_weixin_jsapi_ticket(self, app_key):

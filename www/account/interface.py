@@ -10,7 +10,8 @@ from django.conf import settings
 from common import utils, debug, validators, cache, raw_sql
 from www.misc.decorators import cache_required
 from www.misc import consts
-from www.tasks import async_send_email, async_send_invite_success_template_msg, async_send_verfy_info_notification_template_msg
+from www.tasks import async_send_email, async_send_invite_success_template_msg,
+from www.tasks import async_send_verfy_info_notification_template_msg, async_send_verfy_result_template_msg
 from www.account.models import User, Profile, LastActive, ActiveDay, ExternalToken, InviteQrcode, UserInvite, VerifyInfo
 from www.weixin.interface import WeixinBase
 
@@ -1004,13 +1005,27 @@ class VerifyInfoBase(object):
             return 20201, dict_err.get(20201)
 
         try:
+            pre_state = obj.state
+            state = int(state)
+
             obj.name = name
             obj.mobile = mobile
             obj.title = title
             obj.company_name = company_name
             obj.company_short_name = company_short_name
-            obj.state = int(state)
+            obj.state = state
             obj.save()
+
+            # 发送模板消息通知给用户
+            if pre_state == 0 and state > 0:
+                openid = ExternalTokenBase().get_weixin_openid_by_user_id(obj.user_id)
+                des = u"认证信息审核通过" if state == 1 else u"认证信息审核未通过"
+                result = u"审核通过" if state == 1 else u"审核未通过"
+                reason = u"漂亮的审核资料" if state == 1 else u"请检查姓名、电话、职位信息后重新提交"
+                remark = u"点击查看认证信息"
+
+                async_send_verfy_result_template_msg.delay(openid, des, result, reason, remark)
+
         except Exception, e:
             debug.get_debug_detail_and_send_email(e)
             return 99900, dict_err.get(99900)
