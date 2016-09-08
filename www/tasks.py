@@ -26,3 +26,15 @@ def async_send_email_xcqifu_worker(emails, title, content, type='text'):
 def async_change_profile_from_weixin(user, app_key, openid, qrscene=""):
     from www.account.interface import UserBase
     UserBase().change_profile_from_weixin(user, app_key, openid, qrscene=qrscene)
+
+
+@task(queue='www_xcqifu_worker', name='www_xcqifu_worker.send_invite_success_template_msg')
+def async_send_invite_success_template_msg(openid, name, gender, regist_time):
+    from www.weixin.interface import WeixinBase
+    WeixinBase().send_invite_success_template_msg(openid, name, gender, regist_time)
+
+
+@task(queue='www_xcqifu_worker', name='www_xcqifu_worker.async_send_verfy_info_notification_template_msg')
+def async_send_verfy_info_notification_template_msg(openid, name, mobile, create_time, info):
+    from www.weixin.interface import WeixinBase
+    WeixinBase().async_send_verfy_info_notification_template_msg(openid, name, mobile, create_time, info)

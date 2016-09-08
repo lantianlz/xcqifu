@@ -344,34 +344,43 @@ class WeixinBase(object):
         jump_url = "%s/account/recommendation" % settings.MAIN_DOMAIN
         return self.send_template_msg(app_key, openid, content, template_id, jump_url=jump_url)
 
-    def send_todo_list_template_msg(self, openid, info, job, priority, remark, app_key=None):
-        '''
-        发送待办任务提醒通知
-        '''
-        template_id = "-rAhCPV9q3lUoslRYQUlHhpwvJXraX7BDuJgfKW2Bss"
+    def send_verfy_info_notification_template_msg(self, openid, name, mobile, create_time, info, app_key=None):
+        """
+        @note: 发送邀请注册成功提醒消息
+        """
+        template_id = "bndKEpuiu3ngmTFl2-2yORtuftGSSIvxqZmOKO8cLL4"
         app_key = app_key or self.init_app_key()
         content = u'''
          {
             "first": {
-                "value":"%(info)s",
-                "color":"#EF7B32"
+                "value":"收到一条新的认证请求，请立即去审核",
+                "color":"#EF8A55"
             },
             "keyword1": {
-                "value":"%(job)s",
-                "color":"#000000"
+                "value":"%(name)s",
+                "color":"#999999"
             },
             "keyword2":{
-                "value":"%(priority)s",
-                "color":"#000000"
+                "value":"%(mobile)s",
+                "color":"#999999"
+            },
+            "keyword3":{
+                "value":"%(create_time)s",
+                "color":"#999999"
+            },
+            "keyword4":{
+                "value":"%(info)s",
+                "color":"#999999"
             },
             "remark":{
-                "value":"%(remark)s",
-                "color":"#000000"
+                "value":"点击立即处理",
+                "color":"#999999"
             }
          }
-        ''' % dict(info=info, job=job, priority=priority, remark=remark)
+        ''' % dict(name=name, mobile=mobile, create_time=create_time, info=info)
 
-        return self.send_template_msg(app_key, openid, content, template_id)
+        jump_url = "%s/admin/verify_info" % settings.MAIN_DOMAIN
+        return self.send_template_msg(app_key, openid, content, template_id, jump_url=jump_url)
 
     def get_weixin_jsapi_ticket(self, app_key):
         # 本地调试模式不走缓存

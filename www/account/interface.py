@@ -10,7 +10,7 @@ from django.conf import settings
 from common import utils, debug, validators, cache, raw_sql
 from www.misc.decorators import cache_required
 from www.misc import consts
-from www.tasks import async_send_email
+from www.tasks import async_send_email, async_send_invite_success_template_msg, async_send_verfy_info_notification_template_msg
 from www.account.models import User, Profile, LastActive, ActiveDay, ExternalToken, InviteQrcode, UserInvite, VerifyInfo
 from www.weixin.interface import WeixinBase
 
@@ -692,8 +692,8 @@ class UserBase(object):
         [2014-01-01, 15], [2014-01-02, 23]
         '''
         sql = """
-            SELECT DATE_FORMAT(create_time, "%%Y-%%m-%%d"), COUNT(*) 
-            FROM account_xcqifu.account_user 
+            SELECT DATE_FORMAT(create_time, "%%Y-%%m-%%d"), COUNT(*)
+            FROM account_xcqifu.account_user
             GROUP BY DATE_FORMAT(create_time, "%%Y-%%m-%%d")
             LIMIT 0, %s
         """
@@ -707,8 +707,8 @@ class UserBase(object):
         [09, 15], [10, 23]
         '''
         sql = """
-            SELECT DATE_FORMAT(create_time, "%%H"), COUNT(*) 
-            FROM account_xcqifu.account_user 
+            SELECT DATE_FORMAT(create_time, "%%H"), COUNT(*)
+            FROM account_xcqifu.account_user
             WHERE %s <= create_time AND create_time <= %s
             GROUP BY DATE_FORMAT(create_time, "%%H")
         """
@@ -914,7 +914,7 @@ class UserInviteBase(object):
                 openid = ExternalTokenBase().get_weixin_openid_by_user_id(qrcode.user_id)
                 # openid = "okQdow-Svk_sI4LEHf0LbUAUoK2A"
                 if openid:
-                    WeixinBase().send_invite_success_template_msg(openid, to_user.nick, to_user.get_gender_display(), to_user.create_time)
+                    async_send_invite_success_template_msg.delay(openid, to_user.nick, to_user.get_gender_display(), to_user.create_time)
 
             return 0, ui
 
@@ -932,6 +932,7 @@ class UserInviteBase(object):
             objs = objs.filter(from_user_id=user.id)
 
         return objs
+
 
 class VerifyInfoBase(object):
 
@@ -954,11 +955,15 @@ class VerifyInfoBase(object):
             verfy_info.company_name = company_name
             verfy_info.state = 0
             verfy_info.save()
-            # todo 发送模板消息通知给内部成员
+
+            # 发送模板消息通知给内部成员
+            for www.weixin.weixin_config import staff_open_ids
+            create_time = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+            for openid in staff_open_ids:
+                async_send_verfy_info_notification_template_msg.delay(openid=openid, name=name, mobile=mobile,
+                                                                      create_time=create_time, info=u"%s %s" % (company_name, title))
 
         except Exception, e:
-            if is_created:
-                verfy_info.delete()
 
             debug.get_debug_detail_and_send_email(e)
             return 99900, dict_err.get(99900)
@@ -989,7 +994,7 @@ class VerifyInfoBase(object):
         return objs
 
     def modify_info(self, obj_id, name, mobile, title, company_name, company_short_name="",
-                       state=0):
+                    state=0):
 
         if not (obj_id and name and mobile and title and company_name):
             return 99800, dict_err.get(99800)
@@ -1017,7 +1022,3 @@ class LastActiveBase(object):
 
     def get_active_user(self, start_date, end_date):
         return LastActive.objects.filter(last_active_time__range=(start_date, end_date))
-
-
-
-
