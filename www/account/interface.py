@@ -10,7 +10,7 @@ from django.conf import settings
 from common import utils, debug, validators, cache, raw_sql
 from www.misc.decorators import cache_required
 from www.misc import consts
-from www.tasks import async_send_email, async_send_invite_success_template_msg,
+from www.tasks import async_send_email, async_send_invite_success_template_msg
 from www.tasks import async_send_verfy_info_notification_template_msg, async_send_verfy_result_template_msg
 from www.account.models import User, Profile, LastActive, ActiveDay, ExternalToken, InviteQrcode, UserInvite, VerifyInfo
 from www.weixin.interface import WeixinBase
