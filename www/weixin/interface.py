@@ -386,7 +386,7 @@ class WeixinBase(object):
         """
         @note: 发送认证通过和未通过信息
         """
-        template_id = "bndKEpuiu3ngmTFl2-2yORtuftGSSIvxqZmOKO8cLL4"
+        template_id = "xfW3GC1tm3rbxqcPBGHg8_mgU11LeABKA3iwS7MRb48"
         app_key = app_key or self.init_app_key()
         content = u'''
          {
