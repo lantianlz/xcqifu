@@ -1019,7 +1019,7 @@ class VerifyInfoBase(object):
             # 发送模板消息通知给用户
             if pre_state == 0 and state > 0:
                 openid = ExternalTokenBase().get_weixin_openid_by_user_id(obj.user_id)
-                des = u"认证信息审核通过" if state == 1 else u"认证信息审核未通过"
+                des = u"亲爱的%s，恭喜，在小橙你可是通过认证的有身份的用户了" if state == 1 else u"亲爱的%s，你提交的认证资料未能通过火眼金睛的审核人员的审查"
                 result = u"审核通过" if state == 1 else u"审核未通过"
                 reason = u"漂亮的审核资料" if state == 1 else u"请检查姓名、电话、职位信息后重新提交"
                 remark = u"点击查看认证信息"

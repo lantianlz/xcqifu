@@ -336,7 +336,7 @@ class WeixinBase(object):
             },
             "remark":{
                 "value":"点击查看所有邀请记录",
-                "color":"#999999"
+                "color":"#428bca"
             }
          }
         ''' % dict(name=name, gender=gender, regist_time=regist_time)
@@ -374,7 +374,7 @@ class WeixinBase(object):
             },
             "remark":{
                 "value":"点击立即处理",
-                "color":"#999999"
+                "color":"#428bca"
             }
          }
         ''' % dict(name=name, mobile=mobile, create_time=create_time, info=info)
@@ -404,7 +404,7 @@ class WeixinBase(object):
             },
             "remark":{
                 "value":"%(remark)s",
-                "color":"#999999"
+                "color":"#428bca"
             }
          }
         ''' % dict(des=des, result=result, reason=reason, remark=remark)
