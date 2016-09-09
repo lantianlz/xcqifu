@@ -541,7 +541,7 @@ class OrderBase(object):
             obj = Order.objects.create(user_id=user_id, service_id=service_id, product_id=product_id, price=price)
 
             # 发送模板通知
-            for openid in openids:
+            for openid in staff_open_ids:
                 verfiy_info = VerifyInfoBase().get_info_by_user_id(user_id)
                 if verfiy_info:
                     create_time = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
