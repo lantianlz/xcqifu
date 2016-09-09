@@ -539,6 +539,7 @@ class OrderBase(object):
 
         try:
             obj = Order.objects.create(user_id=user_id, service_id=service_id, product_id=product_id, price=price)
+            ServiceBase().add_order_count(service_id)  # 预约次数加一
 
             # 发送模板通知
             for openid in staff_open_ids:
