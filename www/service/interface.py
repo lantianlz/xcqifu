@@ -544,7 +544,7 @@ class OrderBase(object):
             for openid in openids:
                 verfiy_info = VerifyInfoBase().get_info_by_user_id(user_id)
                 if verfiy_info:
-                    create_time = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')ß
+                    create_time = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
                     async_send_new_order_template_msg.delay(openid=openid, name=verfiy_info.name, mobile=verfiy_info.mobile,
                                                             create_time=create_time, service_name=service.name)
         except Exception, e:
