@@ -522,6 +522,9 @@ class KindOpenInfoBase(object):
 class OrderBase(object):
 
     def create_order(self, user_id, service_id, product_id=None, price=0):
+        from www.tasks import async_send_new_order_template_msg
+        from www.weixin.weixin_config import staff_open_ids
+        from www.account.interface import VerifyInfoBase
 
         if not (user_id and service_id):
             return 99800, dict_err.get(99800)
@@ -531,22 +534,21 @@ class OrderBase(object):
             return 20103, dict_err.get(20103)
 
         # 是否已经预约中
-        if Order.objects.filter(
-            state__in=(0, 1),
-            user_id=user_id,
-            service_id=service_id
-        ).count() > 0:
+        if Order.objects.filter(state__in=(0, 1), user_id=user_id, service_id=service_id).count() > 0:
             return 20301, dict_err.get(20301)
 
         try:
-            obj = Order.objects.create(
-                user_id=user_id,
-                service_id=service_id,
-                product_id=product_id,
-                price=price
-            )
+            obj = Order.objects.create(user_id=user_id, service_id=service_id, product_id=product_id, price=price)
+
+            # 发送模板通知
+            for openid in openids:
+                verfiy_info = VerifyInfoBase().get_info_by_user_id(user_id)
+                if verfiy_info:
+                    create_time = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')ß
+                    async_send_new_order_template_msg.delay(openid=openid, name=verfiy_info.name, mobile=verfiy_info.mobile,
+                                                            create_time=create_time, service_name=service.name)
         except Exception, e:
-            debug.get_debug_detail(e)
+            debug.get_debug_detail_and_send_email(e)
             return 99900, dict_err.get(99900)
 
         return 0, obj

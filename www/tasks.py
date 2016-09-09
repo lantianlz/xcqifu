@@ -44,3 +44,9 @@ def async_send_verfy_info_notification_template_msg(openid, name, mobile, create
 def async_send_verfy_result_template_msg(openid, des, result, reason, remark):
     from www.weixin.interface import WeixinBase
     WeixinBase().send_verfy_result_template_msg(openid, des, result, reason, remark)
+
+
+@task(queue='www_xcqifu_worker', name='www_xcqifu_worker.async_send_new_order_template_msg')
+def async_send_new_order_template_msg(openid, name, mobile, create_time, service_name):
+    from www.weixin.interface import WeixinBase
+    WeixinBase().send_new_order_template_msg(openid, name, mobile, create_time, service_name)

@@ -412,6 +412,44 @@ class WeixinBase(object):
         jump_url = "%s/account/verify" % settings.MAIN_DOMAIN
         return self.send_template_msg(app_key, openid, content, template_id, jump_url=jump_url)
 
+    def send_new_order_template_msg(self, openid, name, mobile, create_time, service_name, app_key=None):
+        """
+        @note: 发送新订单通知
+        """
+        template_id = "kujCoUCTlOWRszsahH2jMEighrqv-rt63WbDrIUFbJk"
+        app_key = app_key or self.init_app_key()
+        content = u'''
+         {
+            "first": {
+                "value":"订单来啦",
+                "color":"#EF8A55"
+            },
+            "keyword1": {
+                "value":"%(name)s",
+                "color":"#999999"
+            },
+            "keyword2":{
+                "value":"%(mobile)s",
+                "color":"#999999"
+            },
+            "keyword3":{
+                "value":"%(create_time)s",
+                "color":"#999999"
+            },
+            "keyword4":{
+                "value":"%(service_name)s",
+                "color":"#999999"
+            },
+            "remark":{
+                "value":"点击查看预约列表",
+                "color":"#428bca"
+            }
+         }
+        ''' % dict(name=name, mobile=mobile, create_time=create_time, service_name=service_name)
+
+        jump_url = "%s/account/order" % settings.MAIN_DOMAIN
+        return self.send_template_msg(app_key, openid, content, template_id, jump_url=jump_url)
+
     def get_weixin_jsapi_ticket(self, app_key):
         # 本地调试模式不走缓存
         if not settings.LOCAL_FLAG:
