@@ -447,7 +447,7 @@ class WeixinBase(object):
          }
         ''' % dict(name=name, mobile=mobile, create_time=create_time, service_name=service_name)
 
-        jump_url = "%s/account/order" % settings.MAIN_DOMAIN
+        jump_url = "%s/admin/order" % settings.MAIN_DOMAIN
         return self.send_template_msg(app_key, openid, content, template_id, jump_url=jump_url)
 
     def get_weixin_jsapi_ticket(self, app_key):
