@@ -275,14 +275,14 @@ $(document).ready(function(){
         <table class="table table-hover">
             <thead>
                 <tr>
-                    <th>#</th>
-                    <th>头像</th>
+                    <th class="hidden-xs">#</th>
+                    <th class="hidden-xs">头像</th>
                     <th>用户名</th>
                     <th>认证名</th>
                     <th>手机号</th>
                     <th>职位</th>
-                    <th>公司简称</th>
-                    <th>更新时间</th>
+                    <th class="hidden-xs">公司简称</th>
+                    <th class="hidden-xs">更新时间</th>
                     <th>是否认证</th>
                 </tr>
             </thead>
@@ -307,15 +307,15 @@ $(document).ready(function(){
 <script type="text/template" id="obj_template">
     <% _.each(objs, function(obj){ %>
         <tr class="pointer" data-obj_id="<%= obj.id %>">
-            <td><%= obj.num %></td>
-            <td>
+            <td class="hidden-xs"><%= obj.num %></td>
+            <td class="hidden-xs">
                 <img class="w35" src="<%= obj.userAvatar %>">
             </td>
             <td><%= obj.userName %></td>
             <td><%= obj.name %></td>
             <td><%= obj.mobile %></td>
             <td><%= obj.title %></td>
-            <td><%= obj.companyShortName %></td>
+            <td class="hidden-xs"><%= obj.companyShortName %></td>
             <td class="hidden-xs"><%= obj.createTime %></td>
             <td>
                 <% if(obj.state == 1){ %>
