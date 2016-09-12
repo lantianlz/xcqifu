@@ -176,6 +176,7 @@ $(document).ready(function(){
                     <th>名称</th>
                     <th>邀请用户总数</th>
                     <th>创建时间</th>
+                    <th>查看二维码</th>
                 </tr>
             </thead>
             <tbody>
@@ -207,12 +208,15 @@ $(document).ready(function(){
             <td><%= obj.name %></td>
             <td>
                 <% if(parseInt(obj.userCount) > 0){ %>
-                <a target="_blank" href="/admin/invite#search/<%= obj.userName %>/1"><%= obj.userCount %></a>
+                <a target="_blank" href="/admin/invite#search/0/<%= obj.userName %>/1"><%= obj.userCount %></a>
                 <% } else { %>
                 <%= obj.userCount %>
                 <% } %>
             </td>
             <td class="hidden-xs"><%= obj.createTime %></td>
+            <td>
+                <a target="_blank" href="https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=<%= obj.ticket %>">查看二维码</a>
+            </td>
         </tr>
     <% }) %>
 </script>
