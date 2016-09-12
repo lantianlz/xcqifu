@@ -41,18 +41,20 @@ $(document).ready(function(){
             'createTime': 'create_time'
         },
 
-        search: function(name, pageIndex){
+        search: function(state, name, pageIndex){
             var me = this,
+                state = state||'0',
                 name = name||'',
                 pageIndex = pageIndex||1;
 
             ajaxSend(
                 "/admin/invite/search", 
-                {'name': name, 'page_index': pageIndex}, 
+                {'state': state, 'name': name, 'page_index': pageIndex}, 
                 function(data){
                     me.pageIndex = pageIndex;
                     me.pageCount = data.page_count;
                     me.name = name;
+                    me.state = state;
 
                     me.reset($.Global.Utils.dictMapParse(data.data, me._modelMaps));
                 }
@@ -88,10 +90,11 @@ $(document).ready(function(){
             this.pagination.render(
                 this.collection.pageIndex,
                 this.collection.pageCount,
-                'search/' + this.collection.name
+                'search/' + this.collection.state + '/' + this.collection.name
             );
 
             this.$('.name').val(this.collection.name);
+            this.$('.state').val(this.collection.state);
         },
 
         // 显示面板
@@ -100,9 +103,10 @@ $(document).ready(function(){
         },
 
         search: function(){
-            var name = this.$('.name').val();
+            var state = this.$('.state').val(),
+                name = this.$('.name').val();
 
-            router.navigate(String.format('/search/{0}/1', name), {trigger: true});
+            router.navigate(String.format('/search/{0}/{1}/1', state, name), {trigger: true});
         }
         
     });
@@ -111,13 +115,13 @@ $(document).ready(function(){
     var Router = Backbone.Router.extend({
 
         routes: {
-            "":                              "search",
-            "search/(:name)/:pageIndex":     "search",
+            "":                                       "search",
+            "search/(:state)/(:name)/:pageIndex":     "search",
         },
 
         // 查询
-        search: function(name, pageIndex){
-            invites.search(name, pageIndex);
+        search: function(state, name, pageIndex){
+            invites.search(state, name, pageIndex);
         }
 
         
@@ -142,13 +146,19 @@ $(document).ready(function(){
             <span class="hidden-xs">认证列表</span>
         </a>
     </li>
-    
 </ul>
 
 <div class="tab-content">
-
     <div class="tab-pane fade pt-15 in active" id="obj_list">
         <form action="." class="form-inline" onsubmit="javascript: return false;">
+            <div class="input-group input-group-sm pb-10">
+                <span class="input-group-addon">类别</span>
+                <select class="form-control state">
+                    {% for state in state_choices %}
+                    <option value="{{state.value}}" {% if state.value == 0 %}selected{% endif %} >{{state.name}}</option>
+                    {% endfor %}
+                </select>
+            </div>
             <div class="input-group input-group-sm pb-10">
                 <span class="input-group-addon">名称</span>
                 <input type="text" class="form-control name" placeholder="" />

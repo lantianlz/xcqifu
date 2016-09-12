@@ -17,6 +17,8 @@ from www.service.interface import ProductBase
 
 @verify_permission('')
 def invite(request, template_name='pc/admin/invite.html'):
+    from www.account.models import InviteQrcode
+    state_choices = [{'name': x[1], 'value': x[0]} for x in InviteQrcode.state_choices]
     return render_to_response(template_name, locals(), context_instance=RequestContext(request))
 
 def format_invite(objs, num):
@@ -25,14 +27,16 @@ def format_invite(objs, num):
     for x in objs:
         num += 1
 
-        user = UserBase().get_user_by_id(x.from_user_id)
+        if x.qrcode.state == 0:
+            user = UserBase().get_user_by_id(x.from_user_id)
+
         to_user = UserBase().get_user_by_id(x.to_user_id)
 
         data.append({
             'num': num,
             'id': x.id,
-            'user_name': user.nick if user else '',
-            'user_id': x.from_user_id,
+            'user_name': user.nick if user else x.qrcode.name,
+            'user_id': user.id if user else '',
             'user_avatar': user.get_avatar_65() if user else '',
             'to_user_name': to_user.nick if to_user else '',
             'to_user_id': x.to_user_id,
@@ -48,11 +52,12 @@ def format_invite(objs, num):
 def search(request):
     data = []
 
+    state = request.REQUEST.get('state')
     name = request.REQUEST.get('name')
     page_index = int(request.REQUEST.get('page_index'))
     per_count = 15
 
-    objs = UserInviteBase().search_invite_for_admin(name)
+    objs = UserInviteBase().search_invite_for_admin(state, name)
 
     page_objs = page.Cpt(objs, count=per_count, page=page_index).info
 

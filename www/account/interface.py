@@ -934,13 +934,20 @@ class UserInviteBase(object):
     def get_user_invite_count(self, from_user_id):
         return UserInvite.objects.filter(from_user_id=from_user_id).count()
 
-    def search_invite_for_admin(self, user_name):
+    def search_invite_for_admin(self, state, name):
         objs = UserInvite.objects.all()
 
-        user = UserBase().get_user_by_nick(user_name)
-        if user:
-            objs = objs.filter(from_user_id=user.id)
+        # 个人二维码
+        if state == 0:
 
+            user = UserBase().get_user_by_nick(name)
+            if user:
+                objs = objs.filter(from_user_id=user.id)
+
+        # 渠道二维码
+        if state == 1:
+            objs.filter(qrcode__name__icontains=name)
+        
         return objs
 
 
