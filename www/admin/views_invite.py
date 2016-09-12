@@ -57,7 +57,7 @@ def search(request):
     page_index = int(request.REQUEST.get('page_index'))
     per_count = 15
 
-    objs = UserInviteBase().search_invite_for_admin(state, name)
+    objs = UserInviteBase().search_invite_for_admin(int(state), name)
 
     page_objs = page.Cpt(objs, count=per_count, page=page_index).info
 

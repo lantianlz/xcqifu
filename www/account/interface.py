@@ -939,7 +939,6 @@ class UserInviteBase(object):
 
         # 个人二维码
         if state == 0:
-
             user = UserBase().get_user_by_nick(name)
             if user:
                 objs = objs.filter(from_user_id=user.id)
