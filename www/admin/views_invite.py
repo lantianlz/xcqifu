@@ -27,6 +27,7 @@ def format_invite(objs, num):
     for x in objs:
         num += 1
 
+        user = None
         if x.qrcode.state == 0:
             user = UserBase().get_user_by_id(x.from_user_id)
 
