@@ -40,6 +40,9 @@ $(document).ready(function(){
             'state': 'state',
             'ip': 'ip',
             'source': 'source',
+            'isSubWeixin': 'is_sub_weixin',
+            'inviteUserId': 'invite_user_id',
+            'inviteUserNick': 'invite_user_nick',
             'registerDate': 'register_date'
         },
 
@@ -517,26 +520,21 @@ $(document).ready(function(){
     </div>
     <div class="form-group pt-20 pb-20 mb-0 border-bottom-1 bdc-e4e4e4">
         <label class="col-sm-2 control-label">用户呢称</label>
-        <div class="col-sm-5">
+        <div class="col-sm-3 mb-5">
             <input type="text" class="form-control" name='nick' value='<%= userNick %>'>
         </div>
-    </div>
-    <div class="form-group pt-20 pb-20 mb-0 border-bottom-1 bdc-e4e4e4">
         <label class="col-sm-2 control-label">用户邮箱</label>
-        <div class="col-sm-5">
+        <div class="col-sm-3 mb-5">
             <input type="text" class="form-control" name='email' value='<%= userEmail %>'>
         </div>
     </div>
     <div class="form-group pt-20 pb-20 mb-0 border-bottom-1 bdc-e4e4e4">
         <label class="col-sm-2 control-label">用户手机</label>
-        <div class="col-sm-5">
+        <div class="col-sm-3 mb-5">
             <input type="text" required class="form-control" name='mobilenumber' value='<%= userMobilenumber %>'>
         </div>
-    </div>
-
-    <div class="form-group pt-20 pb-20 mb-0 border-bottom-1 bdc-e4e4e4">
         <label class="col-sm-2 control-label">用户性别</label>
-        <div class="col-sm-2">
+        <div class="col-sm-3 mb-5">
             <select name="gender" class="form-control">
                 <option value="0" <% if(userGender == 0){ %> selected <% } %> >未设置</option>
                 <option value="1" <% if(userGender == 1){ %> selected <% } %> >男</option>
@@ -546,32 +544,32 @@ $(document).ready(function(){
     </div>
     <div class="form-group pt-20 pb-20 mb-0 border-bottom-1 bdc-e4e4e4">
         <label class="col-sm-2 control-label">出生日期</label>
-        <div class="col-sm-2">
+        <div class="col-sm-3 mb-5">
             <input type="text" class="form-control" readonly name='birthday' id="birthday_modify" value='<%= birthday %>'>
         </div>
-    </div>
-    <div class="form-group pt-20 pb-20 mb-0 border-bottom-1 bdc-e4e4e4">
-        <label class="col-sm-2 control-label">备注</label>
-        <div class="col-sm-6">
-            <textarea name="des" rows="6" class="form-control" placeholder=""><%= userDesc %></textarea>
-        </div>
-    </div>
-    <div class="form-group pt-20 pb-20 mb-0 border-bottom-1 bdc-e4e4e4">
         <label class="col-sm-2 control-label">上次活跃时间</label>
-        <div class="col-sm-6">
+        <div class="col-sm-3 mb-5">
             <p class="form-control-static"><%= lastActive %></p>
         </div>
     </div>
     <div class="form-group pt-20 pb-20 mb-0 border-bottom-1 bdc-e4e4e4">
         <label class="col-sm-2 control-label">注册ip</label>
-        <div class="col-sm-6">
+        <div class="col-sm-3 mb-5">
             <p class="form-control-static"><%= ip %></p>
+        </div>
+        <label class="col-sm-2 control-label">注册日期</label>
+        <div class="col-sm-63 mb-5">
+            <p class="form-control-static"><%= registerDate %></p>
         </div>
     </div>
     <div class="form-group pt-20 pb-20 mb-0 border-bottom-1 bdc-e4e4e4">
-        <label class="col-sm-2 control-label">注册日期</label>
-        <div class="col-sm-6">
-            <p class="form-control-static"><%= registerDate %></p>
+        <label class="col-sm-2 control-label">是否关注微信号</label>
+        <div class="col-sm-3 mb-5">
+            <p class="form-control-static"><% if(isSubWeixin == 1){ %>是<% } else { %>否<% } %></p>
+        </div>
+        <label class="col-sm-2 control-label">邀请人</label>
+        <div class="col-sm-63 mb-5">
+            <p class="form-control-static"><%= inviteUserNick %></p>
         </div>
     </div>
     <div class="form-group pt-20 pb-20 mb-0 border-bottom-1 bdc-e4e4e4">
@@ -582,6 +580,12 @@ $(document).ready(function(){
                 <option value="{{state.value}}" <% if(state == {{state.value}}){ %> selected <% } %> >{{state.name}}</option>
                 {% endfor %}
             </select>
+        </div>
+    </div>
+    <div class="form-group pt-20 pb-20 mb-0 border-bottom-1 bdc-e4e4e4">
+        <label class="col-sm-2 control-label">备注</label>
+        <div class="col-sm-8">
+            <textarea name="des" rows="6" class="form-control" placeholder=""><%= userDesc %></textarea>
         </div>
     </div>
     <div class="form-group pt-20 pb-20 mb-0 border-bottom-1 bdc-e4e4e4">

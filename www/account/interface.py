@@ -438,10 +438,19 @@ class UserBase(object):
 
         # 注册来源
         format_user.source_display = u"直接注册"
+        format_user.is_sub_weixin = 0
         if format_user.source > 0:
             ets = list(ExternalToken.objects.filter(user_id=user_id))
             if ets:
                 format_user.source_display = ets[0].get_source_display()
+                format_user.is_sub_weixin = ets[0].is_sub_weixin
+
+        # 邀请人信息
+        ui = UserInvite.objects.filter(to_user_id=user_id)
+        if ui:
+            invite_user = self.get_user_by_id(ui[0].from_user_id)
+            format_user.invite_user_id = invite_user.id
+            format_user.invite_user_nick = invite_user.nick
 
         return format_user
 

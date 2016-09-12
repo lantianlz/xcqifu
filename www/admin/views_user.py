@@ -54,6 +54,9 @@ def search(request):
             'register_date': str(user.create_time),
             'state': user.state,
             'source': user.source_display,
+            'is_sub_weixin': user.is_sub_weixin,
+            'invite_user_id': user.invite_user_id or '',
+            'invite_user_nick': user.invite_user_nick or '',
             'ip': user.ip
         })
 
@@ -87,6 +90,9 @@ def get_user_by_id(request):
             'state': user.state,
             'source': user.source_display,
             'ip': user.ip,
+            'is_sub_weixin': user.is_sub_weixin,
+            'invite_user_id': user.invite_user_id or '',
+            'invite_user_nick': user.invite_user_nick or '',
             'register_date': str(user.create_time)
         }
 

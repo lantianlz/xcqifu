@@ -281,14 +281,14 @@ $(document).ready(function(){
         <table class="table table-hover">
             <thead>
                 <tr>
-                    <th>#</th>
+                    <th class="hidden-xs">#</th>
                     <th>用户</th>
                     <th>用户手机</th>
                     <th>服务商</th>
-                    <th>产品</th>
-                    <th>价格</th>
-                    <th>创建时间</th>
-                    <th>状态</th>
+                    <th class="hidden-xs">产品</th>
+                    <th class="hidden-xs">价格</th>
+                    <th class="hidden-xs1">创建时间</th>
+                    <th class="hidden-xs">状态</th>
                 </tr>
             </thead>
             <tbody>
@@ -312,14 +312,14 @@ $(document).ready(function(){
 <script type="text/template" id="obj_template">
     <% _.each(objs, function(obj){ %>
         <tr class="pointer" data-obj_id="<%= obj.id %>">
-            <td><%= obj.num %></td>
+            <td class="hidden-xs"><%= obj.num %></td>
             <td><%= obj.userName %></td>
             <td><%= obj.userMobile %></td>
             <td><%= obj.serviceName %></td>
-            <td><%= obj.productName %></td>
-            <td><%= obj.price %></td>
-            <td class="hidden-xs"><%= obj.createTime %></td>
-            <td>
+            <td class="hidden-xs"><%= obj.productName %></td>
+            <td class="hidden-xs"><%= obj.price %></td>
+            <td class="hidden-xs1"><%= obj.createTime %></td>
+            <td class="hidden-xs">
                 {% for x in state_choices %}
                 <% if(obj.state == {{x.value}}){ %>{{ x.name }}<% } %>
                 {% endfor %}
