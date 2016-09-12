@@ -935,7 +935,7 @@ class UserInviteBase(object):
         return UserInvite.objects.filter(from_user_id=from_user_id).count()
 
     def search_invite_for_admin(self, state, name):
-        objs = UserInvite.objects.all()
+        objs = UserInvite.objects.filter(qrcode__state=state)
 
         # 个人二维码
         if state == 0:
@@ -945,8 +945,8 @@ class UserInviteBase(object):
 
         # 渠道二维码
         if state == 1:
-            objs.filter(qrcode__name__icontains=name)
-        
+            objs = objs.filter(qrcode__name__icontains=name)
+
         return objs
 
 
