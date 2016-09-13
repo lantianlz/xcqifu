@@ -451,6 +451,9 @@ class UserBase(object):
             invite_user = self.get_user_by_id(ui[0].from_user_id)
             format_user.invite_user_id = invite_user.id
             format_user.invite_user_nick = invite_user.nick
+        else:
+            format_user.invite_user_id = ""
+            format_user.invite_user_nick = ""
 
         return format_user
 
