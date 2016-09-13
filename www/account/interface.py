@@ -874,7 +874,7 @@ class InviteQrcodeBase(object):
         '''
         return self.search_qrcodes_for_admin(name, is_sort, 1)
 
-    def search_qrcodes_for_admin(self, name, is_sort=0, state=0):
+    def search_qrcodes_for_admin(self, name, is_sort=1, state=0):
         objs = InviteQrcode.objects.filter(state=state)
 
         if name:

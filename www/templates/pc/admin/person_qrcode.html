@@ -42,10 +42,10 @@ $(document).ready(function(){
             'createTime': 'create_time'
         },
 
-        search: function(name, is_sort=0, pageIndex){
+        search: function(name, is_sort, pageIndex){
             var me = this,
                 name = name||'',
-                is_sort = is_sort||0,
+                is_sort = is_sort||1,
                 pageIndex = pageIndex||1;
 
             ajaxSend(
@@ -154,7 +154,7 @@ $(document).ready(function(){
             <div class="input-group input-group-sm pb-10 pr-10">
                 <div class="checkbox">
                     <label>
-                        <input type="checkbox" class="is-sort" name="is_sort" value="1">
+                        <input type="checkbox" class="is-sort" name="is_sort" value="1" checked="checked">
                         按邀请数排序
                     </label>
                 </div>
@@ -176,7 +176,7 @@ $(document).ready(function(){
                     <th>名称</th>
                     <th>邀请用户总数</th>
                     <th>创建时间</th>
-                    <th>查看二维码</th>
+                    <th>操作</th>
                 </tr>
             </thead>
             <tbody>

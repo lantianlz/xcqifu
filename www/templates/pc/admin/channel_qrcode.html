@@ -350,6 +350,7 @@ $(document).ready(function(){
                     <th>名称</th>
                     <th>邀请用户总数</th>
                     <th>创建时间</th>
+                    <th>操作</th>
                 </tr>
             </thead>
             <tbody>
@@ -383,6 +384,9 @@ $(document).ready(function(){
                 <% } %>
             </td>
             <td class="hidden-xs"><%= obj.createTime %></td>
+            <td>
+                <a target="_blank" href="https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=<%= obj.ticket %>">查看二维码</a>
+            </td>
         </tr>
     <% }) %>
 </script>
