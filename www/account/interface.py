@@ -446,7 +446,7 @@ class UserBase(object):
                 format_user.is_sub_weixin = ets[0].is_sub_weixin
 
         # 邀请人信息
-        ui = UserInvite.objects.filter(to_user_id=user_id)
+        ui = UserInvite.objects.filter(to_user_id=user_id).exclude(from_user_id=None)
         if ui:
             invite_user = self.get_user_by_id(ui[0].from_user_id)
             format_user.invite_user_id = invite_user.id
