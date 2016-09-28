@@ -122,7 +122,7 @@ $(document).ready(function(){
             {'service_id': '{{service.id}}'},
             function(data){
                 if(data.errcode == "0"){
-                    $.Global.Notice.SuccessTopNotice('预约成功！');
+                    $.Global.Notice.SuccessTopNotice('预约成功！工作人员2小时内就会主动和你沟通哦');
                 }
                 else{
                     $.Global.Notice.ErrorTopNotice(data.errmsg);
