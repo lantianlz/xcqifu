@@ -21,7 +21,7 @@
                 },
                 {
                     "type": "view", 
-                    "name": "推荐有奖", 
+                    "name": "我的推荐", 
                     "url": "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx849eb5bab8d7e9e0&redirect_uri=http%3A%2F%2Fwww.xcqifu.com%2Faccount%2Foauth%2Fweixin&response_type=code&scope=snsapi_base&state=recommendation#wechat_redirect"
                 },
                 {
