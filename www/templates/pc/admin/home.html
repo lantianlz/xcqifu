@@ -366,13 +366,30 @@ $(document).ready(function(){
         </div>
         <ul class="list-group p-nav">
             <li class="list-group-item">
-                <a><i class="fa fa-user pr-3" style="left: 27px;"></i>用户管理</a>
+                <a><i class="fa fa-user pr-3"></i>用户管理</a>
                 <ul class="list-group sub-nav">
                     <a href="/admin/user" class="list-group-item {% if '/admin/user' == request.path %}active{% endif %}">
                         <i class="point"></i>注册用户管理
                     </a>
                     <a href="/admin/verify_info" class="list-group-item {% if '/admin/verify_info' == request.path %}active{% endif %}">
                         <i class="point"></i>用户认证管理
+                    </a>
+                </ul>
+            </li>
+            <li class="list-group-item">
+                <a><i class="fa fa-building pr-3"></i>公司管理</a>
+                <ul class="list-group sub-nav">
+                    <a href="/admin/company" class="list-group-item {% if '/admin/company' = request.path %}active{% endif %}">
+                        <i class="point"></i>公司信息管理
+                    </a>
+                    <a href="/admin/company_manager" class="list-group-item {% if '/company_manager' in request.path %}active{% endif %}">
+                        <i class="point"></i>公司管理员管理
+                    </a>
+                    <a href="/admin/cash_account" class="list-group-item {% if '/cash_account' in request.path %}active{% endif %}">
+                        <i class="point"></i>公司现金账户
+                    </a>
+                    <a href="/admin/cash_record" class="list-group-item {% if '/cash_record' in request.path %}active{% endif %}">
+                        <i class="point"></i>公司现金流水
                     </a>
                 </ul>
             </li>
@@ -387,14 +404,29 @@ $(document).ready(function(){
                     </a>
                 </ul>
             </li>
-            <li class="list-group-item {% if '/service' in request.path %}active{% endif %}">
-                <a href="/admin/service"><i class="fa fa-cube pr-3"></i>服务商管理</a>
+
+            <li class="list-group-item">
+                <a><i class="fa fa-truck pr-3"></i>服务商管理</a>
+                <ul class="list-group sub-nav">
+                    <a href="/admin/service" class="list-group-item {% if '/admin/service' == request.path %}active{% endif %}">
+                        <i class="point"></i>服务商管理
+                    </a>
+                    <a href="/admin/service_cash_account" class="list-group-item {% if '/service_cash_account' in request.path %}active{% endif %}">
+                        <i class="point"></i>服务商现金账户
+                    </a>
+                    <a href="/admin/service_cash_record" class="list-group-item {% if '/service_cash_record' in request.path %}active{% endif %}">
+                        <i class="point"></i>服务商现金流水
+                    </a>
+                </ul>
             </li>
             <li class="list-group-item {% if '/product' in request.path %}active{% endif %}">
                 <a href="/admin/product"><i class="fa fa-archive pr-3"></i>产品管理</a>
             </li>
-            <li class="list-group-item {% if '/order' in request.path %}active{% endif %}">
-                <a href="/admin/order"><i class="fa fa-list-alt pr-3"></i>预约管理</a>
+            <li class="list-group-item {% if '/order_record' in request.path %}active{% endif %}">
+                <a href="/admin/order_record"><i class="fa fa-list-alt pr-3"></i>订单管理</a>
+            </li>
+            <li class="list-group-item {% if '/admin/order' == request.path %}active{% endif %}">
+                <a href="/admin/order"><i class="fa fa-calendar pr-3"></i>预约管理</a>
             </li>
             <li class="list-group-item">
                 <a><i class="fa fa-bullhorn pr-3"></i>邀请管理</a>

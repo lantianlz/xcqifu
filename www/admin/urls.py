@@ -29,6 +29,47 @@ urlpatterns += patterns('www.admin.views_verify_info',
                         url(r'^verify_info$', 'verify_info'),
                         )
 
+# 公司管理
+urlpatterns += patterns('www.admin.views_company',
+
+    url(r'^company/get_companys_by_name$', 'get_companys_by_name'),
+    url(r'^company/modify_company$', 'modify_company'),
+    url(r'^company/add_company$', 'add_company'),
+    url(r'^company/get_company_by_id$', 'get_company_by_id'),
+    url(r'^company/search$', 'search'),
+    url(r'^company$', 'company'),
+)
+
+# 公司管理员
+urlpatterns += patterns('www.admin.views_company_manager',
+
+    url(r'^company_manager/delete_manager$', 'delete_manager'),
+    url(r'^company_manager/add_manager$', 'add_manager'),
+    url(r'^company_manager/modify_manager$', 'modify_manager'),
+    url(r'^company_manager/get_manager_by_id$', 'get_manager_by_id'),
+    url(r'^company_manager/search$', 'search'),
+    url(r'^company_manager$', 'company_manager'),
+)
+
+# 公司现金账户
+urlpatterns += patterns('www.admin.views_cash_account',
+
+    url(r'^cash_account/modify_cash_account$', 'modify_cash_account'),
+    url(r'^cash_account/get_cash_account_by_id$', 'get_cash_account_by_id'),
+    url(r'^cash_account/search$', 'search'),
+    url(r'^cash_account$', 'cash_account'),
+)
+
+# 公司现金流水
+urlpatterns += patterns('www.admin.views_cash_record',
+
+    url(r'^cash_record/change_is_invoice$', 'change_is_invoice'),
+    url(r'^cash_record/add_cash_account$', 'add_cash_record'),
+    url(r'^cash_record/search$', 'search'),
+    url(r'^cash_record$', 'cash_record'),
+)
+
+
 # 类别管理
 urlpatterns += patterns('www.admin.views_kind',
 
@@ -61,6 +102,21 @@ urlpatterns += patterns('www.admin.views_service',
                         url(r'^service$', 'service'),
                         )
 
+# 服务商现金账户
+urlpatterns += patterns('www.admin.views_service_cash_account',
+
+    url(r'^service_cash_account/search$', 'search'),
+    url(r'^service_cash_account$', 'service_cash_account'),
+)
+
+# 服务商现金流水
+urlpatterns += patterns('www.admin.views_service_cash_record',
+
+    url(r'^service_cash_record/add_service_cash_account$', 'add_service_cash_record'),
+    url(r'^service_cash_record/search$', 'search'),
+    url(r'^service_cash_record$', 'service_cash_record'),
+)
+
 # 产品管理
 urlpatterns += patterns('www.admin.views_product',
 
@@ -69,6 +125,18 @@ urlpatterns += patterns('www.admin.views_product',
                         url(r'^product/get_product_by_id$', 'get_product_by_id'),
                         url(r'^product/search$', 'search'),
                         url(r'^product$', 'product'),
+                        )
+
+# 订单管理
+urlpatterns += patterns('www.admin.views_order_record',
+
+                        url(r'^order_record/drop_record$', 'drop_record'),
+                        url(r'^order_record/confirm_record$', 'confirm_record'),
+                        url(r'^order_record/add_record$', 'add_record'),
+                        url(r'^order_record/modify_record$', 'modify_record'),
+                        url(r'^order_record/get_record_by_id$', 'get_record_by_id'),
+                        url(r'^order_record/search$', 'search'),
+                        url(r'^order_record$', 'order_record'),
                         )
 
 # 预约管理

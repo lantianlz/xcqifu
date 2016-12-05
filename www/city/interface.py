@@ -73,7 +73,7 @@ class CityBase(object):
 
     def get_citys_by_name(self, city_name):
         citys = []
-
+        
         if city_name:
             citys = self.get_all_citys().filter(city__contains=city_name)
 

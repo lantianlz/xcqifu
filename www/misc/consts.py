@@ -29,6 +29,26 @@ PERMISSIONS = [
     {'code': 'query_verify_user', 'name': u'查询用户认证', 'parent': 'verify_user_manage'},
     {'code': 'modify_verify_user', 'name': u'修改用户认证', 'parent': 'verify_user_manage'},
 
+    {'code': 'company_manage', 'name': u'公司管理', 'parent': None},
+    {'code': 'add_company', 'name': u'添加公司', 'parent': 'company_manage'},
+    {'code': 'query_company', 'name': u'查询公司', 'parent': 'company_manage'},
+    {'code': 'modify_company', 'name': u'修改公司', 'parent': 'company_manage'},
+
+    {'code': 'company_manager_manage', 'name': u'公司管理员管理', 'parent': None},
+    {'code': 'add_company_manager', 'name': u'添加公司管理员', 'parent': 'company_manager_manage'},
+    {'code': 'query_company_manager', 'name': u'查询公司管理员', 'parent': 'company_manager_manage'},
+    {'code': 'modify_company_manager', 'name': u'修改公司管理员', 'parent': 'company_manager_manage'},
+    {'code': 'remove_company_manager', 'name': u'删除公司管理员', 'parent': 'company_manager_manage'},
+
+    {'code': 'cash_account_manage', 'name': u'现金账户管理', 'parent': None},
+    {'code': 'query_cash_account', 'name': u'查询现金账户', 'parent': 'cash_account_manage'},
+    {'code': 'modify_cash_account', 'name': u'修改现金账户', 'parent': 'cash_account_manage'},
+
+    {'code': 'cash_record_manage', 'name': u'现金流水管理', 'parent': None},
+    {'code': 'add_cash_record', 'name': u'添加现金流水', 'parent': 'cash_record_manage'},
+    {'code': 'query_cash_record', 'name': u'查询现金流水', 'parent': 'cash_record_manage'},
+    {'code': 'modify_cash_record', 'name': u'修改现金流水', 'parent': 'cash_record_manage'},
+
     {'code': 'kind_manage', 'name': u'类别管理', 'parent': None},
     {'code': 'add_kind', 'name': u'添加类别', 'parent': 'kind_manage'},
     {'code': 'query_kind', 'name': u'查询类别', 'parent': 'kind_manage'},
@@ -44,10 +64,22 @@ PERMISSIONS = [
     {'code': 'query_service', 'name': u'查询服务商', 'parent': 'service_manage'},
     {'code': 'modify_service', 'name': u'修改服务商', 'parent': 'service_manage'},
 
+    {'code': 'service_cash_account_manage', 'name': u'服务商现金账户管理', 'parent': None},
+    {'code': 'query_service_cash_account', 'name': u'查询服务商现金账户', 'parent': 'service_cash_account_manage'},
+
+    {'code': 'service_cash_record_manage', 'name': u'服务商现金流水管理', 'parent': None},
+    {'code': 'add_service_cash_record', 'name': u'添加服务商现金流水', 'parent': 'service_cash_record_manage'},
+    {'code': 'query_service_cash_record', 'name': u'查询服务商现金流水', 'parent': 'service_cash_record_manage'},
+
     {'code': 'product_manage', 'name': u'产品管理', 'parent': None},
     {'code': 'add_product', 'name': u'添加产品', 'parent': 'product_manage'},
     {'code': 'query_product', 'name': u'查询产品', 'parent': 'product_manage'},
     {'code': 'modify_product', 'name': u'修改产品', 'parent': 'product_manage'},
+
+    {'code': 'order_record_manage', 'name': u'订单管理', 'parent': None},
+    {'code': 'add_order_record', 'name': u'添加订单', 'parent': 'order_record_manage'},
+    {'code': 'query_order_record', 'name': u'查询订单', 'parent': 'order_record_manage'},
+    {'code': 'modify_order_record', 'name': u'修改订单', 'parent': 'order_record_manage'},
 
     {'code': 'order_manage', 'name': u'预约管理', 'parent': None},
     {'code': 'add_order', 'name': u'添加预约', 'parent': 'order_manage'},

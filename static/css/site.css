@@ -1,6 +1,4 @@
-body{
-    font-family: 'Lantinghei SC', 'Open Sans', Arial, 'Hiragino Sans GB', 'Microsoft YaHei', 微软雅黑, STHeiti, 'WenQuanYi Micro Hei', SimSun, sans-serif;
-}
+body{font-family: "Helvetica Neue",Helvetica,"Lucida Grande","Luxi Sans",Arial,"Hiragino Sans GB",STHeiti,"Microsoft YaHei","Wenquanyi Micro Hei","WenQuanYi Micro Hei Mono","WenQuanYi Zen Hei","WenQuanYi Zen Hei Mono",LiGothicMed;}
 
 a:focus {outline: none; -moz-outline: none;}
 
@@ -51,14 +49,18 @@ a:focus {outline: none; -moz-outline: none;}
 .co-f0ad4e{color: #f0ad4e;}
 .co-5bc0de{color: #5bc0de;}
 .co-5cb85c{color: #5cb85c;}
+.co-1DABD9{color: #1DABD9;}
+.co-19BA40{color: #19BA40;}
 
 .bgc-ffffff{background-color: #ffffff;}
 .bgc-f07925{background-color: #f07925;}
 .bgc-eeeeee{background-color: #eeeeee;}
 
 .border-bottom-1{border-bottom: 1px solid;} 
+.border-top-2{border-top: 2px solid;} 
 .bdc-eeeeee{border-color: #eeeeee;}
 .bdc-e4e4e4{border-color: #e4e4e4;}
+.bdc-dddddd{border-color: #dddddd;}
 
 /*.box-shadow-224{box-shadow: 2px 2px 4px;}*/
 

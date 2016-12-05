@@ -1,5 +1,4 @@
-body,html{
-    height: 100%;
+body{
     background: linear-gradient(to right, #f68e57, #f9b757);
 }
 .list-group-item{

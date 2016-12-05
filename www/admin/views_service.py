@@ -104,7 +104,6 @@ def get_service_by_id(request):
 
 
 @verify_permission('modify_service')
-@common_ajax_response
 def modify_service(request):
     obj_id = request.POST.get('obj_id')
     name = request.POST.get('name')
@@ -150,7 +149,6 @@ def modify_service(request):
     return HttpResponseRedirect(url)
 
 @verify_permission('add_service')
-@common_ajax_response
 def add_service(request):
     name = request.POST.get('name')
     kind = request.POST.get('kind')

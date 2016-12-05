@@ -128,7 +128,7 @@ def get_citys_by_name(request):
     result = []
 
     citys = CityBase().get_citys_by_name(name)
-
+    
     if citys:
         for x in citys:
             result.append([x.id, x.city, None, x.city])
