@@ -70,7 +70,7 @@ def format_record(objs, num):
     return data
 
 
-@verify_permission('query_kind')
+@verify_permission('query_order_record')
 def search(request):
     data = []
 
@@ -96,7 +96,7 @@ def search(request):
     )
 
 
-@verify_permission('query_kind')
+@verify_permission('query_order_record')
 def get_record_by_id(request):
     record_id = request.REQUEST.get('record_id')
 
@@ -105,7 +105,7 @@ def get_record_by_id(request):
     return HttpResponse(json.dumps(data), mimetype='application/json')
 
 
-@verify_permission('modify_kind')
+@verify_permission('modify_order_record')
 @common_ajax_response
 def modify_record(request):
     obj_id = request.POST.get('obj_id')
@@ -127,7 +127,7 @@ def modify_record(request):
         gross_profit_rate, tax_rate, percentage_rate, distribution_time, is_test, notes
     )
 
-@verify_permission('add_kind')
+@verify_permission('add_order_record')
 @common_ajax_response
 def add_record(request):
     company_id = request.POST.get('company_id')
@@ -155,7 +155,7 @@ def add_record(request):
 
     return flag, msg.id if flag == 0 else msg
 
-@verify_permission('add_kind')
+@verify_permission('modify_order_record')
 @common_ajax_response
 def confirm_record(request):
 
@@ -164,7 +164,7 @@ def confirm_record(request):
 
     return OrderRecordBase().confirm_record(obj_id, ip)
 
-@verify_permission('add_kind')
+@verify_permission('modify_order_record')
 @common_ajax_response
 def drop_record(request):
     
