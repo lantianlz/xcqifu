@@ -74,6 +74,10 @@ def format_record(objs, num):
 def search(request):
     data = []
 
+    start_date = request.POST.get('start_date')
+    end_date = request.POST.get('end_date')
+    start_date, end_date = utils.get_date_range(start_date, end_date)
+
     company_name = request.REQUEST.get('company_name')
     service_name = request.REQUEST.get('service_name')
     salesperson_name = request.REQUEST.get('salesperson_name')
@@ -82,7 +86,7 @@ def search(request):
     page_index = int(request.REQUEST.get('page_index'))
     per_count = 15
 
-    objs = OrderRecordBase().search_records_for_admin(company_name, service_name, salesperson_name, state)
+    objs = OrderRecordBase().search_records_for_admin(start_date, end_date, company_name, service_name, salesperson_name, state)
 
     page_objs = page.Cpt(objs, count=per_count, page=page_index).info
 

@@ -1127,8 +1127,8 @@ class OrderRecordBase(object):
             postfix = '%s%s%02d' % (pr, postfix, random.randint(0, 99))
         return postfix
 
-    def search_records_for_admin(self, company_name, service_name, salesperson_name, state=None):
-        objs = OrderRecord.objects.all()
+    def search_records_for_admin(self, start_date, end_date, company_name, service_name, salesperson_name, state=None):
+        objs = OrderRecord.objects.filter(distribution_time__range=(start_date, end_date))
 
         if state:
             objs = objs.filter(state = state)

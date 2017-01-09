@@ -60,17 +60,21 @@ $(document).ready(function(){
             'createTime': 'create_time'
         },
 
-        search: function(companyName, serviceName, salespersonName, state, pageIndex){
+        search: function(startDate, endDate, companyName, serviceName, salespersonName, state, pageIndex){
             var me = this,
+                startDate = startDate || '{{start_date}}',
+                endDate = endDate || '{{end_date}}',
                 companyName = companyName||'',
                 serviceName = serviceName||'',
                 salespersonName = salespersonName||'',
-                state = state||'0',
+                state = state||'-1',
                 pageIndex = pageIndex||1;
 
             ajaxSend(
                 "/admin/order_record/search", 
-                {
+                {   
+                    'start_date': startDate,
+                    'end_date': endDate,
                     'company_name': companyName, 
                     'service_name': serviceName, 
                     'salesperson_name': salespersonName,
@@ -80,6 +84,8 @@ $(document).ready(function(){
                 function(data){
                     me.pageIndex = pageIndex;
                     me.pageCount = data.page_count;
+                    me.startDate = startDate;
+                    me.endDate = endDate;
                     me.companyName = companyName;
                     me.serviceName = serviceName;
                     me.salespersonName = salespersonName;
@@ -188,7 +194,9 @@ $(document).ready(function(){
                 this.collection.pageIndex,
                 this.collection.pageCount,
                 String.format(
-                    'search/{0}/{1}/{2}/{3}',
+                    'search/{0}/{1}/{2}/{3}/{4}/{5}',
+                    this.collection.startDate,
+                    this.collection.endDate,
                     this.collection.companyName,
                     this.collection.serviceName,
                     this.collection.salespersonName,
@@ -203,14 +211,18 @@ $(document).ready(function(){
         },
 
         search: function(){
-            var companyName = this.$('.company-name').val(),
+            var startDate = this.$('#start_date_search').val(),
+                endDate = this.$('#end_date_search').val(),
+                companyName = this.$('.company-name').val(),
                 serviceName = this.$('.service-name').val(),
                 salespersonName = this.$('.salesperson-name').val(),
                 state = this.$('.state').val();
 
             router.navigate(
                 String.format(
-                    '/search/{0}/{1}/{2}/{3}/1', 
+                    '/search/{0}/{1}/{2}/{3}/{4}/{5}/1', 
+                    startDate,
+                    endDate,
                     companyName, 
                     serviceName, 
                     salespersonName,
@@ -575,12 +587,12 @@ $(document).ready(function(){
             "":                                     "search",
             "modify/:objId":                        "modify",
             "add":                                  "add",
-            "search/(:companyName)/(:serviceName)/(:salespersonName)/(:state)/:pageIndex":   "search",
+            "search/(:start_date)/(:end_date)/(:companyName)/(:serviceName)/(:salespersonName)/(:state)/:pageIndex":   "search",
         },
 
         // 查询
-        search: function(companyName, serviceName, salespersonName, state, pageIndex){
-            records.search(companyName, serviceName, salespersonName, state, pageIndex);
+        search: function(start_date, end_date, companyName, serviceName, salespersonName, state, pageIndex){
+            records.search(start_date, end_date, companyName, serviceName, salespersonName, state, pageIndex);
         },
 
         // 显示修改界面
@@ -690,7 +702,7 @@ $(document).ready(function(){
                     <th>单价</th>
                     <th>数量</th>
                     <th>总价</th>
-                    <th>创建时间</th>
+                    <th>配送时间</th>
                     <th>销售人</th>
                     <th>服务商</th>
                     <th>状态</th>
@@ -723,7 +735,7 @@ $(document).ready(function(){
             <td><%= obj.price %></td>
             <td><%= obj.amount %></td>
             <td><%= obj.totalPrice %></td>
-            <td><%= obj.createTime %></td>
+            <td><%= obj.distributionTime %></td>
             <td><%= obj.salespersonName %></td>
             <td><%= obj.serviceName %></td>
             <td>
@@ -884,7 +896,7 @@ $(document).ready(function(){
         <div class="modal-content">
             <div class="modal-header pb-5">
                 <!-- <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button> -->
-                <h4 class="modal-title">添加供货商现金记录</h4>
+                <h4 class="modal-title">添加订单</h4>
             </div>
             <div class="modal-body">
                 <form class="form-horizontal record-form" role="form" method="post" action="">
@@ -995,7 +1007,7 @@ $(document).ready(function(){
                             </label>
                         </div>
                     </div>
-                    <div class="form-group pt-20 pb-20 mb-0 border-bottom-1 bdc-e4e4e4">
+                    <div class="form-group pt-20 pb-20 mb-0 border-bottom-1 bdc-e4e4e4 none">
                         <label class="col-sm-2 control-label">状态</label>
                         <div class="col-sm-10">
                             {% for state in state_choices %}
